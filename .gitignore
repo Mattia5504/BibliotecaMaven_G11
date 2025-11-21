@@ -9,6 +9,7 @@ dist/
 nbdist/
 .nb-gradle/
 
+
 # IntelliJ IDEA specific
 .idea/
 *.iml
