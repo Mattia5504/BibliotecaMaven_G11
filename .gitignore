@@ -1,0 +1,25 @@
+# Compilati Maven
+target/
+
+# NetBeans specific
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IntelliJ IDEA specific
+.idea/
+*.iml
+
+# Eclipse specific
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# macOS
+.DS_Store
