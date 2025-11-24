@@ -16,8 +16,6 @@ Il nostro obiettivo è sviluppare un sistema software per la gestione dei presti
 * Maven 3.x
 * JUnit 5 (per i test)
 
-## https://drive.google.com/drive/folders/1d_Y0SmQWVftC9kKwvtPpMyWUQ3_jtFYG?usp=drive_link
-
 ## 🚀 Come avviare il progetto
 Il progetto è configurato con **Maven**. Per compilare ed eseguire i test, aprire il terminale nella cartella del progetto ed eseguire:
 
