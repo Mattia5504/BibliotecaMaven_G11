@@ -6,7 +6,7 @@ Il nostro obiettivo è sviluppare un sistema software per la gestione dei presti
 ## 👥 Membri del Gruppo
 | Cognome      | Nome      | Matricola  | Ruolo     |
 |--------------|-----------|------------|-----------|
-| Lettariello  | Mattia    | 0612709896 | Portavoce |
+| Lettariello  | Mattia    | 0612709896 | Portavoce / Developer |
 | Punzo        | Jonathan  | 0612709551 | Developer |
 | Potepchuck   | Valentino | 0612709983 | Developer |
 | Lamberti     | Antonia   | 0612709504 | Developer |
