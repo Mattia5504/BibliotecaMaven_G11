@@ -1,4 +1,4 @@
-package it.unisa.biblioteca;
+package it.unisa.biblioteca.model;
 
 public class Libro {
     private String titolo;
