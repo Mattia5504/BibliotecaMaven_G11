@@ -7,19 +7,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Libro {
-    //CAMPI MUTABILI (Possono essere corretti dopo la creazione)
     private String titolo;
     private List<String> autori;
     private LocalDate dataPubblicazione;
     private int disponibilita;
-
-    //CAMPI IMMUTABILI
     //L'ISBN è final: identifica il libro univocamente.
     private final String isbn;
 
+
+    ///  --- Costruttore ---///
     public Libro(String titolo, List<String> autori, LocalDate dataPubblicazione, String isbn, int disponibilita) {
-        /// 1. Validazione dei dati (Invarianti di classe)
-        ///Da capire se mantenerlo o meno
+        // 1. Validazione dei dati (Invarianti di classe)
+        //Da capire se mantenerlo o meno
         if (titolo == null || titolo.trim().isEmpty()) {
             throw new IllegalArgumentException("Il titolo non può essere vuoto.");
         }
@@ -33,41 +32,40 @@ public class Libro {
             throw new IllegalArgumentException("La disponibilità iniziale deve essere almeno 1.");
         }
 
-        /// 2. Assegnazione
+        // 2. Assegnazione
         this.titolo = titolo;
         this.isbn = isbn;
         this.dataPubblicazione = dataPubblicazione;
         this.disponibilita = disponibilita;
 
-        ///3. Defensive Copy per la lista (Importante per Ingegneria del Software)
-        ///Creiamo una NUOVA lista contenente gli autori passati, così se la lista originale fuori da questa classe cambia, il libro non viene corrotto.*/
+        //3. Defensive Copy per la lista (Importante per Ingegneria del Software)
+        //Creiamo una NUOVA lista contenente gli autori passati, così se la lista originale fuori da questa classe cambia, il libro non viene corrotto.*/
         this.autori = new ArrayList<>(autori);
     }
 
-    /// --- Getters ---
+    /// --- Getters --- ///
 
     public String getTitolo() {
         return titolo;
     }
-
     public String getIsbn() {
         return isbn;
     }
-
     public LocalDate getDataPubblicazione() {
         return dataPubblicazione;
     }
 
-    ///Restituisce una vista non modificabile degli autori.
-    ///Questo impedisce che qualcuno faccia getAutori().clear() cancellando gli autori dal model.
+    //Restituisce una vista non modificabile degli autori.
+    //Questo impedisce che qualcuno faccia getAutori().clear() cancellando gli autori dal model.
     public List<String> getAutori() {
         return Collections.unmodifiableList(this.autori);
     }
-
     public int getDisponibilita() {
         return disponibilita;
     }
 
+
+    ///  --- Setter --- ///
     public void setTitolo(String titolo) {
         if (titolo == null || titolo.trim().isEmpty()) {
             throw new IllegalArgumentException("Il titolo non può essere vuoto.");
@@ -83,11 +81,11 @@ public class Libro {
         if (nuoviAutori == null || nuoviAutori.isEmpty()) {
             throw new IllegalArgumentException("Deve esserci almeno un autore.");
         }
-        // Defensive copy anche qui: scolleghiamo la lista interna da quella passata
+        ///Defensive copy anche qui: scolleghiamo la lista interna da quella passata
         this.autori = new ArrayList<>(nuoviAutori);
     }
 
-    /// --- Business Logic (Gestione Stato) ---
+    /// --- Gestione Stato ---
     ///Aumenta la disponibilità (es. restituzione o acquisto nuove copie).
     public void incrementaDisponibilita() {
         this.disponibilita++;
