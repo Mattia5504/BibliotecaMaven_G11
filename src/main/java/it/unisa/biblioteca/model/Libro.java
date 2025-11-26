@@ -1,12 +1,21 @@
 package it.unisa.biblioteca.model;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class Libro {
-    private final String titolo;
-    private final List<String> autori;
-    private final LocalDate annoPubblicazione;
-    private final String ibns;
-    private int disponibilità;
+    //CAMPI MUTABILI (Possono essere corretti dopo la creazione)
+    private String titolo;
+    private List<String> autori;
+    private LocalDate dataPubblicazione;
+    private int disponibilita;
+
+    //CAMPI IMMUTABILI
+    //L'ISBN è final: identifica il libro univocamente.
+    private final String isbn;
 
     public Libro(String titolo, List<String> autori, LocalDate dataPubblicazione, String isbn, int disponibilita) {
         /// 1. Validazione dei dati (Invarianti di classe)
@@ -35,7 +44,7 @@ public class Libro {
         this.autori = new ArrayList<>(autori);
     }
 
-    // --- Getters ---
+    /// --- Getters ---
 
     public String getTitolo() {
         return titolo;
@@ -51,7 +60,6 @@ public class Libro {
 
     ///Restituisce una vista non modificabile degli autori.
     ///Questo impedisce che qualcuno faccia getAutori().clear() cancellando gli autori dal model.
-
     public List<String> getAutori() {
         return Collections.unmodifiableList(this.autori);
     }
@@ -60,7 +68,24 @@ public class Libro {
         return disponibilita;
     }
 
+    public void setTitolo(String titolo) {
+        if (titolo == null || titolo.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il titolo non può essere vuoto.");
+        }
+        this.titolo = titolo;
+    }
 
+    public void setDataPubblicazione(LocalDate dataPubblicazione) {
+        this.dataPubblicazione = dataPubblicazione;
+    }
+
+    public void setAutori(List<String> nuoviAutori) {
+        if (nuoviAutori == null || nuoviAutori.isEmpty()) {
+            throw new IllegalArgumentException("Deve esserci almeno un autore.");
+        }
+        // Defensive copy anche qui: scolleghiamo la lista interna da quella passata
+        this.autori = new ArrayList<>(nuoviAutori);
+    }
 
     /// --- Business Logic (Gestione Stato) ---
     ///Aumenta la disponibilità (es. restituzione o acquisto nuove copie).
