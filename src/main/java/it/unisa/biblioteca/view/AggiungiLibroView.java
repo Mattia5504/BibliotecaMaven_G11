@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class FormLibroView extends VBox {
+public class AggiungiLibroView extends VBox {
     private TextField txtTitolo = new TextField();
     private TextField txtAutori = new TextField(); // "Autore1, Autore2"
     private TextField txtIsbn = new TextField();
@@ -17,7 +17,7 @@ public class FormLibroView extends VBox {
     private Button btnSalva = new Button("Salva Libro");
     private Button btnAnnulla = new Button("Annulla");
 
-    public FormLibroView() {
+    public AggiungiLibroView() {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(10);
         this.setPadding(new Insets(20));

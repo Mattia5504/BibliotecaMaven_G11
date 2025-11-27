@@ -63,7 +63,7 @@ public class BibliotecaController {
     }
 
     public void mostraFormLibro() {
-        FormLibroView view = new FormLibroView();
+        AggiungiLibroView view = new AggiungiLibroView();
 
         view.getBtnAnnulla().setOnAction(e -> mostraLibri());
         view.getBtnSalva().setOnAction(e -> {
@@ -99,7 +99,7 @@ public class BibliotecaController {
     }
 
     public void mostraFormUtente() {
-        FormUtenteView view = new FormUtenteView();
+        AggiungiUtenteView view = new AggiungiUtenteView();
         view.getBtnAnnulla().setOnAction(e -> mostraUtenti());
         view.getBtnSalva().setOnAction(e -> {
             try {

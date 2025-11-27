@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class FormUtenteView extends VBox {
+public class AggiungiUtenteView extends VBox {
     private TextField txtNome = new TextField();
     private TextField txtCognome = new TextField();
     private TextField txtMatricola = new TextField();
@@ -16,7 +16,7 @@ public class FormUtenteView extends VBox {
     private Button btnSalva = new Button("Salva Utente");
     private Button btnAnnulla = new Button("Annulla");
 
-    public FormUtenteView() {
+    public AggiungiUtenteView() {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
         this.setPadding(new Insets(20));
