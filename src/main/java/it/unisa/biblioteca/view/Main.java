@@ -16,7 +16,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Carico la View dal file FXML
-            // Nota lo slash iniziale "/" che dice a Java: "parti dalla radice delle risorse"
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/biblioteca/view/BibliotecaView.fxml"));            Parent root = loader.load();
 
             // Configuro la finestra (Stage)
