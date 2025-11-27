@@ -1,67 +1,109 @@
 package it.unisa.biblioteca.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
-public class Utente implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Utente {
 
+    // --- CAMPI MUTABILI ---
+    // Questi non sono final perché l'utente potrebbe doverli correggere
     private String nome;
     private String cognome;
-    // La matricola è final perché identifica l'utente e non cambia
-    private final String matricola;
     private String email;
-    
-    // Contatore per gestire il requisito "Max 3 libri"
-    private int contatorePrestitiAttivi;
 
+    // --- CAMPI IMMUTABILI ---
+    // La matricola è la mia Primary Key logica: non deve cambiare mai!
+    private final String matricola;
+
+    // Uso una lista di Prestiti (e non di Libri) perché mi serve sapere le date di scadenza
+    private final List<Prestito> prestitiAttivi;
+
+    // Regex standard per validare la mail (copiata per sicurezza formale)
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+
+    // Costruttore: inizializza lo stato dell'oggetto
     public Utente(String nome, String cognome, String matricola, String email) {
+        // Controllo subito la matricola perché è l'unico dato che non potrò cambiare dopo
         if (matricola == null || matricola.trim().isEmpty()) {
-            throw new IllegalArgumentException("La matricola è obbligatoria.");
+            throw new IllegalArgumentException("Errore: La matricola è obbligatoria.");
         }
-        // Aggiungi qui altre validazioni se vuoi (es. email)
-        
-        this.nome = nome;
-        this.cognome = cognome;
+
         this.matricola = matricola;
-        this.email = email;
-        this.contatorePrestitiAttivi = 0;
+        this.prestitiAttivi = new ArrayList<>(); // Inizializzo la lista vuota per evitare NullPointer
+
+        // Per gli altri campi uso i setter che ho scritto sotto.
+        // In questo modo non duplico i controlli (DRY principle).
+        setNome(nome);
+        setCognome(cognome);
+        setEmail(email);
     }
 
-    /// --- Getter --- ///
+    // --- SETTER (Logica di modifica) --- //
+
+    public void setNome(String nome) {
+        // Controllo base: niente stringhe vuote
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il nome non può essere vuoto.");
+        }
+        this.nome = nome;
+    }
+
+    public void setCognome(String cognome) {
+        if (cognome == null || cognome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il cognome non può essere vuoto.");
+        }
+        this.cognome = cognome;
+    }
+
+    public void setEmail(String email) {
+        // Controllo che il formato sia tipo "testo@testo"
+        if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
+            throw new IllegalArgumentException("Formato email non valido: " + email);
+        }
+        this.email = email;
+    }
+
+    // --- GETTER (Accesso ai dati) ---
+
     public String getNome() { return nome; }
     public String getCognome() { return cognome; }
-    public String getMatricola() { return matricola; }
     public String getEmail() { return email; }
-    public int getContatorePrestitiAttivi() { return contatorePrestitiAttivi; }
+    public String getMatricola() { return matricola; }
 
-    /// --- Setter --- ///
-    public void setNome(String nome) { this.nome = nome; }
-    public void setCognome(String cognome) { this.cognome = cognome; }
-    public void setEmail(String email) { this.email = email; }
-    
-    // NON mettiamo setMatricola perché è final (giustamente)
+    // --- GESTIONE PRESTITI ---
 
-    /// --- Gestione Prestiti (Requisito Business) --- ///
-    public void incrementaPrestiti() {
-        if (contatorePrestitiAttivi >= 3) {
-            throw new IllegalStateException("L'utente ha raggiunto il limite di 3 prestiti.");
+    // Ritorno una lista "unmodifiable" così nessuno può fare getPrestiti().clear() da fuori rompendo tutto
+    public List<Prestito> getPrestitiAttivi() {
+        return Collections.unmodifiableList(prestitiAttivi);
+    }
+
+    public void aggiungiPrestito(Prestito prestito) {
+        if (prestito == null) throw new IllegalArgumentException("Non posso aggiungere un prestito nullo.");
+
+        // Controllo di coerenza: sto assegnando a questo utente un prestito intestato a lui?
+        if (!prestito.getUtente().equals(this)) {
+            throw new IllegalArgumentException("Il prestito non corrisponde a questo utente!");
         }
-        this.contatorePrestitiAttivi++;
-    }
 
-    public void decrementaPrestiti() {
-        if (contatorePrestitiAttivi > 0) {
-            this.contatorePrestitiAttivi--;
+        // Esempio regola di business: max 5 libri contemporaneamente
+        if (prestitiAttivi.size() >= 5) {
+            throw new IllegalStateException("Limite prestiti raggiunto (max 5).");
         }
-    }
-    
-    // Helper per il controller
-    public boolean puoPrendereInPrestito() {
-        return contatorePrestitiAttivi < 3;
+
+        this.prestitiAttivi.add(prestito);
     }
 
-    /// --- Equals & HashCode (Fondamentale per i Set) --- ///
+    public void rimuoviPrestito(Prestito prestito) {
+        this.prestitiAttivi.remove(prestito);
+    }
+
+    // --- IDENTITÀ DELL'OGGETTO ---
+    // Importante: due oggetti Utente sono lo "stesso" utente se hanno la stessa matricola.
+    // Serve per far funzionare correttamente le liste e le ricerche.
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +119,6 @@ public class Utente implements Serializable {
 
     @Override
     public String toString() {
-        return cognome + " " + nome + " (" + matricola + ")";
+        return nome + " " + cognome + " (" + matricola + ")";
     }
 }
