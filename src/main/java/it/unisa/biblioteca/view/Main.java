@@ -1,39 +1,19 @@
-package it.unisa.biblioteca.view;
+package it.unisa.biblioteca;
 
+import it.unisa.biblioteca.controller.BibliotecaController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Main extends Application {
-
-    /// --- SEZIONE AVVIO JAVAFX --- ///
-
     @Override
     public void start(Stage primaryStage) {
-        try {
-            // Carico la View dal file FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/biblioteca/view/BibliotecaView.fxml"));            Parent root = loader.load();
+        // Creo il controller e gli passo il "telecomando" (lo Stage)
+        BibliotecaController controller = new BibliotecaController(primaryStage);
 
-            // Configuro la finestra (Stage)
-            primaryStage.setTitle("Biblioteca Ingegneria - UniSa");
+        // Dico al controller di partire
+        controller.mostraHome();
 
-            // Imposto la scena (Scene) con dimensioni preferite
-            primaryStage.setScene(new Scene(root, 900, 600));
-
-            // Impedisco che la finestra diventi troppo piccola rompendo il layout
-            primaryStage.setMinWidth(600);
-            primaryStage.setMinHeight(400);
-
-            primaryStage.show();
-
-        } catch (IOException e) {
-            System.err.println("Errore critico nel caricamento dell'interfaccia FXML.");
-            e.printStackTrace();
-        }
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
