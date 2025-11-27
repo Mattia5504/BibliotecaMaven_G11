@@ -7,50 +7,42 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 /**
- * Vista Principale (Dashboard).
- * Usiamo un VBox per impilare titolo e pulsanti al centro.
+ * Dashboard Principale - Gruppo 11.
+ * Layout pulito a 4 pulsanti centrali.
  */
 public class HomeView extends VBox {
 
-    // Bottoni pubblici per essere accessibili dal Controller
     private Button btnLibri = new Button("📚 Gestione Libri");
     private Button btnUtenti = new Button("👤 Gestione Utenti");
     private Button btnPrestiti = new Button("🔄 Gestione Prestiti");
     private Button btnInfo = new Button("ℹ️ Info Gruppo 11");
-    private Button btnSalva = new Button("💾 Salva Dati"); // <--- ECCOLO!
+    // Il pulsante salva è stato rimosso come richiesto (gestito in automatico)
 
     public HomeView() {
-        // Configurazione Layout
         this.setAlignment(Pos.CENTER);
-        this.setSpacing(20); // Spazio tra i bottoni
-        this.setStyle("-fx-background-color: #ecf0f1;"); // Grigio chiaro moderno
+        this.setSpacing(25);
+        this.setStyle("-fx-background-color: #ecf0f1;");
 
-        // Titolo
         Label title = new Label("Biblioteca Ingegneria - Gruppo 11");
         title.setFont(new Font("Arial", 32));
         title.setStyle("-fx-text-fill: #2c3e50; -fx-font-weight: bold;");
 
-        // Configuro lo stile dei bottoni
-        applicaStile(btnLibri, "#3498db");   // Blu
-        applicaStile(btnUtenti, "#e67e22");  // Arancione
-        applicaStile(btnPrestiti, "#27ae60"); // Verde
-        applicaStile(btnInfo, "#7f8c8d");    // Grigio
-        applicaStile(btnSalva, "#8e44ad");   // Viola per il salvataggio
+        // Stile uniforme per i 4 bottoni
+        configuraBottone(btnLibri, "#3498db");
+        configuraBottone(btnUtenti, "#e67e22");
+        configuraBottone(btnPrestiti, "#27ae60");
+        configuraBottone(btnInfo, "#7f8c8d");
 
-        // Aggiungo tutto al layout
-        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti, btnInfo, btnSalva);
+        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti, btnInfo);
     }
 
-    // Metodo helper per non ripetere il CSS
-    private void applicaStile(Button b, String colorHex) {
-        b.setPrefSize(280, 55); // Leggermente più compatti
-        b.setStyle("-fx-background-color: " + colorHex + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;");
+    private void configuraBottone(Button b, String colorHex) {
+        b.setPrefSize(300, 65); // Grandi e cliccabili
+        b.setStyle("-fx-background-color: " + colorHex + "; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);");
     }
 
-    // --- GETTERS (Fondamentali per il Controller) ---
     public Button getBtnLibri() { return btnLibri; }
     public Button getBtnUtenti() { return btnUtenti; }
     public Button getBtnPrestiti() { return btnPrestiti; }
     public Button getBtnInfo() { return btnInfo; }
-    public Button getBtnSalva() { return btnSalva; } // <--- Ora il metodo esiste!
 }
