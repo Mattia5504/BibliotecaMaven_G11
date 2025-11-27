@@ -6,25 +6,46 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * Vista Principale (Dashboard).
+ * Usiamo un VBox per impilare titolo e pulsanti al centro.
+ */
 public class HomeView extends VBox {
-    private Button btnLibri = new Button("Gestione Libri");
-    private Button btnUtenti = new Button("Gestione Utenti");
-    private Button btnPrestiti = new Button("Gestione Prestiti");
+
+    // Bottoni pubblici per essere accessibili dal Controller
+    private Button btnLibri = new Button("📚 Gestione Libri");
+    private Button btnUtenti = new Button("👤 Gestione Utenti");
+    private Button btnPrestiti = new Button("🔄 Gestione Prestiti");
+    private Button btnInfo = new Button("ℹ️ Info Gruppo 11");
 
     public HomeView() {
+        // Configurazione Layout
         this.setAlignment(Pos.CENTER);
-        this.setSpacing(20);
-        Label title = new Label("Biblioteca Ingegneria");
-        title.setFont(new Font(30));
+        this.setSpacing(25); // Spazio tra i bottoni
+        this.setStyle("-fx-background-color: #ecf0f1;"); // Grigio chiaro moderno
 
-        btnLibri.setPrefSize(200, 60);
-        btnUtenti.setPrefSize(200, 60);
-        btnPrestiti.setPrefSize(200, 60);
+        // Titolo
+        Label title = new Label("Biblioteca Ingegneria - Gruppo 11");
+        title.setFont(new Font("Arial", 32));
+        title.setStyle("-fx-text-fill: #2c3e50; -fx-font-weight: bold;");
 
-        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti);
+        // Configuro lo stile dei bottoni
+        applicaStile(btnLibri, "#3498db");   // Blu
+        applicaStile(btnUtenti, "#e67e22");  // Arancione
+        applicaStile(btnPrestiti, "#27ae60"); // Verde
+        applicaStile(btnInfo, "#7f8c8d");    // Grigio
+
+        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti, btnInfo);
+    }
+
+    // Metodo helper per non ripetere il CSS
+    private void applicaStile(Button b, String colorHex) {
+        b.setPrefSize(280, 60);
+        b.setStyle("-fx-background-color: " + colorHex + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;");
     }
 
     public Button getBtnLibri() { return btnLibri; }
     public Button getBtnUtenti() { return btnUtenti; }
     public Button getBtnPrestiti() { return btnPrestiti; }
+    public Button getBtnInfo() { return btnInfo; }
 }
