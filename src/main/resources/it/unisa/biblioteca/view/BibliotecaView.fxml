@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.biblioteca.controller.BibliotecaController">
+    <children>
+        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+                    <children>
+                        <Label text="Gestione Biblioteca UniSa" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <tabs>
+
+                        <Tab text="Catalogo Libri">
+                            <content>
+                                <VBox spacing="10.0" style="-fx-padding: 15;">
+                                    <children>
+                                        <Label text="Elenco Libri Disponibili" textFill="#2c3e50">
+                                            <font><Font size="18.0" /></font>
+                                        </Label>
+                                        <TableView fx:id="tabellaLibri" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colTitolo" prefWidth="300.0" text="Titolo" />
+                                                <TableColumn fx:id="colIsbn" prefWidth="150.0" text="ISBN" />
+                                                <TableColumn fx:id="colDisp" prefWidth="100.0" text="Copie Disp." />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+
+                        <Tab text="Utenti">
+                            <content>
+                                <VBox spacing="10.0" style="-fx-padding: 15;">
+                                    <children>
+                                        <Label text="Utenti Iscritti" textFill="#2c3e50">
+                                            <font><Font size="18.0" /></font>
+                                        </Label>
+                                        <TableView fx:id="tabellaUtenti" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colMatricola" prefWidth="120.0" text="Matricola" />
+                                                <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome" />
+                                                <TableColumn fx:id="colCognome" prefWidth="150.0" text="Cognome" />
+                                                <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+
+                        <Tab text="Nuovo Prestito">
+                            <content>
+                                <AnchorPane>
+                                    <children>
+                                        <VBox alignment="CENTER" spacing="20.0" layoutX="200.0" layoutY="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+                                            <children>
+                                                <Label text="Registrazione Nuovo Prestito">
+                                                    <font><Font name="System Bold" size="20.0" /></font>
+                                                </Label>
+
+                                                <VBox spacing="5.0">
+                                                    <children>
+                                                        <Label text="Seleziona Utente:" />
+                                                        <ComboBox fx:id="comboUtenti" prefWidth="400.0" promptText="Scegli lo studente..." />
+                                                    </children>
+                                                </VBox>
+
+                                                <VBox spacing="5.0">
+                                                    <children>
+                                                        <Label text="Seleziona Libro:" />
+                                                        <ComboBox fx:id="comboLibri" prefWidth="400.0" promptText="Scegli il libro da prestare..." />
+                                                    </children>
+                                                </VBox>
+
+                                                <Button fx:id="btnRegistraPrestito" mnemonicParsing="false" onAction="#handleRegistraPrestito" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Conferma Prestito">
+                                                    <font><Font name="System Bold" size="14.0" /></font>
+                                                </Button>
+
+                                                <Label fx:id="lblMessaggio" textFill="#e74c3c" visible="false">
+                                                    <font><Font name="System Italic" size="14.0" /></font>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+
+                    </tabs>
+                </TabPane>
+
+                <HBox alignment="CENTER_RIGHT" style="-fx-padding: 5; -fx-background-color: #ecf0f1;">
+                    <children>
+                        <Label text="Sistema sviluppato per Ing. Software @UniSa" textFill="#7f8c8d" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
