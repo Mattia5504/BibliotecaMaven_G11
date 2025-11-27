@@ -41,7 +41,7 @@ public class Utente {
         setEmail(email);
     }
 
-    // --- SETTER (Logica di modifica) ---
+    // --- SETTER (Logica di modifica) --- //
 
     public void setNome(String nome) {
         // Controllo base: niente stringhe vuote
