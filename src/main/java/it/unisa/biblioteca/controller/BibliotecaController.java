@@ -247,24 +247,12 @@ public class BibliotecaController {
         // --- ELIMINA PRESTITO (Qui è più semplice, elimina dallo storico) ---
         view.getBtnElimina().setOnAction(e -> {
             Prestito selezionato = view.getTabella().getSelectionModel().getSelectedItem();
-
             if (selezionato == null) {
-                showAlert("Attenzione", "Seleziona un prestito da concludere.");
+                showAlert("Attenzione", "Seleziona un prestito da concludere/eliminare.");
                 return;
             }
-
-            if (confermaAzione("Restituzione Libro", "Confermi la restituzione del libro?")) {
-                // 1. Aggiorna la disponibilità del Libro (+1)
-                selezionato.getLibro().incrementaDisponibilita();
-
-                // 2. Aggiorna lo stato dell'Utente (Libera uno slot prestiti)
-                selezionato.getUtente().rimuoviPrestito(selezionato);
-
-                // 3. ORA puoi rimuoverlo dalla lista globale
+            if (confermaAzione("Elimina Prestito", "Vuoi rimuovere questo prestito dallo storico?")) {
                 prestiti.remove(selezionato);
-
-                // 4. (Opzionale) Aggiorna la vista se necessario
-                view.getTabella().refresh();
             }
         });
 
