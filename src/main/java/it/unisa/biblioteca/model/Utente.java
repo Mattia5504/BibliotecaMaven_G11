@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 
 public class Utente {
 
+    
+    //Forse mi va 
+    
     // --- CAMPI MUTABILI ---
     // Questi non sono final perché l'utente potrebbe doverli correggere
     private String nome;
