@@ -18,7 +18,7 @@ import java.util.Optional;
 
 /**
  * Controller principale - Gruppo 11.
- * Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle partono vuote.
+ * Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle partono vuote. BUOOOOOOMBA
  */
 public class BibliotecaController {
 
