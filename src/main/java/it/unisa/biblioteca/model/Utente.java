@@ -1,12 +1,13 @@
 package it.unisa.biblioteca.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Utente {
+public class Utente implements Serializable {
 
     
     //Forse mi va 

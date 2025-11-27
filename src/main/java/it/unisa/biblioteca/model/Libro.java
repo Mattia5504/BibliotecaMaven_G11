@@ -1,12 +1,13 @@
 package it.unisa.biblioteca.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Libro {
+public class Libro implements Serializable {
     private String titolo;
     private List<String> autori;
     private LocalDate dataPubblicazione;

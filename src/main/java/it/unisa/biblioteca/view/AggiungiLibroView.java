@@ -6,9 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
- * Schermata per l'aggiunta di un nuovo libro al catalogo.
+ * Schermata per l'aggiunta di un nuovo libro.
+ * Aggiornata con contatore caratteri per ISBN.
  */
 public class AggiungiLibroView extends VBox {
 
@@ -17,6 +19,9 @@ public class AggiungiLibroView extends VBox {
     private TextField txtIsbn = new TextField();
     private TextField txtCopie = new TextField();
     private DatePicker datePicker = new DatePicker();
+
+    // Label per il feedback in tempo reale (es. "5 su 13")
+    private Label lblContatoreIsbn = new Label("0 su 13");
 
     private Button btnSalva = new Button("Salva Libro");
     private Button btnAnnulla = new Button("Annulla");
@@ -31,9 +36,14 @@ public class AggiungiLibroView extends VBox {
         grid.setVgap(15);
         grid.setAlignment(Pos.CENTER);
 
+        // Creiamo un contenitore orizzontale per ISBN + Contatore
+        HBox boxIsbn = new HBox(10, txtIsbn, lblContatoreIsbn);
+        boxIsbn.setAlignment(Pos.CENTER_LEFT);
+        lblContatoreIsbn.setTextFill(Color.GRAY); // Colore neutro iniziale
+
         grid.addRow(0, new Label("Titolo Opera:"), txtTitolo);
-        grid.addRow(1, new Label("Autori (separati da virgola):"), txtAutori);
-        grid.addRow(2, new Label("Codice ISBN:"), txtIsbn);
+        grid.addRow(1, new Label("Autori (virgola):"), txtAutori);
+        grid.addRow(2, new Label("Codice ISBN:"), boxIsbn); // Inserisco il box, non solo il testo
         grid.addRow(3, new Label("Data Pubblicazione:"), datePicker);
         grid.addRow(4, new Label("Copie Iniziali:"), txtCopie);
 
@@ -51,6 +61,7 @@ public class AggiungiLibroView extends VBox {
     public TextField getTxtIsbn() { return txtIsbn; }
     public TextField getTxtCopie() { return txtCopie; }
     public DatePicker getDatePicker() { return datePicker; }
+    public Label getLblContatoreIsbn() { return lblContatoreIsbn; } // <--- Getter Fondamentale
     public Button getBtnSalva() { return btnSalva; }
     public Button getBtnAnnulla() { return btnAnnulla; }
 }

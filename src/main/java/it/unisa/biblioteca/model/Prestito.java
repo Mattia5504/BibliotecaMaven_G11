@@ -1,10 +1,11 @@
 package it.unisa.biblioteca.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-public class Prestito {
+public class Prestito implements Serializable {
     private final Utente utente;
     private final Libro libro;
     private final LocalDate dataInizio;

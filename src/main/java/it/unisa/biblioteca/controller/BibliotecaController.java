@@ -106,34 +106,48 @@ public class BibliotecaController {
         AggiungiLibroView view = new AggiungiLibroView();
         view.getBtnAnnulla().setOnAction(e -> mostraLibri());
 
+        // --- LOGICA CONTATORE ISBN (LISTENER) ---
+        view.getTxtIsbn().textProperty().addListener((observable, oldValue, newValue) -> {
+            int lunghezza = newValue.length();
+            view.getLblContatoreIsbn().setText(lunghezza + " su 13");
+
+            // Feedback Visivo: Verde se ok (13), Rosso altrimenti
+            if (lunghezza == 13 && newValue.matches("\\d+")) {
+                view.getLblContatoreIsbn().setTextFill(javafx.scene.paint.Color.GREEN);
+            } else {
+                view.getLblContatoreIsbn().setTextFill(javafx.scene.paint.Color.RED);
+            }
+        });
+
         view.getBtnSalva().setOnAction(e -> {
             try {
-                // Recupero i dati
                 String isbnInserito = view.getTxtIsbn().getText().trim();
+                String copieTxt = view.getTxtCopie().getText().trim();
 
-                // --- CONTROLLO DUPLICATI ISBN ---
-                for (Libro l : catalogo) {
-                    if (l.getIsbn().equalsIgnoreCase(isbnInserito)) {
-                        throw new IllegalArgumentException("Errore: Esiste già un libro con ISBN " + isbnInserito);
-                    }
+                // Validazione ISBN
+                if (!isbnInserito.matches("\\d{13}")) {
+                    throw new IllegalArgumentException("L'ISBN deve contenere esattamente 13 numeri.");
                 }
+
+                // Controllo Duplicati
+                for (Libro l : catalogo) {
+                    if (l.getIsbn().equals(isbnInserito)) throw new IllegalArgumentException("Esiste già un libro con questo ISBN.");
+                }
+
+                // Validazione Copie
+                if (!copieTxt.matches("\\d+")) throw new IllegalArgumentException("Il campo Copie deve essere un numero.");
 
                 List<String> autori = Arrays.asList(view.getTxtAutori().getText().split(","));
 
                 Libro nuovo = new Libro(
-                        view.getTxtTitolo().getText(),
-                        autori,
-                        view.getDatePicker().getValue(),
-                        isbnInserito, // Uso l'ISBN controllato
-                        Integer.parseInt(view.getTxtCopie().getText())
+                        view.getTxtTitolo().getText(), autori, view.getDatePicker().getValue(),
+                        isbnInserito, Integer.parseInt(copieTxt)
                 );
 
                 catalogo.add(nuovo);
                 mostraLibri();
 
-            } catch (Exception ex) {
-                showAlert("Errore Inserimento", ex.getMessage());
-            }
+            } catch (Exception ex) { showAlert("Errore Inserimento", ex.getMessage()); }
         });
 
         stage.setScene(new Scene(view, 600, 500));
@@ -175,30 +189,40 @@ public class BibliotecaController {
         AggiungiUtenteView view = new AggiungiUtenteView();
         view.getBtnAnnulla().setOnAction(e -> mostraUtenti());
 
+        // --- LOGICA CONTATORE MATRICOLA (LISTENER) ---
+        view.getTxtMatricola().textProperty().addListener((observable, oldValue, newValue) -> {
+            int lunghezza = newValue.length();
+            // Matricola è "fino a 10", quindi ok se <= 10 e > 0
+            view.getLblContatoreMatr().setText(lunghezza + " su 10");
+
+            if (lunghezza > 0 && lunghezza <= 10 && newValue.matches("\\d+")) {
+                view.getLblContatoreMatr().setTextFill(javafx.scene.paint.Color.GREEN);
+            } else {
+                view.getLblContatoreMatr().setTextFill(javafx.scene.paint.Color.RED);
+            }
+        });
+
         view.getBtnSalva().setOnAction(e -> {
             try {
                 String matricolaInserita = view.getTxtMatricola().getText().trim();
 
-                // --- CONTROLLO DUPLICATI MATRICOLA ---
+                if (!matricolaInserita.matches("\\d{1,10}")) {
+                    throw new IllegalArgumentException("Matricola non valida (solo numeri, max 10 cifre).");
+                }
+
                 for (Utente u : anagrafica) {
-                    if (u.getMatricola().equalsIgnoreCase(matricolaInserita)) {
-                        throw new IllegalArgumentException("Errore: Esiste già un utente con matricola " + matricolaInserita);
-                    }
+                    if (u.getMatricola().equals(matricolaInserita)) throw new IllegalArgumentException("Matricola già esistente.");
                 }
 
                 Utente nuovo = new Utente(
-                        view.getTxtNome().getText(),
-                        view.getTxtCognome().getText(),
-                        matricolaInserita,
-                        view.getTxtEmail().getText()
+                        view.getTxtNome().getText(), view.getTxtCognome().getText(),
+                        matricolaInserita, view.getTxtEmail().getText()
                 );
 
                 anagrafica.add(nuovo);
                 mostraUtenti();
 
-            } catch (Exception ex) {
-                showAlert("Errore Inserimento", ex.getMessage());
-            }
+            } catch (Exception ex) { showAlert("Errore Inserimento", ex.getMessage()); }
         });
 
         stage.setScene(new Scene(view, 600, 400));
