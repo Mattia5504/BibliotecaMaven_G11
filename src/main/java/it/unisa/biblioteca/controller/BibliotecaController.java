@@ -4,6 +4,7 @@ import it.unisa.biblioteca.model.*;
 import it.unisa.biblioteca.view.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -14,14 +15,14 @@ import java.util.List;
 
 /**
  * Controller principale - Gruppo 11.
- * Gestisce la navigazione tra le viste e la logica operativa.
+ * Include logica di navigazione, ricerca e controllo duplicati (ISBN/Matricola).
  */
 public class BibliotecaController {
 
     private final Stage stage;
     private final GestoreFile gestoreFile = new GestoreFile();
 
-    // --- DATABASE IN MEMORIA (Liste Osservabili) ---
+    // --- DATABASE IN MEMORIA ---
     private ObservableList<Libro> catalogo = FXCollections.observableArrayList();
     private ObservableList<Utente> anagrafica = FXCollections.observableArrayList();
     private ObservableList<Prestito> prestiti = FXCollections.observableArrayList();
@@ -29,15 +30,12 @@ public class BibliotecaController {
     public BibliotecaController(Stage stage) {
         this.stage = stage;
 
-        // Caricamento dati da file all'avvio
         gestoreFile.caricaTutto(catalogo, anagrafica, prestiti);
 
-        // Se è la prima volta assoluta, carico dati finti per non mostrare tabelle vuote
         if (catalogo.isEmpty() && anagrafica.isEmpty()) {
             inizializzaDatiProva();
         }
 
-        // Salvataggio automatico alla chiusura
         stage.setOnCloseRequest(event -> gestoreFile.salvaTutto(catalogo, anagrafica, prestiti));
     }
 
@@ -50,37 +48,53 @@ public class BibliotecaController {
         view.getBtnPrestiti().setOnAction(e -> mostraPrestiti());
         view.getBtnInfo().setOnAction(e -> mostraInfo());
 
-
-
         stage.setTitle("Biblioteca - Gruppo 11 Home");
         stage.setScene(new Scene(view, 900, 600));
     }
 
-    // --- SEZIONE: GESTIONE LIBRI ---
+    // --- GESTIONE LIBRI ---
     public void mostraLibri() {
         LibriView view = new LibriView(catalogo);
 
-        view.getBtnIndietro().setOnAction(e -> mostraHome());
-        view.getBtnNuovo().setOnAction(e -> mostraAggiungiLibro()); // <--- CAMBIATO
+        // Wrapper FilteredList
+        FilteredList<Libro> filteredData = new FilteredList<>(catalogo, b -> true);
+        view.getTabella().setItems(filteredData);
 
-        // Logica pulsanti rapidi copie
+        // AZIONE TASTO CERCA
+        view.getBtnCerca().setOnAction(e -> {
+            String filter = view.getTxtRicerca().getText();
+            if (filter == null || filter.isEmpty()) {
+                filteredData.setPredicate(p -> true);
+                return;
+            }
+
+            String lowerCaseFilter = filter.toLowerCase();
+            String criterio = view.getCmbCriterio().getValue();
+
+            filteredData.setPredicate(libro -> {
+                switch (criterio) {
+                    case "Titolo": return libro.getTitolo().toLowerCase().contains(lowerCaseFilter);
+                    case "ISBN": return libro.getIsbn().toLowerCase().contains(lowerCaseFilter);
+                    case "Autore": return libro.getAutori().toString().toLowerCase().contains(lowerCaseFilter);
+                    case "Anno": return String.valueOf(libro.getDataPubblicazione().getYear()).contains(lowerCaseFilter);
+                    default: return false;
+                }
+            });
+        });
+
+        view.getBtnIndietro().setOnAction(e -> mostraHome());
+        view.getBtnNuovo().setOnAction(e -> mostraAggiungiLibro());
+
         view.getBtnPiu().setOnAction(e -> {
             Libro l = view.getTabella().getSelectionModel().getSelectedItem();
-            if (l != null) {
-                l.incrementaDisponibilita();
-                view.refresh();
-            }
+            if (l != null) { l.incrementaDisponibilita(); view.refresh(); }
         });
 
         view.getBtnMeno().setOnAction(e -> {
             Libro l = view.getTabella().getSelectionModel().getSelectedItem();
             if (l != null) {
-                try {
-                    l.decrementaDisponibilita();
-                    view.refresh();
-                } catch (IllegalStateException ex) {
-                    showAlert("Attenzione", ex.getMessage());
-                }
+                try { l.decrementaDisponibilita(); view.refresh(); }
+                catch (IllegalStateException ex) { showAlert("Attenzione", ex.getMessage()); }
             }
         });
 
@@ -88,109 +102,168 @@ public class BibliotecaController {
         stage.setScene(new Scene(view, 900, 600));
     }
 
-    public void mostraAggiungiLibro() { // <--- CAMBIATO NOME METODO
-        AggiungiLibroView view = new AggiungiLibroView(); // <--- CAMBIATO CLASSE
-
+    public void mostraAggiungiLibro() {
+        AggiungiLibroView view = new AggiungiLibroView();
         view.getBtnAnnulla().setOnAction(e -> mostraLibri());
+
         view.getBtnSalva().setOnAction(e -> {
             try {
-                String autoriRaw = view.getTxtAutori().getText();
-                List<String> autori = Arrays.asList(autoriRaw.split(","));
+                // Recupero i dati
+                String isbnInserito = view.getTxtIsbn().getText().trim();
+
+                // --- CONTROLLO DUPLICATI ISBN ---
+                for (Libro l : catalogo) {
+                    if (l.getIsbn().equalsIgnoreCase(isbnInserito)) {
+                        throw new IllegalArgumentException("Errore: Esiste già un libro con ISBN " + isbnInserito);
+                    }
+                }
+
+                List<String> autori = Arrays.asList(view.getTxtAutori().getText().split(","));
 
                 Libro nuovo = new Libro(
                         view.getTxtTitolo().getText(),
                         autori,
                         view.getDatePicker().getValue(),
-                        view.getTxtIsbn().getText(),
+                        isbnInserito, // Uso l'ISBN controllato
                         Integer.parseInt(view.getTxtCopie().getText())
                 );
+
                 catalogo.add(nuovo);
                 mostraLibri();
+
             } catch (Exception ex) {
-                showAlert("Errore Inserimento", "Controlla i dati: " + ex.getMessage());
+                showAlert("Errore Inserimento", ex.getMessage());
             }
         });
 
         stage.setScene(new Scene(view, 600, 500));
     }
 
-    // --- SEZIONE: GESTIONE UTENTI ---
+    // --- GESTIONE UTENTI ---
     public void mostraUtenti() {
         UtentiView view = new UtentiView(anagrafica);
+
+        FilteredList<Utente> filteredData = new FilteredList<>(anagrafica, u -> true);
+        view.getTabella().setItems(filteredData);
+
+        view.getBtnCerca().setOnAction(e -> {
+            String filter = view.getTxtRicerca().getText();
+            if (filter == null || filter.isEmpty()) {
+                filteredData.setPredicate(p -> true);
+                return;
+            }
+
+            String lower = filter.toLowerCase();
+            String crit = view.getCmbCriterio().getValue();
+
+            filteredData.setPredicate(utente -> {
+                if (crit.equals("Cognome")) return utente.getCognome().toLowerCase().contains(lower);
+                if (crit.equals("Matricola")) return utente.getMatricola().toLowerCase().contains(lower);
+                if (crit.equals("Email")) return utente.getEmail().toLowerCase().contains(lower);
+                return false;
+            });
+        });
+
         view.getBtnIndietro().setOnAction(e -> mostraHome());
-        view.getBtnNuovo().setOnAction(e -> mostraAggiungiUtente()); // <--- CAMBIATO
+        view.getBtnNuovo().setOnAction(e -> mostraAggiungiUtente());
 
         stage.setTitle("Gestione Utenti - Gruppo 11");
         stage.setScene(new Scene(view, 900, 600));
     }
 
-    public void mostraAggiungiUtente() { // <--- CAMBIATO
-        AggiungiUtenteView view = new AggiungiUtenteView(); // <--- CAMBIATO
-
+    public void mostraAggiungiUtente() {
+        AggiungiUtenteView view = new AggiungiUtenteView();
         view.getBtnAnnulla().setOnAction(e -> mostraUtenti());
+
         view.getBtnSalva().setOnAction(e -> {
             try {
+                String matricolaInserita = view.getTxtMatricola().getText().trim();
+
+                // --- CONTROLLO DUPLICATI MATRICOLA ---
+                for (Utente u : anagrafica) {
+                    if (u.getMatricola().equalsIgnoreCase(matricolaInserita)) {
+                        throw new IllegalArgumentException("Errore: Esiste già un utente con matricola " + matricolaInserita);
+                    }
+                }
+
                 Utente nuovo = new Utente(
                         view.getTxtNome().getText(),
                         view.getTxtCognome().getText(),
-                        view.getTxtMatricola().getText(),
+                        matricolaInserita,
                         view.getTxtEmail().getText()
                 );
+
                 anagrafica.add(nuovo);
                 mostraUtenti();
+
             } catch (Exception ex) {
-                showAlert("Errore Utente", ex.getMessage());
+                showAlert("Errore Inserimento", ex.getMessage());
             }
         });
+
         stage.setScene(new Scene(view, 600, 400));
     }
 
-    // --- SEZIONE: GESTIONE PRESTITI ---
+    // --- GESTIONE PRESTITI ---
     public void mostraPrestiti() {
         PrestitiView view = new PrestitiView(prestiti);
+
+        FilteredList<Prestito> filteredData = new FilteredList<>(prestiti, p -> true);
+        view.getTabella().setItems(filteredData);
+
+        view.getBtnCerca().setOnAction(e -> {
+            String filter = view.getTxtRicerca().getText();
+            if (filter == null || filter.isEmpty()) {
+                filteredData.setPredicate(p -> true);
+                return;
+            }
+
+            String lower = filter.toLowerCase();
+            String crit = view.getCmbCriterio().getValue();
+
+            filteredData.setPredicate(prestito -> {
+                if (crit.startsWith("Utente")) return prestito.getUtente().getCognome().toLowerCase().contains(lower);
+                if (crit.startsWith("Libro")) return prestito.getLibro().getTitolo().toLowerCase().contains(lower);
+                return false;
+            });
+        });
+
         view.getBtnIndietro().setOnAction(e -> mostraHome());
-        view.getBtnNuovo().setOnAction(e -> mostraAggiungiPrestito()); // <--- CAMBIATO
+        view.getBtnNuovo().setOnAction(e -> mostraAggiungiPrestito());
 
         stage.setTitle("Registro Prestiti - Gruppo 11");
         stage.setScene(new Scene(view, 900, 600));
     }
 
-    public void mostraAggiungiPrestito() { // <--- CAMBIATO
-        AggiungiPrestitoView view = new AggiungiPrestitoView(anagrafica, catalogo); // <--- CAMBIATO
-
+    public void mostraAggiungiPrestito() {
+        AggiungiPrestitoView view = new AggiungiPrestitoView(anagrafica, catalogo);
         view.getBtnAnnulla().setOnAction(e -> mostraPrestiti());
+
         view.getBtnSalva().setOnAction(e -> {
             try {
                 Utente u = view.getComboUtenti().getValue();
                 Libro l = view.getComboLibri().getValue();
 
-                if (u == null || l == null) throw new IllegalArgumentException("Seleziona Utente e Libro.");
-
-                if (l.getDisponibilita() > 0) {
+                if (u != null && l != null && l.getDisponibilita() > 0) {
                     Prestito p = new Prestito(u, l, LocalDate.now());
                     u.aggiungiPrestito(p);
                     l.decrementaDisponibilita();
                     prestiti.add(p);
                     mostraPrestiti();
                 } else {
-                    showAlert("Non disponibile", "Copie esaurite per questo libro.");
+                    showAlert("Errore", "Dati mancanti o libro non disponibile.");
                 }
             } catch (Exception ex) {
                 showAlert("Errore Prestito", ex.getMessage());
             }
         });
+
         stage.setScene(new Scene(view, 600, 400));
     }
 
     // --- UTILS ---
     private void mostraInfo() {
-        String credits = "Progetto Ingegneria del Software\n\n" +
-                "GRUPPO 11:\n" +
-                "- Mattia Lettariello\n" +
-                "- Jonathan Punzo\n" +
-                "- Antonia Lamberti\n" +
-                "- Valentino Potapchuck\n\n" +
-                "Anno Accademico 2024/2025";
+        String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuck";
         showAlert("Credits", credits);
     }
 
@@ -203,9 +276,7 @@ public class BibliotecaController {
     }
 
     private void inizializzaDatiProva() {
-        Libro l1 = new Libro("Clean Code", Arrays.asList("Robert C. Martin"), LocalDate.of(2008, 8, 1), "ISBN-001", 5);
-        catalogo.add(l1);
-        Utente u1 = new Utente("Mario", "Rossi", "0512101234", "m.rossi@studenti.unisa.it");
-        anagrafica.add(u1);
+        catalogo.add(new Libro("Clean Code", Arrays.asList("Martin"), LocalDate.now(), "ISBN1", 5));
+        anagrafica.add(new Utente("Mario", "Rossi", "001", "m@test.it"));
     }
 }

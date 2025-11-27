@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class LibriView extends BorderPane {
 
@@ -23,11 +22,12 @@ public class LibriView extends BorderPane {
     // --- ELEMENTI RICERCA ---
     private TextField txtRicerca = new TextField();
     private ComboBox<String> cmbCriterio = new ComboBox<>();
+    private Button btnCerca = new Button("🔍 Cerca"); // <--- NUOVO TASTO
 
     public LibriView(ObservableList<Libro> libri) {
         this.setPadding(new Insets(15));
 
-        // Setup Tabella (Colonne)
+        // Setup Tabella
         TableColumn<Libro, String> colTitolo = new TableColumn<>("Titolo");
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         colTitolo.setPrefWidth(250);
@@ -47,22 +47,22 @@ public class LibriView extends BorderPane {
         colDisp.setCellValueFactory(new PropertyValueFactory<>("disponibilita"));
 
         tabella.getColumns().addAll(colTitolo, colAutori, colAnno, colIsbn, colDisp);
-        tabella.setItems(libri); // Nota: Il controller sovrascriverà questo con la FilteredList
+        tabella.setItems(libri);
 
-        // --- TOP BAR (Titolo + Navigazione + Ricerca) ---
+        // --- TOP BAR ---
         HBox navBar = new HBox(15, btnIndietro, new Label("CATALOGO LIBRI"));
         navBar.setAlignment(Pos.CENTER_LEFT);
 
         // Barra Ricerca
-        txtRicerca.setPromptText("Cerca...");
+        txtRicerca.setPromptText("Testo da cercare...");
         txtRicerca.setPrefWidth(200);
         cmbCriterio.getItems().addAll("Titolo", "ISBN", "Autore", "Anno");
-        cmbCriterio.setValue("Titolo"); // Default
+        cmbCriterio.setValue("Titolo");
 
-        HBox searchBar = new HBox(10, new Label("Cerca per:"), cmbCriterio, txtRicerca);
+        // Aggiungo il bottone alla barra
+        HBox searchBar = new HBox(10, new Label("Cerca per:"), cmbCriterio, txtRicerca, btnCerca);
         searchBar.setAlignment(Pos.CENTER_RIGHT);
 
-        // Unisco Navigazione e Ricerca in un contenitore
         BorderPane topPane = new BorderPane();
         topPane.setLeft(navBar);
         topPane.setRight(searchBar);
@@ -85,5 +85,6 @@ public class LibriView extends BorderPane {
     public Button getBtnMeno() { return btnMeno; }
     public TextField getTxtRicerca() { return txtRicerca; }
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+    public Button getBtnCerca() { return btnCerca; } // <--- Getter aggiunto
     public void refresh() { tabella.refresh(); }
 }

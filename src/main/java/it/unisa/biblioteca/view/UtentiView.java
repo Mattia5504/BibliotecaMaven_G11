@@ -15,9 +15,10 @@ public class UtentiView extends BorderPane {
     private Button btnIndietro = new Button("< Indietro");
     private Button btnNuovo = new Button("+ Nuovo Utente");
 
-    // --- ELEMENTI RICERCA ---
+    // Ricerca
     private TextField txtRicerca = new TextField();
     private ComboBox<String> cmbCriterio = new ComboBox<>();
+    private Button btnCerca = new Button("🔍 Cerca"); // <--- NUOVO
 
     public UtentiView(ObservableList<Utente> utenti) {
         this.setPadding(new Insets(15));
@@ -39,15 +40,15 @@ public class UtentiView extends BorderPane {
         tabella.getColumns().addAll(colMatr, colNome, colCognome, colEmail);
         tabella.setItems(utenti);
 
-        // --- LAYOUT TOP (Ricerca) ---
+        // --- TOP LAYOUT ---
         HBox navBar = new HBox(15, btnIndietro, new Label("ANAGRAFICA UTENTI"));
         navBar.setAlignment(Pos.CENTER_LEFT);
 
-        txtRicerca.setPromptText("Cerca studente...");
+        txtRicerca.setPromptText("Testo da cercare...");
         cmbCriterio.getItems().addAll("Cognome", "Matricola", "Email");
         cmbCriterio.setValue("Cognome");
 
-        HBox searchBar = new HBox(10, new Label("Filtra per:"), cmbCriterio, txtRicerca);
+        HBox searchBar = new HBox(10, new Label("Filtra per:"), cmbCriterio, txtRicerca, btnCerca);
         searchBar.setAlignment(Pos.CENTER_RIGHT);
 
         BorderPane topPane = new BorderPane();
@@ -69,4 +70,5 @@ public class UtentiView extends BorderPane {
     public TableView<Utente> getTabella() { return tabella; }
     public TextField getTxtRicerca() { return txtRicerca; }
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+    public Button getBtnCerca() { return btnCerca; } // <--- Getter aggiunto
 }

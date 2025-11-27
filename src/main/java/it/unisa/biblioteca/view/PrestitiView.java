@@ -19,10 +19,12 @@ public class PrestitiView extends BorderPane {
     // Ricerca
     private TextField txtRicerca = new TextField();
     private ComboBox<String> cmbCriterio = new ComboBox<>();
+    private Button btnCerca = new Button("🔍 Cerca"); // <--- NUOVO
 
     public PrestitiView(ObservableList<Prestito> prestiti) {
         this.setPadding(new Insets(15));
 
+        // Colonne
         TableColumn<Prestito, String> colUtente = new TableColumn<>("Utente");
         colUtente.setCellValueFactory(cell -> new SimpleStringProperty(
                 cell.getValue().getUtente().getNome() + " " + cell.getValue().getUtente().getCognome()
@@ -43,11 +45,11 @@ public class PrestitiView extends BorderPane {
         HBox navBar = new HBox(15, btnIndietro, new Label("REGISTRO PRESTITI"));
         navBar.setAlignment(Pos.CENTER_LEFT);
 
-        txtRicerca.setPromptText("Cerca prestito...");
+        txtRicerca.setPromptText("Testo da cercare...");
         cmbCriterio.getItems().addAll("Utente (Cognome)", "Libro (Titolo)");
         cmbCriterio.setValue("Utente (Cognome)");
 
-        HBox searchBar = new HBox(10, new Label("Cerca in:"), cmbCriterio, txtRicerca);
+        HBox searchBar = new HBox(10, new Label("Cerca in:"), cmbCriterio, txtRicerca, btnCerca);
         searchBar.setAlignment(Pos.CENTER_RIGHT);
 
         BorderPane topPane = new BorderPane();
@@ -68,4 +70,5 @@ public class PrestitiView extends BorderPane {
     public TableView<Prestito> getTabella() { return tabella; }
     public TextField getTxtRicerca() { return txtRicerca; }
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+    public Button getBtnCerca() { return btnCerca; } // <--- Getter aggiunto
 }
