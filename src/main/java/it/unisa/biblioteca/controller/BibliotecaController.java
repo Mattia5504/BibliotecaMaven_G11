@@ -50,11 +50,7 @@ public class BibliotecaController {
         view.getBtnPrestiti().setOnAction(e -> mostraPrestiti());
         view.getBtnInfo().setOnAction(e -> mostraInfo());
 
-        // Tasto salvataggio manuale
-        view.getBtnSalva().setOnAction(e -> {
-            gestoreFile.salvaTutto(catalogo, anagrafica, prestiti);
-            showAlert("Salvataggio", "Dati salvati correttamente su file CSV.");
-        });
+
 
         stage.setTitle("Biblioteca - Gruppo 11 Home");
         stage.setScene(new Scene(view, 900, 600));
