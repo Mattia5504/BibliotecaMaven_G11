@@ -17,11 +17,12 @@ public class HomeView extends VBox {
     private Button btnUtenti = new Button("👤 Gestione Utenti");
     private Button btnPrestiti = new Button("🔄 Gestione Prestiti");
     private Button btnInfo = new Button("ℹ️ Info Gruppo 11");
+    private Button btnSalva = new Button("💾 Salva Dati"); // <--- ECCOLO!
 
     public HomeView() {
         // Configurazione Layout
         this.setAlignment(Pos.CENTER);
-        this.setSpacing(25); // Spazio tra i bottoni
+        this.setSpacing(20); // Spazio tra i bottoni
         this.setStyle("-fx-background-color: #ecf0f1;"); // Grigio chiaro moderno
 
         // Titolo
@@ -34,18 +35,22 @@ public class HomeView extends VBox {
         applicaStile(btnUtenti, "#e67e22");  // Arancione
         applicaStile(btnPrestiti, "#27ae60"); // Verde
         applicaStile(btnInfo, "#7f8c8d");    // Grigio
+        applicaStile(btnSalva, "#8e44ad");   // Viola per il salvataggio
 
-        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti, btnInfo);
+        // Aggiungo tutto al layout
+        this.getChildren().addAll(title, btnLibri, btnUtenti, btnPrestiti, btnInfo, btnSalva);
     }
 
     // Metodo helper per non ripetere il CSS
     private void applicaStile(Button b, String colorHex) {
-        b.setPrefSize(280, 60);
+        b.setPrefSize(280, 55); // Leggermente più compatti
         b.setStyle("-fx-background-color: " + colorHex + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;");
     }
 
+    // --- GETTERS (Fondamentali per il Controller) ---
     public Button getBtnLibri() { return btnLibri; }
     public Button getBtnUtenti() { return btnUtenti; }
     public Button getBtnPrestiti() { return btnPrestiti; }
     public Button getBtnInfo() { return btnInfo; }
+    public Button getBtnSalva() { return btnSalva; } // <--- Ora il metodo esiste!
 }
