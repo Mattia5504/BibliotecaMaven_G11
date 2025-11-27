@@ -260,25 +260,74 @@ public class BibliotecaController {
         stage.setScene(new Scene(view, 900, 600));
     }
 
+    // --- CONTROLLER: LOGICA NUOVO PRESTITO CON DOPPIA TABELLA ---
     public void mostraAggiungiPrestito() {
         AggiungiPrestitoView view = new AggiungiPrestitoView(anagrafica, catalogo);
+
+        // 1. SETUP RICERCA UTENTI (Lato Sinistro)
+        FilteredList<Utente> filteredUtenti = new FilteredList<>(anagrafica, u -> true);
+        view.getTableUtenti().setItems(filteredUtenti);
+
+        view.getBtnCercaUtente().setOnAction(e -> {
+            String filter = view.getTxtSearchUtente().getText();
+            if (filter == null || filter.isEmpty()) { filteredUtenti.setPredicate(p -> true); return; }
+            String lower = filter.toLowerCase();
+            String crit = view.getCmbFilterUtente().getValue();
+
+            filteredUtenti.setPredicate(u -> {
+                if (crit.equals("Cognome")) return u.getCognome().toLowerCase().contains(lower);
+                if (crit.equals("Matricola")) return u.getMatricola().toLowerCase().contains(lower);
+                return false;
+            });
+        });
+
+        // 2. SETUP RICERCA LIBRI (Lato Destro)
+        FilteredList<Libro> filteredLibri = new FilteredList<>(catalogo, l -> true);
+        view.getTableLibri().setItems(filteredLibri);
+
+        view.getBtnCercaLibro().setOnAction(e -> {
+            String filter = view.getTxtSearchLibro().getText();
+            if (filter == null || filter.isEmpty()) { filteredLibri.setPredicate(p -> true); return; }
+            String lower = filter.toLowerCase();
+            String crit = view.getCmbFilterLibro().getValue();
+
+            filteredLibri.setPredicate(l -> {
+                if (crit.equals("Titolo")) return l.getTitolo().toLowerCase().contains(lower);
+                if (crit.equals("ISBN")) return l.getIsbn().toLowerCase().contains(lower);
+                return false;
+            });
+        });
+
+        // 3. LOGICA SALVATAGGIO
         view.getBtnAnnulla().setOnAction(e -> mostraPrestiti());
+
         view.getBtnSalva().setOnAction(e -> {
+            // Recupero gli oggetti selezionati dalle tabelle
+            Utente u = view.getTableUtenti().getSelectionModel().getSelectedItem();
+            Libro l = view.getTableLibri().getSelectionModel().getSelectedItem();
+
             try {
-                Utente u = view.getComboUtenti().getValue();
-                Libro l = view.getComboLibri().getValue();
-                if (u != null && l != null && l.getDisponibilita() > 0) {
+                if (u == null) throw new IllegalArgumentException("Devi selezionare uno STUDENTE dalla tabella di sinistra.");
+                if (l == null) throw new IllegalArgumentException("Devi selezionare un LIBRO dalla tabella di destra.");
+
+                if (l.getDisponibilita() > 0) {
                     Prestito p = new Prestito(u, l, LocalDate.now());
                     u.aggiungiPrestito(p);
                     l.decrementaDisponibilita();
                     prestiti.add(p);
-                    mostraPrestiti();
-                } else { showAlert("Errore", "Dati mancanti o libro non disponibile."); }
-            } catch (Exception ex) { showAlert("Errore", ex.getMessage()); }
-        });
-        stage.setScene(new Scene(view, 600, 400));
-    }
 
+                    showAlert("Successo", "Prestito registrato correttamente!");
+                    mostraPrestiti();
+                } else {
+                    showAlert("Non disponibile", "Il libro selezionato ha 0 copie disponibili.");
+                }
+            } catch (Exception ex) {
+                showAlert("Errore", ex.getMessage());
+            }
+        });
+
+        stage.setScene(new Scene(view, 900, 600)); // Finestra un po' più larga per far stare le due tabelle
+    }
     // --- UTILS ---
     private void mostraInfo() {
         String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuck";

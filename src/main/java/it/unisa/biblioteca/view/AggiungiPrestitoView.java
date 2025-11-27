@@ -6,65 +6,162 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 /**
- * Schermata per la creazione di un nuovo prestito.
+ * Schermata avanzata per la creazione di un prestito.
+ * Layout: Split View (Utenti a sinistra, Libri a destra) con ricerca indipendente.
  */
-public class AggiungiPrestitoView extends VBox {
+public class AggiungiPrestitoView extends BorderPane {
 
-    private ComboBox<Utente> comboUtenti = new ComboBox<>();
-    private ComboBox<Libro> comboLibri = new ComboBox<>();
-    private Button btnSalva = new Button("Conferma Prestito");
-    private Button btnAnnulla = new Button("Annulla");
+    // --- LATO SINISTRO: UTENTI ---
+    private TableView<Utente> tableUtenti = new TableView<>();
+    private TextField txtSearchUtente = new TextField();
+    private ComboBox<String> cmbFilterUtente = new ComboBox<>();
+    private Button btnCercaUtente = new Button("🔍");
+
+    // --- LATO DESTRO: LIBRI ---
+    private TableView<Libro> tableLibri = new TableView<>();
+    private TextField txtSearchLibro = new TextField();
+    private ComboBox<String> cmbFilterLibro = new ComboBox<>();
+    private Button btnCercaLibro = new Button("🔍");
+
+    // --- BOTTONI AZIONE ---
+    private Button btnSalva = new Button("✅ Conferma Prestito");
+    private Button btnAnnulla = new Button("❌ Annulla");
 
     public AggiungiPrestitoView(ObservableList<Utente> utenti, ObservableList<Libro> libri) {
-        this.setAlignment(Pos.CENTER);
-        this.setSpacing(20);
-        this.setPadding(new Insets(30));
+        this.setPadding(new Insets(20));
+        this.setStyle("-fx-background-color: #f4f6f7;"); // Sfondo leggero
 
-        // Configuro le ComboBox
-        comboUtenti.setItems(utenti);
-        comboUtenti.setPrefWidth(300);
-        comboUtenti.setPromptText("Seleziona lo studente...");
-        comboUtenti.setConverter(new StringConverter<Utente>() {
-            @Override public String toString(Utente u) {
-                return (u == null) ? "" : u.getNome() + " " + u.getCognome() + " (" + u.getMatricola() + ")";
-            }
-            @Override public Utente fromString(String s) { return null; }
-        });
+        // --- TITOLO ---
+        Label lblTitolo = new Label("NUOVO PRESTITO: Seleziona Utente e Libro");
+        lblTitolo.setFont(new Font("Arial", 24));
+        lblTitolo.setStyle("-fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        BorderPane.setAlignment(lblTitolo, Pos.CENTER);
+        this.setTop(lblTitolo);
 
-        comboLibri.setItems(libri);
-        comboLibri.setPrefWidth(300);
-        comboLibri.setPromptText("Seleziona il libro...");
-        comboLibri.setConverter(new StringConverter<Libro>() {
-            @Override public String toString(Libro l) {
-                return (l == null) ? "" : l.getTitolo() + " (Disp: " + l.getDisponibilita() + ")";
-            }
-            @Override public Libro fromString(String s) { return null; }
-        });
+        // --- COSTRUZIONE PANNELLI ---
+        VBox panelUtenti = creaPannelloUtenti(utenti);
+        VBox panelLibri = creaPannelloLibri(libri);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(15); grid.setVgap(15);
-        grid.setAlignment(Pos.CENTER);
+        // Layout Orizzontale che contiene i due pannelli
+        HBox splitLayout = new HBox(20, panelUtenti, panelLibri);
+        splitLayout.setAlignment(Pos.CENTER);
+        splitLayout.setPadding(new Insets(20, 0, 20, 0));
 
-        grid.addRow(0, new Label("Studente:"), comboUtenti);
-        grid.addRow(1, new Label("Libro da prestare:"), comboLibri);
+        // Faccio in modo che i due pannelli occupino il 50% dello spazio ciascuno
+        HBox.setHgrow(panelUtenti, Priority.ALWAYS);
+        HBox.setHgrow(panelLibri, Priority.ALWAYS);
 
-        HBox buttons = new HBox(15, btnAnnulla, btnSalva);
-        buttons.setAlignment(Pos.CENTER);
+        this.setCenter(splitLayout);
 
-        btnSalva.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
-        btnAnnulla.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        // --- BARRA IN BASSO (BOTTONI) ---
+        HBox bottomBar = new HBox(20, btnAnnulla, btnSalva);
+        bottomBar.setAlignment(Pos.CENTER);
+        bottomBar.setPadding(new Insets(10));
 
-        this.getChildren().addAll(new Label("NUOVO PRESTITO"), grid, buttons);
+        // Stile bottoni "Call to Action"
+        btnSalva.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 10 30;");
+        btnAnnulla.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-cursor: hand; -fx-padding: 10 30;");
+
+        this.setBottom(bottomBar);
     }
 
-    public ComboBox<Utente> getComboUtenti() { return comboUtenti; }
-    public ComboBox<Libro> getComboLibri() { return comboLibri; }
+    // --- HELPER PER CREARE IL PANNELLO UTENTI (SINISTRA) ---
+    private VBox creaPannelloUtenti(ObservableList<Utente> data) {
+        VBox box = new VBox(10);
+        box.setStyle("-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
+
+        Label header = new Label("1. Seleziona Studente");
+        header.setStyle("-fx-text-fill: #e67e22; -fx-font-weight: bold; -fx-font-size: 16px;");
+
+        // Barra Ricerca
+        txtSearchUtente.setPromptText("Cerca studente...");
+        cmbFilterUtente.getItems().addAll("Cognome", "Matricola");
+        cmbFilterUtente.setValue("Cognome");
+        HBox searchBox = new HBox(5, cmbFilterUtente, txtSearchUtente, btnCercaUtente);
+
+        // Tabella Mini
+        TableColumn<Utente, String> colMatr = new TableColumn<>("Matr.");
+        colMatr.setCellValueFactory(new PropertyValueFactory<>("matricola"));
+
+        TableColumn<Utente, String> colCognome = new TableColumn<>("Cognome");
+        colCognome.setCellValueFactory(new PropertyValueFactory<>("cognome"));
+
+        TableColumn<Utente, String> colNome = new TableColumn<>("Nome");
+        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+
+        tableUtenti.getColumns().addAll(colMatr, colCognome, colNome);
+        tableUtenti.setItems(data);
+        tableUtenti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Adatta colonne
+        VBox.setVgrow(tableUtenti, Priority.ALWAYS); // Occupa tutto lo spazio verticale
+
+        box.getChildren().addAll(header, searchBox, tableUtenti);
+        return box;
+    }
+
+    // --- HELPER PER CREARE IL PANNELLO LIBRI (DESTRA) ---
+    private VBox creaPannelloLibri(ObservableList<Libro> data) {
+        VBox box = new VBox(10);
+        box.setStyle("-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
+
+        Label header = new Label("2. Seleziona Libro");
+        header.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 16px;");
+
+        // Barra Ricerca
+        txtSearchLibro.setPromptText("Cerca libro...");
+        cmbFilterLibro.getItems().addAll("Titolo", "ISBN");
+        cmbFilterLibro.setValue("Titolo");
+        HBox searchBox = new HBox(5, cmbFilterLibro, txtSearchLibro, btnCercaLibro);
+
+        // Tabella Mini
+        TableColumn<Libro, String> colTitolo = new TableColumn<>("Titolo");
+        colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
+
+        TableColumn<Libro, String> colIsbn = new TableColumn<>("ISBN");
+        colIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+
+        TableColumn<Libro, Integer> colDisp = new TableColumn<>("Disp.");
+        colDisp.setCellValueFactory(new PropertyValueFactory<>("disponibilita"));
+        // Coloro di rosso se non disponibile (opzionale, ma chicca da designer)
+        colDisp.setCellFactory(column -> new TableCell<Libro, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                    setTextFill(item > 0 ? Color.GREEN : Color.RED);
+                    setStyle(item > 0 ? "-fx-font-weight: normal;" : "-fx-font-weight: bold;");
+                }
+            }
+        });
+
+        tableLibri.getColumns().addAll(colTitolo, colIsbn, colDisp);
+        tableLibri.setItems(data);
+        tableLibri.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        VBox.setVgrow(tableLibri, Priority.ALWAYS);
+
+        box.getChildren().addAll(header, searchBox, tableLibri);
+        return box;
+    }
+
+    // --- GETTERS ---
+    public TableView<Utente> getTableUtenti() { return tableUtenti; }
+    public TextField getTxtSearchUtente() { return txtSearchUtente; }
+    public ComboBox<String> getCmbFilterUtente() { return cmbFilterUtente; }
+    public Button getBtnCercaUtente() { return btnCercaUtente; }
+
+    public TableView<Libro> getTableLibri() { return tableLibri; }
+    public TextField getTxtSearchLibro() { return txtSearchLibro; }
+    public ComboBox<String> getCmbFilterLibro() { return cmbFilterLibro; }
+    public Button getBtnCercaLibro() { return btnCercaLibro; }
+
     public Button getBtnSalva() { return btnSalva; }
     public Button getBtnAnnulla() { return btnAnnulla; }
 }
