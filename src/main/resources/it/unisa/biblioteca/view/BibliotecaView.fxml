@@ -30,7 +30,6 @@
                         </Label>
                     </children>
                 </VBox>
-
                 <GridPane alignment="CENTER" hgap="30.0" vgap="30.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="NEVER" />
@@ -62,7 +61,7 @@
             <top>
                 <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #3498db; -fx-padding: 15;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5; -fx-cursor: hand;" text="&lt; Indietro" textFill="WHITE">
                             <font><Font name="System Bold" size="13.0" /></font>
                         </Button>
                         <Label text="Catalogo Libri" textFill="WHITE">
@@ -74,20 +73,44 @@
             <center>
                 <TableView fx:id="tabellaLibri" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="colTitolo" prefWidth="350.0" text="Titolo" />
-                        <TableColumn fx:id="colIsbn" prefWidth="150.0" text="ISBN" />
-                        <TableColumn fx:id="colDisp" prefWidth="100.0" text="Disponibilità" />
+                        <TableColumn fx:id="colTitolo" prefWidth="250.0" text="Titolo" />
+                        <TableColumn fx:id="colAutori" prefWidth="250.0" text="Autore/i" />
+                        <TableColumn fx:id="colAnno" prefWidth="80.0" text="Anno" />
+                        <TableColumn fx:id="colIsbn" prefWidth="120.0" text="ISBN" />
+                        <TableColumn fx:id="colDisp" prefWidth="100.0" text="Copie Disp." />
                     </columns>
                     <BorderPane.margin><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></BorderPane.margin>
                 </TableView>
             </center>
+            <bottom>
+                <VBox spacing="10.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+                            <children>
+                                <Label text="Gestione Copie:" textFill="#7f8c8d">
+                                    <font><Font name="System Bold" size="14.0" /></font>
+                                </Label>
+                                <Button mnemonicParsing="false" onAction="#handleAumentaCopie" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-cursor: hand;" text="+ Aumenta" />
+                                <Button mnemonicParsing="false" onAction="#handleRiduciCopie" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="- Riduci" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" style="-fx-padding: 5;">
+                            <children>
+                                <Label fx:id="lblMessaggio" visible="false">
+                                    <font><Font name="System Bold" size="14.0" /></font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </bottom>
         </BorderPane>
 
         <BorderPane fx:id="utentiView" style="-fx-background-color: white;" visible="false">
             <top>
                 <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #e67e22; -fx-padding: 15;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5; -fx-cursor: hand;" text="&lt; Indietro" textFill="WHITE">
                             <font><Font name="System Bold" size="13.0" /></font>
                         </Button>
                         <Label text="Anagrafica Utenti" textFill="WHITE">
@@ -107,13 +130,15 @@
                     <BorderPane.margin><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></BorderPane.margin>
                 </TableView>
             </center>
+            <bottom>
+            </bottom>
         </BorderPane>
 
         <BorderPane fx:id="prestitiView" style="-fx-background-color: white;" visible="false">
             <top>
                 <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #27ae60; -fx-padding: 15;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5; -fx-cursor: hand;" text="&lt; Indietro" textFill="WHITE">
                             <font><Font name="System Bold" size="13.0" /></font>
                         </Button>
                         <Label text="Nuovo Prestito" textFill="WHITE">
@@ -128,29 +153,23 @@
                         <Label text="Registrazione Prestito" textFill="#7f8c8d">
                             <font><Font size="18.0" /></font>
                         </Label>
-
                         <VBox alignment="CENTER_LEFT" maxWidth="400.0" spacing="5.0">
                             <children>
                                 <Label text="Seleziona Studente:" />
                                 <ComboBox fx:id="comboUtenti" prefWidth="400.0" promptText="Cerca per nome..." />
                             </children>
                         </VBox>
-
                         <VBox alignment="CENTER_LEFT" maxWidth="400.0" spacing="5.0">
                             <children>
                                 <Label text="Seleziona Libro:" />
                                 <ComboBox fx:id="comboLibri" prefWidth="400.0" promptText="Cerca per titolo..." />
                             </children>
                         </VBox>
-
                         <Button fx:id="btnRegistraPrestito" mnemonicParsing="false" onAction="#handleRegistraPrestito" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-cursor: hand;" text="CONFERMA PRESTITO" textFill="WHITE">
                             <font><Font name="System Bold" size="14.0" /></font>
                             <VBox.margin><Insets top="10.0" /></VBox.margin>
                         </Button>
 
-                        <Label fx:id="lblMessaggio" visible="false">
-                            <font><Font name="System Bold" size="14.0" /></font>
-                        </Label>
                     </children>
                 </VBox>
             </center>
