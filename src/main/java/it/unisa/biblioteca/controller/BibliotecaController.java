@@ -8,140 +8,145 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane; // Classe generica per VBox, BorderPane, etc.
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
 
 public class BibliotecaController {
 
-    /// --- SEZIONE DATI (MODEL VIEW) --- ///
-    // Liste osservabili: se aggiungi un elemento qui, la tabella si aggiorna da sola.
-    // Al momento sono vuote.
+    /// --- NAVIGAZIONE (I PANNELLI) --- ///
+    // Uso "Pane" che è la classe padre sia di VBox che di BorderPane.
+    // Così il controller è flessibile.
+    @FXML private Pane homeView;
+    @FXML private Pane libriView;
+    @FXML private Pane utentiView;
+    @FXML private Pane prestitiView;
+
+    /// --- DATI (MODEL) --- ///
     private ObservableList<Libro> catalogoLibri = FXCollections.observableArrayList();
     private ObservableList<Utente> anagraficaUtenti = FXCollections.observableArrayList();
 
-
-    /// --- SEZIONE RIFERIMENTI FXML --- ///
-    // Questi devono combaciare con i fx:id nel file .fxml
-
-    // Tabella Libri
+    /// --- TABELLA LIBRI --- ///
     @FXML private TableView<Libro> tabellaLibri;
     @FXML private TableColumn<Libro, String> colTitolo;
     @FXML private TableColumn<Libro, String> colIsbn;
     @FXML private TableColumn<Libro, Integer> colDisp;
 
-    // Tabella Utenti
+    /// --- TABELLA UTENTI --- ///
     @FXML private TableView<Utente> tabellaUtenti;
     @FXML private TableColumn<Utente, String> colMatricola;
     @FXML private TableColumn<Utente, String> colNome;
     @FXML private TableColumn<Utente, String> colCognome;
     @FXML private TableColumn<Utente, String> colEmail;
 
-    // Sezione Prestiti
+    /// --- FORM PRESTITI --- ///
     @FXML private ComboBox<Utente> comboUtenti;
     @FXML private ComboBox<Libro> comboLibri;
-    @FXML private Button btnRegistraPrestito;
-    @FXML private Label lblMessaggio; // Label per feedback errori/successi
+    @FXML private Label lblMessaggio;
 
 
-    /// --- INIZIALIZZAZIONE --- ///
+    /// --- INITIALIZE --- ///
     @FXML
     public void initialize() {
-        // 1. Configuro le colonne della tabella Libri
+        // Setup Colonne Libri
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         colIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         colDisp.setCellValueFactory(new PropertyValueFactory<>("disponibilita"));
 
-        // 2. Configuro le colonne della tabella Utenti
+        // Setup Colonne Utenti
         colMatricola.setCellValueFactory(new PropertyValueFactory<>("matricola"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCognome.setCellValueFactory(new PropertyValueFactory<>("cognome"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        // 3. Collego i dati alle Tabelle
+        // Binding Dati
         tabellaLibri.setItems(catalogoLibri);
         tabellaUtenti.setItems(anagraficaUtenti);
-
-        // 4. Collego i dati alle ComboBox (per la selezione nel form Prestiti)
         comboUtenti.setItems(anagraficaUtenti);
         comboLibri.setItems(catalogoLibri);
+    }
 
-        // NOTA: Non carico dati di prova. Il programma parte vuoto.
-        // Per aggiungere dati, dovrai creare dei metodi pubblici o collegare un DB.
+    /// --- GESTIONE VISIBILITÀ (NAVIGAZIONE) --- ///
+
+    // Metodo privato per spegnere tutto prima di accendere una vista specifica
+    private void resetViste() {
+        homeView.setVisible(false);
+        libriView.setVisible(false);
+        utentiView.setVisible(false);
+        prestitiView.setVisible(false);
+    }
+
+    @FXML
+    public void tornaHome() {
+        resetViste();
+        homeView.setVisible(true);
+    }
+
+    @FXML
+    public void mostraLibri() {
+        resetViste();
+        libriView.setVisible(true);
+    }
+
+    @FXML
+    public void mostraUtenti() {
+        resetViste();
+        utentiView.setVisible(true);
+    }
+
+    @FXML
+    public void mostraPrestiti() {
+        resetViste();
+        prestitiView.setVisible(true);
+        // Pulisco il form quando entro
+        comboUtenti.getSelectionModel().clearSelection();
+        comboLibri.getSelectionModel().clearSelection();
+        lblMessaggio.setVisible(false);
+    }
+
+    @FXML
+    public void mostraInfo() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText("Gestione Biblioteca v1.0");
+        alert.setContentText("Progetto Ingegneria del Software\nStudente: Tuo Nome");
+        alert.showAndWait();
     }
 
 
-    /// --- LOGICA GESTIONE EVENTI --- ///
+    /// --- LOGICA OPERATIVA --- ///
 
-    /**
-     * Gestisce il click sul bottone "Conferma Prestito".
-     * Esegue la logica di business e gestisce eventuali errori del Model.
-     */
     @FXML
     private void handleRegistraPrestito() {
-        resetMessaggio();
+        lblMessaggio.setVisible(false);
 
-        Utente utente = comboUtenti.getValue();
-        Libro libro = comboLibri.getValue();
+        Utente u = comboUtenti.getValue();
+        Libro l = comboLibri.getValue();
 
-        // Validazione GUI (Input mancante)
-        if (utente == null || libro == null) {
-            mostraErrore("Seleziona sia un utente che un libro.");
+        if (u == null || l == null) {
+            mostraErrore("Seleziona utente e libro.");
             return;
         }
 
         try {
-            // 1. Logica di Business (Model)
-            // Verifiche preliminari
-            if (libro.getDisponibilita() < 1) {
-                throw new IllegalStateException("Il libro '" + libro.getTitolo() + "' non è disponibile.");
-            }
+            if (l.getDisponibilita() < 1) throw new IllegalStateException("Libro non disponibile!");
 
-            // Creo il prestito (Il costruttore di Prestito potrebbe lanciare eccezioni)
-            Prestito nuovoPrestito = new Prestito(utente, libro, LocalDate.now());
+            Prestito p = new Prestito(u, l, LocalDate.now());
+            u.aggiungiPrestito(p);
+            l.decrementaDisponibilita();
 
-            // 2. Aggiornamento Stato
-            utente.aggiungiPrestito(nuovoPrestito); // Potrebbe lanciare eccezione (max 5 prestiti)
-            libro.decrementaDisponibilita();
+            mostraSuccesso("Prestito registrato! Scadenza: " + p.getDataFinePrevista());
 
-            // 3. Feedback Positivo
-            mostraSuccesso("Prestito registrato! Scadenza: " + nuovoPrestito.getDataFinePrevista());
-
-            // 4. Refresh Grafico (Importante per vedere il calo disponibilità)
+            // Refresh tabelle per vedere i cambiamenti
             tabellaLibri.refresh();
             tabellaUtenti.refresh();
 
-            // Pulisco la selezione
-            comboLibri.getSelectionModel().clearSelection();
-            comboUtenti.getSelectionModel().clearSelection();
-
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            // Qui catturiamo gli errori lanciati dal tuo Model (es. "Matricola nulla", "Copie esaurite")
-            mostraErrore(e.getMessage());
         } catch (Exception e) {
-            mostraErrore("Errore imprevisto: " + e.getMessage());
-            e.printStackTrace();
+            mostraErrore(e.getMessage());
         }
     }
 
-
-    /// --- METODI DI UTILITÀ (API INTERNA) --- ///
-
-    // Metodi pubblici per permettere di aggiungere dati da altre parti del codice (o futuri form)
-
-    public void aggiungiLibroAlCatalogo(Libro nuovoLibro) {
-        if (nuovoLibro != null) {
-            catalogoLibri.add(nuovoLibro);
-        }
-    }
-
-    public void aggiungiUtenteInAnagrafica(Utente nuovoUtente) {
-        if (nuovoUtente != null) {
-            anagraficaUtenti.add(nuovoUtente);
-        }
-    }
-
-    // Gestione feedback visivo (Label rossa/verde)
     private void mostraErrore(String msg) {
         lblMessaggio.setText(msg);
         lblMessaggio.setTextFill(Color.RED);
@@ -154,8 +159,7 @@ public class BibliotecaController {
         lblMessaggio.setVisible(true);
     }
 
-    private void resetMessaggio() {
-        lblMessaggio.setVisible(false);
-        lblMessaggio.setText("");
-    }
+    // API Pubbliche per inserire dati
+    public void aggiungiLibro(Libro l) { catalogoLibri.add(l); }
+    public void aggiungiUtente(Utente u) { anagraficaUtenti.add(u); }
 }

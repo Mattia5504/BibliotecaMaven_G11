@@ -1,111 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.biblioteca.controller.BibliotecaController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.biblioteca.controller.BibliotecaController">
     <children>
-        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <VBox fx:id="homeView" alignment="CENTER" spacing="40.0" style="-fx-background-color: #ecf0f1;">
             <children>
-                <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+                <VBox alignment="CENTER" spacing="10.0">
                     <children>
-                        <Label text="Gestione Biblioteca UniSa" textFill="WHITE">
-                            <font>
-                                <Font name="System Bold" size="24.0" />
-                            </font>
+                        <Label text="Biblioteca Ingegneria" textFill="#2c3e50">
+                            <font><Font name="System Bold" size="40.0" /></font>
+                        </Label>
+                        <Label text="Scegli un'operazione" textFill="#7f8c8d">
+                            <font><Font size="20.0" /></font>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <GridPane alignment="CENTER" hgap="30.0" vgap="30.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" />
+                        <ColumnConstraints hgrow="NEVER" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="NEVER" />
+                        <RowConstraints vgrow="NEVER" />
+                    </rowConstraints>
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#mostraLibri" prefHeight="120.0" prefWidth="220.0" style="-fx-background-color: #3498db; -fx-cursor: hand;" text="📚 Gestione Libri" textFill="WHITE">
+                            <font><Font name="System Bold" size="18.0" /></font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#mostraUtenti" prefHeight="120.0" prefWidth="220.0" style="-fx-background-color: #e67e22; -fx-cursor: hand;" text="👤 Gestione Utenti" textFill="WHITE" GridPane.columnIndex="1">
+                            <font><Font name="System Bold" size="18.0" /></font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#mostraPrestiti" prefHeight="120.0" prefWidth="220.0" style="-fx-background-color: #27ae60; -fx-cursor: hand;" text="🔄 Nuovo Prestito" textFill="WHITE" GridPane.rowIndex="1">
+                            <font><Font name="System Bold" size="18.0" /></font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#mostraInfo" prefHeight="120.0" prefWidth="220.0" style="-fx-background-color: #7f8c8d; -fx-cursor: hand;" text="ℹ️ Info &amp; Credits" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <font><Font name="System Bold" size="18.0" /></font>
+                        </Button>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+
+        <BorderPane fx:id="libriView" style="-fx-background-color: white;" visible="false">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #3498db; -fx-padding: 15;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                            <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                        <Label text="Catalogo Libri" textFill="WHITE">
+                            <font><Font name="System Bold" size="22.0" /></font>
                         </Label>
                     </children>
                 </HBox>
+            </top>
+            <center>
+                <TableView fx:id="tabellaLibri" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="colTitolo" prefWidth="350.0" text="Titolo" />
+                        <TableColumn fx:id="colIsbn" prefWidth="150.0" text="ISBN" />
+                        <TableColumn fx:id="colDisp" prefWidth="100.0" text="Disponibilità" />
+                    </columns>
+                    <BorderPane.margin><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></BorderPane.margin>
+                </TableView>
+            </center>
+        </BorderPane>
 
-                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                    <tabs>
-
-                        <Tab text="Catalogo Libri">
-                            <content>
-                                <VBox spacing="10.0" style="-fx-padding: 15;">
-                                    <children>
-                                        <Label text="Elenco Libri Disponibili" textFill="#2c3e50">
-                                            <font><Font size="18.0" /></font>
-                                        </Label>
-                                        <TableView fx:id="tabellaLibri" VBox.vgrow="ALWAYS">
-                                            <columns>
-                                                <TableColumn fx:id="colTitolo" prefWidth="300.0" text="Titolo" />
-                                                <TableColumn fx:id="colIsbn" prefWidth="150.0" text="ISBN" />
-                                                <TableColumn fx:id="colDisp" prefWidth="100.0" text="Copie Disp." />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </Tab>
-
-                        <Tab text="Utenti">
-                            <content>
-                                <VBox spacing="10.0" style="-fx-padding: 15;">
-                                    <children>
-                                        <Label text="Utenti Iscritti" textFill="#2c3e50">
-                                            <font><Font size="18.0" /></font>
-                                        </Label>
-                                        <TableView fx:id="tabellaUtenti" VBox.vgrow="ALWAYS">
-                                            <columns>
-                                                <TableColumn fx:id="colMatricola" prefWidth="120.0" text="Matricola" />
-                                                <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome" />
-                                                <TableColumn fx:id="colCognome" prefWidth="150.0" text="Cognome" />
-                                                <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </Tab>
-
-                        <Tab text="Nuovo Prestito">
-                            <content>
-                                <AnchorPane>
-                                    <children>
-                                        <VBox alignment="CENTER" spacing="20.0" layoutX="200.0" layoutY="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
-                                            <children>
-                                                <Label text="Registrazione Nuovo Prestito">
-                                                    <font><Font name="System Bold" size="20.0" /></font>
-                                                </Label>
-
-                                                <VBox spacing="5.0">
-                                                    <children>
-                                                        <Label text="Seleziona Utente:" />
-                                                        <ComboBox fx:id="comboUtenti" prefWidth="400.0" promptText="Scegli lo studente..." />
-                                                    </children>
-                                                </VBox>
-
-                                                <VBox spacing="5.0">
-                                                    <children>
-                                                        <Label text="Seleziona Libro:" />
-                                                        <ComboBox fx:id="comboLibri" prefWidth="400.0" promptText="Scegli il libro da prestare..." />
-                                                    </children>
-                                                </VBox>
-
-                                                <Button fx:id="btnRegistraPrestito" mnemonicParsing="false" onAction="#handleRegistraPrestito" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Conferma Prestito">
-                                                    <font><Font name="System Bold" size="14.0" /></font>
-                                                </Button>
-
-                                                <Label fx:id="lblMessaggio" textFill="#e74c3c" visible="false">
-                                                    <font><Font name="System Italic" size="14.0" /></font>
-                                                </Label>
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-
-                    </tabs>
-                </TabPane>
-
-                <HBox alignment="CENTER_RIGHT" style="-fx-padding: 5; -fx-background-color: #ecf0f1;">
+        <BorderPane fx:id="utentiView" style="-fx-background-color: white;" visible="false">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #e67e22; -fx-padding: 15;" BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="Sistema sviluppato per Ing. Software @UniSa" textFill="#7f8c8d" />
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                            <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                        <Label text="Anagrafica Utenti" textFill="WHITE">
+                            <font><Font name="System Bold" size="22.0" /></font>
+                        </Label>
                     </children>
                 </HBox>
-            </children>
-        </VBox>
+            </top>
+            <center>
+                <TableView fx:id="tabellaUtenti" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="colMatricola" prefWidth="120.0" text="Matricola" />
+                        <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome" />
+                        <TableColumn fx:id="colCognome" prefWidth="150.0" text="Cognome" />
+                        <TableColumn fx:id="colEmail" prefWidth="250.0" text="Email" />
+                    </columns>
+                    <BorderPane.margin><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></BorderPane.margin>
+                </TableView>
+            </center>
+        </BorderPane>
+
+        <BorderPane fx:id="prestitiView" style="-fx-background-color: white;" visible="false">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #27ae60; -fx-padding: 15;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#tornaHome" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="&lt; Indietro" textFill="WHITE">
+                            <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                        <Label text="Nuovo Prestito" textFill="WHITE">
+                            <font><Font name="System Bold" size="22.0" /></font>
+                        </Label>
+                    </children>
+                </HBox>
+            </top>
+            <center>
+                <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label text="Registrazione Prestito" textFill="#7f8c8d">
+                            <font><Font size="18.0" /></font>
+                        </Label>
+
+                        <VBox alignment="CENTER_LEFT" maxWidth="400.0" spacing="5.0">
+                            <children>
+                                <Label text="Seleziona Studente:" />
+                                <ComboBox fx:id="comboUtenti" prefWidth="400.0" promptText="Cerca per nome..." />
+                            </children>
+                        </VBox>
+
+                        <VBox alignment="CENTER_LEFT" maxWidth="400.0" spacing="5.0">
+                            <children>
+                                <Label text="Seleziona Libro:" />
+                                <ComboBox fx:id="comboLibri" prefWidth="400.0" promptText="Cerca per titolo..." />
+                            </children>
+                        </VBox>
+
+                        <Button fx:id="btnRegistraPrestito" mnemonicParsing="false" onAction="#handleRegistraPrestito" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-cursor: hand;" text="CONFERMA PRESTITO" textFill="WHITE">
+                            <font><Font name="System Bold" size="14.0" /></font>
+                            <VBox.margin><Insets top="10.0" /></VBox.margin>
+                        </Button>
+
+                        <Label fx:id="lblMessaggio" visible="false">
+                            <font><Font name="System Bold" size="14.0" /></font>
+                        </Label>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+
     </children>
-</AnchorPane>
+</StackPane>
