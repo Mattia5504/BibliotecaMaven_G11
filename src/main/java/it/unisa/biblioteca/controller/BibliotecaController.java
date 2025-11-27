@@ -248,7 +248,10 @@ public class BibliotecaController {
         view.getBtnElimina().setOnAction(e -> {
             Prestito selezionato = view.getTabella().getSelectionModel().getSelectedItem();
             if (selezionato == null) { showAlert("Attenzione", "Seleziona un prestito."); return; }
-            if (confermaAzione("Elimina Prestito", "Rimuovere dallo storico?")) prestiti.remove(selezionato);
+            if (confermaAzione("Elimina Prestito", "Rimuovere dallo storico?")) {
+                selezionato.getLibro().incrementaDisponibilita();
+                prestiti.remove(selezionato);
+            }
         });
 
         stage.setTitle("Registro Prestiti - Gruppo 11");
