@@ -92,9 +92,9 @@ public class Utente implements Serializable {
             throw new IllegalArgumentException("Il prestito non corrisponde a questo utente!");
         }
 
-        // Esempio regola di business: max 5 libri contemporaneamente
-        if (prestitiAttivi.size() >= 5) {
-            throw new IllegalStateException("Limite prestiti raggiunto (max 5).");
+        // Esempio regola di business: max 3 libri contemporaneamente
+        if (prestitiAttivi.size() >= 3) {
+            throw new IllegalStateException("Limite prestiti raggiunto (max 3).");
         }
 
         this.prestitiAttivi.add(prestito);

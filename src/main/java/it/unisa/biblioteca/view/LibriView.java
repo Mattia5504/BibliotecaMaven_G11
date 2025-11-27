@@ -16,18 +16,19 @@ public class LibriView extends BorderPane {
     private TableView<Libro> tabella = new TableView<>();
     private Button btnIndietro = new Button("< Indietro");
     private Button btnNuovo = new Button("+ Aggiungi Libro");
+    private Button btnElimina = new Button("🗑 Elimina Selezionato"); // <--- NUOVO
     private Button btnPiu = new Button("+ Copie");
     private Button btnMeno = new Button("- Copie");
 
-    // --- ELEMENTI RICERCA ---
+    // Ricerca
     private TextField txtRicerca = new TextField();
     private ComboBox<String> cmbCriterio = new ComboBox<>();
-    private Button btnCerca = new Button("🔍 Cerca"); // <--- NUOVO TASTO
+    private Button btnCerca = new Button("🔍 Cerca");
 
     public LibriView(ObservableList<Libro> libri) {
         this.setPadding(new Insets(15));
 
-        // Setup Tabella
+        // Colonne
         TableColumn<Libro, String> colTitolo = new TableColumn<>("Titolo");
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         colTitolo.setPrefWidth(250);
@@ -49,17 +50,15 @@ public class LibriView extends BorderPane {
         tabella.getColumns().addAll(colTitolo, colAutori, colAnno, colIsbn, colDisp);
         tabella.setItems(libri);
 
-        // --- TOP BAR ---
+        // Top Bar
         HBox navBar = new HBox(15, btnIndietro, new Label("CATALOGO LIBRI"));
         navBar.setAlignment(Pos.CENTER_LEFT);
 
-        // Barra Ricerca
         txtRicerca.setPromptText("Testo da cercare...");
         txtRicerca.setPrefWidth(200);
         cmbCriterio.getItems().addAll("Titolo", "ISBN", "Autore", "Anno");
         cmbCriterio.setValue("Titolo");
 
-        // Aggiungo il bottone alla barra
         HBox searchBar = new HBox(10, new Label("Cerca per:"), cmbCriterio, txtRicerca, btnCerca);
         searchBar.setAlignment(Pos.CENTER_RIGHT);
 
@@ -68,8 +67,11 @@ public class LibriView extends BorderPane {
         topPane.setRight(searchBar);
         topPane.setPadding(new Insets(0,0,15,0));
 
-        // --- BOTTOM BAR ---
-        HBox bottomBar = new HBox(10, btnNuovo, new Separator(), new Label("Gestione Copie:"), btnPiu, btnMeno);
+        // --- BOTTOM BAR AGGIORNATA ---
+        // Ho aggiunto btnElimina e l'ho stilizzato rosso
+        btnElimina.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
+
+        HBox bottomBar = new HBox(10, btnNuovo, btnElimina, new Separator(), new Label("Gestione Copie:"), btnPiu, btnMeno);
         bottomBar.setPadding(new Insets(15,0,0,0));
         bottomBar.setAlignment(Pos.CENTER_LEFT);
 
@@ -81,10 +83,11 @@ public class LibriView extends BorderPane {
     public TableView<Libro> getTabella() { return tabella; }
     public Button getBtnIndietro() { return btnIndietro; }
     public Button getBtnNuovo() { return btnNuovo; }
+    public Button getBtnElimina() { return btnElimina; } // <--- Getter
     public Button getBtnPiu() { return btnPiu; }
     public Button getBtnMeno() { return btnMeno; }
     public TextField getTxtRicerca() { return txtRicerca; }
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
-    public Button getBtnCerca() { return btnCerca; } // <--- Getter aggiunto
+    public Button getBtnCerca() { return btnCerca; }
     public void refresh() { tabella.refresh(); }
 }

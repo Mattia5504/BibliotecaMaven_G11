@@ -14,16 +14,16 @@ public class UtentiView extends BorderPane {
     private TableView<Utente> tabella = new TableView<>();
     private Button btnIndietro = new Button("< Indietro");
     private Button btnNuovo = new Button("+ Nuovo Utente");
+    private Button btnElimina = new Button("🗑 Elimina Utente"); // <--- NUOVO
 
     // Ricerca
     private TextField txtRicerca = new TextField();
     private ComboBox<String> cmbCriterio = new ComboBox<>();
-    private Button btnCerca = new Button("🔍 Cerca"); // <--- NUOVO
+    private Button btnCerca = new Button("🔍 Cerca");
 
     public UtentiView(ObservableList<Utente> utenti) {
         this.setPadding(new Insets(15));
 
-        // Colonne
         TableColumn<Utente, String> colMatr = new TableColumn<>("Matricola");
         colMatr.setCellValueFactory(new PropertyValueFactory<>("matricola"));
 
@@ -40,7 +40,7 @@ public class UtentiView extends BorderPane {
         tabella.getColumns().addAll(colMatr, colNome, colCognome, colEmail);
         tabella.setItems(utenti);
 
-        // --- TOP LAYOUT ---
+        // Top Layout
         HBox navBar = new HBox(15, btnIndietro, new Label("ANAGRAFICA UTENTI"));
         navBar.setAlignment(Pos.CENTER_LEFT);
 
@@ -56,8 +56,9 @@ public class UtentiView extends BorderPane {
         topPane.setRight(searchBar);
         topPane.setPadding(new Insets(0,0,15,0));
 
-        // Bottom
-        HBox bottomBar = new HBox(15, btnNuovo);
+        // Bottom Layout
+        btnElimina.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
+        HBox bottomBar = new HBox(15, btnNuovo, btnElimina);
         bottomBar.setPadding(new Insets(15,0,0,0));
 
         this.setTop(topPane);
@@ -67,8 +68,9 @@ public class UtentiView extends BorderPane {
 
     public Button getBtnIndietro() { return btnIndietro; }
     public Button getBtnNuovo() { return btnNuovo; }
+    public Button getBtnElimina() { return btnElimina; } // <--- Getter
     public TableView<Utente> getTabella() { return tabella; }
     public TextField getTxtRicerca() { return txtRicerca; }
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
-    public Button getBtnCerca() { return btnCerca; } // <--- Getter aggiunto
+    public Button getBtnCerca() { return btnCerca; }
 }
