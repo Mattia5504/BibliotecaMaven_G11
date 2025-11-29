@@ -18,7 +18,7 @@ import java.util.Optional;
 
 /**
  * Controller principale - Gruppo 11.
- * Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle partono vuote. BUOOOOOOMBA
+ * Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle partono vuote.
  */
 public class BibliotecaController {
 
@@ -41,6 +41,16 @@ public class BibliotecaController {
         stage.setOnCloseRequest(event -> gestoreFile.salvaTutto(catalogo, anagrafica, prestiti));
     }
 
+    /**
+     * Chiamata alla scene della Home.
+     * <p>
+     *     Permette di visualizzare la schermata principale con i bottoni di accesso alle varie sezioni:
+     *     -Gestione Libri
+     *     -Gestione Utenti
+     *     -Gestione Prestiti
+     *     -Project Info
+     * </p>
+     */
     public void mostraHome() {
         HomeView view = new HomeView();
         view.getBtnLibri().setOnAction(e -> mostraLibri());
