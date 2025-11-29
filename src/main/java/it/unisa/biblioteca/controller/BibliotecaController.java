@@ -17,8 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller principale - Gruppo 11.
- * Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle partono vuote.
+ * Controller principale.
+ * <p>
+ *     La "mente" del progetto, attraverso il controller vengono effettuate tutte le operazioni logiche, sui dati messi
+ *     a disposizione dalle altre classi.
+ *     Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle di visualizzazione partono vuote.
+ * </p>
+ *
  */
 public class BibliotecaController {
 
@@ -29,6 +34,18 @@ public class BibliotecaController {
     private ObservableList<Utente> anagrafica = FXCollections.observableArrayList();
     private ObservableList<Prestito> prestiti = FXCollections.observableArrayList();
 
+    /**
+     * Costruttore del controller
+     * <p>
+     *     Inizializza lo stage che viene passato come parametro.
+     *     Si occupa di effettuare il caricamento del file dati all'avvio del programma ({@link caricaTutto})
+     *     e si occupa di effettuare il salvataggio automatico in caso di tentativo di chiusura del programma ({@link salvaTutto})
+     *
+     * </p>
+     * @param stage stage da caricare passato come parametro
+     * @see caricaTutto
+     * @see salvaTutto
+     */
     public BibliotecaController(Stage stage) {
         this.stage = stage;
 
@@ -63,6 +80,17 @@ public class BibliotecaController {
     }
 
     // --- GESTIONE LIBRI ---
+
+    /**
+     * Inizializza la view del catalogo libri
+     * <p>
+     *     Inizializza la view del catalogo libri ({@link LibriView}), e di conseguenza tutte le componenti in essa contenute
+     *
+     * </p>
+     * @see tableView
+     * @see LibriView
+     *
+     */
     public void mostraLibri() {
         LibriView view = new LibriView(catalogo);
 
@@ -131,6 +159,30 @@ public class BibliotecaController {
         stage.setScene(new Scene(view, 900, 600));
     }
 
+    /**
+     * Inizializza la schermata per l'aggiunta di un libro
+     *
+     * <p>
+     *     Inizializza la schermata per l'aggiunta di un libro {@link AggiungiLibroView}
+     *     <br>
+     *     I parametri da specificare sono:
+     *     <ul>
+     *          <li>Titolo({@link String})</li>
+     *          <li>Autore({@link String})</li>
+     *          <li>Data di Pubblicazione({@link LocalDate})</li>
+     *          <li>Isbn({@link String})</li>
+     *          <li>Disponibilità(int)</li>
+     *     </ul>
+     *
+     * </p>
+     *
+     *
+     *
+     *
+     * @see Libro
+     * @throws IllegalArgumentException
+     */
+
     public void mostraAggiungiLibro() {
         AggiungiLibroView view = new AggiungiLibroView();
         view.getBtnAnnulla().setOnAction(e -> mostraLibri());
@@ -159,6 +211,17 @@ public class BibliotecaController {
     }
 
     // --- GESTIONE UTENTI ---
+
+    /**
+     * Inizializza la view dell'anagrafica utenti
+     * <p>
+     *     Inizializza la view dell'anagrafica utenti ({@link UtentiView}), e di conseguenza tutte le componenti in essa contenute
+     *
+     * </p>
+     * @see tableView
+     * @see LibriView
+     *
+     */
     public void mostraUtenti() {
         UtentiView view = new UtentiView(anagrafica);
         FilteredList<Utente> filteredData = new FilteredList<>(anagrafica, u -> true);
@@ -203,6 +266,29 @@ public class BibliotecaController {
         stage.setTitle("Gestione Utenti - Gruppo 11");
         stage.setScene(new Scene(view, 900, 600));
     }
+
+    /**
+     * Inizializza la schermata per l'aggiunta di un Utente
+     *
+     * <p>
+     *     Inizializza la schermata per l'aggiunta di un Utente {@link AggiungiUtenteView}
+     *     <br>
+     *     I parametri da specificare sono:
+     *     <ul>
+     *          <li>Nome({@link String})</li>
+     *          <li>Cognome({@link String})</li>
+     *          <li>Email({@link String})</li>
+     *          <li>Matricola({@link String})</li>
+     *     </ul>
+     *
+     * </p>
+     *
+     *
+     *
+     *
+     * @see Utente
+     * @throws IllegalArgumentException
+     */
 
     public void mostraAggiungiUtente() {
         AggiungiUtenteView view = new AggiungiUtenteView();
@@ -364,7 +450,14 @@ public class BibliotecaController {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    /// ... FUNZIONE CHE INIZIALIZZA IL FILE DAT IN MODO DA AVERE 60 LIBRI e 60 UTENTI PER INIZIARE ... ///
+    /**
+     * Inizializza il file archivio se non vi sono elementi presenti.
+     * <p>
+     *     Inizializza il file archivio se non vi sono elementi presenti.
+     *     <b>PROVA DI TEST, DA ELIMINARE</b>
+     * </p>
+      */
+
 
     private void inizializzaDatiProva() {
         System.out.println("Generazione dati di test massivi in corso...");
