@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -155,6 +157,44 @@ public class BibliotecaController {
                 catch (IllegalStateException ex) { showAlert("Attenzione", ex.getMessage()); }
             }
         });
+
+        ///Sezione per la gestione di editing dati dalla table
+
+
+        view.getTabella().setEditable(true);
+
+        // Colonna titolo
+        TableColumn<Libro, String> colTitolo = (TableColumn<Libro, String>) view.getTabella().getColumns().get(0);
+        colTitolo.setCellFactory(TextFieldTableCell.forTableColumn());
+        colTitolo.setOnEditCommit(event -> {
+            Libro libro = event.getRowValue();
+            String nuovoTitolo = event.getNewValue();
+            try {
+                libro.setTitolo(nuovoTitolo); // Validazione dati della classe LIBRO
+            } catch (IllegalArgumentException ex) {
+                showAlert("Errore Modifica", ex.getMessage());
+                view.getTabella().refresh(); // Ripristina il valore vecchio
+            }
+        });
+
+        // --- COLONNA AUTORI ---
+        TableColumn<Libro, String> colAutori = (TableColumn<Libro, String>) view.getTabella().getColumns().get(1);
+        colAutori.setCellFactory(TextFieldTableCell.forTableColumn());
+        colAutori.setOnEditCommit(event -> {
+            Libro libro = event.getRowValue();
+            String stringaAutori = event.getNewValue();
+            try {
+                // Converto stringa in lista
+                List<String> listaAutori = Arrays.asList(stringaAutori.split(","));
+                // Pulisco spazi extra
+                listaAutori.replaceAll(String::trim);
+                libro.setAutori(listaAutori);
+            } catch (IllegalArgumentException ex) {
+                showAlert("Errore Autori", ex.getMessage());
+                view.getTabella().refresh();
+            }
+        });
+
 
         stage.setTitle("Gestione Libri - Gruppo 11");
         stage.setScene(new Scene(view, 900, 600));
