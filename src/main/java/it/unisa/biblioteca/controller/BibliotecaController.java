@@ -103,6 +103,7 @@ public class BibliotecaController {
             view.getTabella().setPlaceholder(new Label("Ci sono molti libri. Usa la ricerca per visualizzarli."));
         }
 
+        //Associo ogni modifica della filtered list alla tableview del catalogo
         view.getTabella().setItems(filteredData);
 
         view.getBtnCerca().setOnAction(e -> {
