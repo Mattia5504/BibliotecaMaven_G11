@@ -50,19 +50,19 @@ public class LibriView extends BorderPane {
         tabella.getColumns().addAll(colTitolo, colAutori, colAnno, colIsbn, colDisp);
         tabella.setItems(libri);
 
-        colTitolo.prefWidthProperty().bind(tabella.widthProperty().multiply(0.35).subtract(1));
+        colTitolo.prefWidthProperty().bind(tabella.widthProperty().multiply(0.35).subtract(15));
 
         // Autori: 30% dello spazio
-        colAutori.prefWidthProperty().bind(tabella.widthProperty().multiply(0.30).subtract(1));
+        colAutori.prefWidthProperty().bind(tabella.widthProperty().multiply(0.30).subtract(15));
 
         // ISBN: 15% dello spazio
-        colIsbn.prefWidthProperty().bind(tabella.widthProperty().multiply(0.15).subtract(1));
+        colIsbn.prefWidthProperty().bind(tabella.widthProperty().multiply(0.15).subtract(15));
 
         // Anno: 10% dello spazio
-        colAnno.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(1));
+        colAnno.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(15));
 
         // Disponibilità: 10% dello spazio
-        colDisp.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(1));
+        colDisp.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(15));
 
 
 
