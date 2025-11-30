@@ -314,6 +314,17 @@ public class BibliotecaController {
     }
 
     // --- GESTIONE PRESTITI ---
+
+    /**
+     * Inizializza la view dell'anagrafica utenti
+     * <p>
+     *     Inizializza la view del catalogo prestiti ({@link PrestitiView}), e di conseguenza tutte le componenti in esso contenute
+     *
+     * </p>
+     * @see tableView
+     * @see PrestitiView
+     *
+     */
     public void mostraPrestiti() {
         PrestitiView view = new PrestitiView(prestiti);
         FilteredList<Prestito> filteredData = new FilteredList<>(prestiti, p -> true);
@@ -355,6 +366,19 @@ public class BibliotecaController {
     }
 
     // --- NUOVO PRESTITO CON SPLIT VIEW ---
+
+    /**
+     * Inizalizza la schermata per la registrazione di un nuovo prestito
+     *
+     * <p>
+     *     Inizializza la schermata per la registrazione di un nuovo prestito ({@link AggiungiPrestitoView}), mostrando all'interno della {@link tableView}
+     *     di sinistra l'anagrafica degli utenti, e nella {@link tableView} di destra il catalogo libri. Selezionando un elemento
+     *     dalla prima tabella e un elemento dalla seconda, sarà possibile registrare un prestito
+     * </p>
+     *
+     * @see AggiungiLibroView
+     * @throws IllegalArgumentException
+     */
     public void mostraAggiungiPrestito() {
         AggiungiPrestitoView view = new AggiungiPrestitoView(anagrafica, catalogo);
 
@@ -428,11 +452,25 @@ public class BibliotecaController {
     }
 
     // --- UTILS ---
+
+    /**
+     * Inizializza la schermata per la visione dei creators del progetto
+     */
     private void mostraInfo() {
         String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuck";
         showAlert("Credits", credits);
     }
 
+    /**
+     * Generatore di una schermata di alert
+     * <p>
+     *     Genera una schermata di alert per segnalare eventuali errori durante l'esecuzione del programma.
+     *     Il titolo e il contenuto del warning devono essere passati come parametri ({@link String}).
+     * </p>
+     * @param titolo
+     * @param contenuto
+     * @see Alert
+     */
     private void showAlert(String titolo, String contenuto) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titolo);
@@ -441,6 +479,17 @@ public class BibliotecaController {
         alert.showAndWait();
     }
 
+    /**
+     * Generatore di una schermata di conferma operazione
+     *
+     * <p>
+     *     Genera una schermata di alert per chiedere conferma di eventuali operazioni critiche.
+     *     Il titolo e il contenuto della schermata devono essere passati come parametri ({@link String})
+     * </p>
+     * @param titolo
+     * @param domanda
+     * @return boolean
+     */
     private boolean confermaAzione(String titolo, String domanda) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titolo);
