@@ -127,6 +127,23 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Costruttore del gestore caricamento file</p>
+<p>Legge nell'esatto ordine di scrittura e popola le <code><a class="el" href="">ObservableList</a></code> corrispondenti, in modo da ripristinare l'esatto stato dell'ultimo salvataggio </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">catalogo</td><td></td></tr>
+    <tr><td class="paramname">anagrafica</td><td></td></tr>
+    <tr><td class="paramname">prestiti</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IOException</td><td></td></tr>
+    <tr><td class="paramname">ClassNotFoundException</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -153,6 +170,22 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Costruttore del gestore salvataggio file</p>
+<p>Converte le <code><a class="el" href="">ObservableList</a></code> passate come parametri in array "semplici", così da permettere serializzazione. Il salvataggio tramite <code><a class="el" href="">ObjectOutputStream</a></code> avviene nell'ordine dei parametri </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">libri</td><td></td></tr>
+    <tr><td class="paramname">utenti</td><td></td></tr>
+    <tr><td class="paramname">prestiti</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IOException</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -22,7 +22,7 @@ public class GestoreFile {
      *
      * <p>
      *     Converte le {@link ObservableList} passate come parametri in array "semplici", così da permettere
-     *     serializzazione.
+     *     la serializzazione.
      *     Il salvataggio tramite {@link ObjectOutputStream} avviene nell'ordine dei parametri
      * </p>
      * @param libri
