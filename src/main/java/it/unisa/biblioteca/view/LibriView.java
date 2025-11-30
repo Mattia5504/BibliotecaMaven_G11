@@ -31,24 +31,49 @@ public class LibriView extends BorderPane {
         // Colonne
         TableColumn<Libro, String> colTitolo = new TableColumn<>("Titolo");
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
-        colTitolo.setPrefWidth(250);
+        //colTitolo.setPrefWidth(250);
 
         TableColumn<Libro, String> colAutori = new TableColumn<>("Autore/i");
         colAutori.setCellValueFactory(cell -> new SimpleStringProperty(String.join(", ", cell.getValue().getAutori())));
-        colAutori.setPrefWidth(200);
+        //colAutori.setPrefWidth(200);
 
         TableColumn<Libro, Integer> colAnno = new TableColumn<>("Anno");
         colAnno.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getDataPubblicazione().getYear()));
 
         TableColumn<Libro, String> colIsbn = new TableColumn<>("ISBN");
         colIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-        colIsbn.setPrefWidth(120);
+        //colIsbn.setPrefWidth(120);
 
         TableColumn<Libro, Integer> colDisp = new TableColumn<>("Disp.");
         colDisp.setCellValueFactory(new PropertyValueFactory<>("disponibilita"));
 
         tabella.getColumns().addAll(colTitolo, colAutori, colAnno, colIsbn, colDisp);
         tabella.setItems(libri);
+
+        colTitolo.prefWidthProperty().bind(tabella.widthProperty().multiply(0.35).subtract(1));
+
+        // Autori: 30% dello spazio
+        colAutori.prefWidthProperty().bind(tabella.widthProperty().multiply(0.30).subtract(1));
+
+        // ISBN: 15% dello spazio
+        colIsbn.prefWidthProperty().bind(tabella.widthProperty().multiply(0.15).subtract(1));
+
+        // Anno: 10% dello spazio
+        colAnno.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(1));
+
+        // Disponibilità: 10% dello spazio
+        colDisp.prefWidthProperty().bind(tabella.widthProperty().multiply(0.10).subtract(1));
+
+
+
+        tabella.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        for (TableColumn<?, ?> col : tabella.getColumns()) {
+            col.setResizable(false);
+            col.setStyle("-fx-alignment: CENTER-LEFT;");
+        }
+
+        colAnno.setStyle("-fx-alignment: CENTER;");
+        colDisp.setStyle("-fx-alignment: CENTER;");
 
         // Top Bar
         HBox navBar = new HBox(15, btnIndietro, new Label("CATALOGO LIBRI"));

@@ -304,6 +304,56 @@ public class BibliotecaController {
             }
         });
 
+        view.getTabella().setEditable(true);
+
+        //COLONNA NOME
+        TableColumn<Utente,String> colNome = (TableColumn<Utente, String>) view.getTabella().getColumns().get(1);
+        colNome.setCellFactory(TextFieldTableCell.forTableColumn());
+        colNome.setOnEditCommit(event -> {
+            Utente utente = event.getRowValue();
+            String nuovoNome = event.getNewValue();
+            try{
+                utente.setNome(nuovoNome);
+            }
+            catch(IllegalArgumentException ex){
+                showAlert("Errore modifica", ex.getMessage());
+                view.getTabella().refresh();
+            }
+
+        });
+
+        //COLONNA COGNOME
+        TableColumn<Utente,String> colCognome = (TableColumn<Utente, String>) view.getTabella().getColumns().get(2);
+        colCognome.setCellFactory(TextFieldTableCell.forTableColumn());
+        colCognome.setOnEditCommit(event -> {
+            Utente utente = event.getRowValue();
+            String nuovoCognome = event.getNewValue();
+            try{
+                utente.setCognome(nuovoCognome);
+            }
+            catch(IllegalArgumentException ex){
+                showAlert("Errore modifica", ex.getMessage());
+                view.getTabella().refresh();
+            }
+
+        });
+
+        //COLONNA EMAIL
+        TableColumn<Utente,String> colEmail = (TableColumn<Utente, String>) view.getTabella().getColumns().get(3);
+        colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
+        colEmail.setOnEditCommit(event -> {
+            Utente utente = event.getRowValue();
+            String nuovaEmail = event.getNewValue();
+            try{
+                utente.setEmail(nuovaEmail);
+            }
+            catch(IllegalArgumentException ex){
+                showAlert("Errore modifica", ex.getMessage());
+                view.getTabella().refresh();
+            }
+
+        });
+
         stage.setTitle("Gestione Utenti - Gruppo 11");
         stage.setScene(new Scene(view, 900, 600));
     }

@@ -35,10 +35,32 @@ public class UtentiView extends BorderPane {
 
         TableColumn<Utente, String> colEmail = new TableColumn<>("Email");
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colEmail.setPrefWidth(220);
+
+
+
+
+
 
         tabella.getColumns().addAll(colMatr, colNome, colCognome, colEmail);
         tabella.setItems(utenti);
+
+        //--- BINDING MATEMATICO ---
+        //forza ogni colonna a essere esattamente 1/4 della larghezza totale
+        // subtract(2) serve a evitare la comparsa della scrollbar orizzontale per pochi pixel
+        colMatr.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
+        colNome.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
+        colCognome.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
+        colEmail.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
+
+
+        // Blocca il ridimensionamento manuale
+        for (TableColumn<?, ?> col : tabella.getColumns()) {
+            col.setResizable(false);
+            col.setStyle("-fx-alignment: CENTER-LEFT;");
+        }
+
+
+
 
         // Top Layout
         HBox navBar = new HBox(15, btnIndietro, new Label("ANAGRAFICA UTENTI"));
