@@ -619,8 +619,8 @@ public class BibliotecaController {
             catalogo.add(l);
         }
 
-        // Genero 60 Utenti
-        for (int i = 1; i <= 60; i++) {
+        // Genero 30 Utenti
+        for (int i = 1; i <= 30; i++) {
             // Matricola valida (numeri, max 10 cifre)
             String matricolaFinta = String.format("%06d", i);
 
