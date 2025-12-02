@@ -394,7 +394,7 @@ public class BibliotecaController {
         view.getBtnSalva().setOnAction(e -> {
             try {
                 String matr = view.getTxtMatricola().getText().trim();
-                if (!matr.matches("\\d{1,10}")) throw new IllegalArgumentException("Matricola max 10 cifre.");
+                if (!matr.matches("\\d{1,10}")) throw new IllegalArgumentException("Matricola deve essere composto da sole 10 CIFRE");
                 if(matr.length() < 10 ) throw new IllegalArgumentException("La matricola deve essere composta da 10 cifre");
                 for(Utente u : anagrafica) if(u.getMatricola().equals(matr)) throw new IllegalArgumentException("Matricola esistente.");
 
