@@ -19,7 +19,7 @@ public class Utente implements Serializable {
     private String email;
 
     // --- CAMPI IMMUTABILI ---
-    // La matricola è la mia Primary Key logica: non deve cambiare mai!
+    // La matricola è la Primary Key logica: non deve cambiare mai!
     private final String matricola;
 
     // Uso una lista di Prestiti (e non di Libri) perché mi serve sapere le date di scadenza
