@@ -36,4 +36,58 @@ public class UtenteTest {
             new Utente(null,"Cognome","0612709899","pippo@gmail.com");
         });
     }
+
+    @Test
+    public void testCognomeEmpty(){
+        System.out.println("Test Cognome empty (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","","0612709899","pippo@gmail.com");
+        });
+    }
+
+    @Test
+    public void testCognomeNull(){
+        System.out.println("Test cognome null (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo",null,"0612709899","pippo@gmail.com");
+        });
+    }
+
+    @Test
+    public void testMatricolaEmpty(){
+        System.out.println("Test Matricola empty (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","Prova","","pippo@gmail.com");
+        });
+    }
+
+    @Test
+    public void testMatricolaNull(){
+        System.out.println("Test Matricola null (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","Prova",null,"pippo@gmail.com");
+        });
+    }
+
+    @Test
+    public void testMatricolaMinore10(){
+        System.out.println("Test matricola composta da <10 cifre (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","Prova","061270989","pippo@gmail.com");
+        });
+    }
+
+    @Test
+    public void testMatricolaMaggiore10(){
+        System.out.println("Test Matricola composta da 10> cifre (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo",null,"06127098999","pippo@gmail.com");
+        });
+    }
 }
