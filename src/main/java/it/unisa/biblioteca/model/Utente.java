@@ -35,6 +35,10 @@ public class Utente implements Serializable {
             throw new IllegalArgumentException("Errore: La matricola è obbligatoria.");
         }
 
+        if(matricola.length() != 10){
+            throw new IllegalArgumentException("Errore: la matricola deve essere composta da esattamente 10 cifre");
+        }
+
         this.matricola = matricola;
         this.prestitiAttivi = new ArrayList<>(); // Inizializzo la lista vuota per evitare NullPointer
 
