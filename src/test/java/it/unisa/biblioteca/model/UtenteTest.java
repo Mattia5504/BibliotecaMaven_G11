@@ -92,6 +92,28 @@ public class UtenteTest {
     }
 
     @Test
+    void testEmailNonValida() {
+        System.out.println("Test formati Email non validi");
+
+        // Caso 1: Manca la chiocciola
+        Exception ex1 = assertThrows(IllegalArgumentException.class, () -> {
+            new Utente("Mario", "Rossi", "0512100001", "mariorossi.it");
+        });
+        System.out.println("1. Senza chiocciola: " + ex1.getMessage());
+
+        // Caso 2: Manca il punto dopo la chiocciola (Il tuo problema attuale)
+        Exception ex2 = assertThrows(IllegalArgumentException.class, () -> {
+            new Utente("Mario", "Rossi", "0512100001", "mario@libero"); // Senza .it
+        });
+        System.out.println("2. Senza estensione: " + ex2.getMessage());
+
+        // Caso 3: Email vuota
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Utente("Mario", "Rossi", "0512100001", "");
+        });
+    }
+
+    @Test
     public void testEmailEmpty(){
         System.out.println("Test Email empty (deve fallire)");
 
