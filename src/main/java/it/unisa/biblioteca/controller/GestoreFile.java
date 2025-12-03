@@ -18,18 +18,24 @@ public class GestoreFile {
     private static final String FILE_DATI = "database_biblioteca.dat";
 
     /**
-     * Costruttore del gestore salvataggio file
+     * @brief Salva su file binario tutti i dati del sistema (libri, utenti e prestiti).
      *
-     * <p>
-     *     Converte le {@link ObservableList} passate come parametri in array "semplici", così da permettere
-     *     la serializzazione.
-     *     Il salvataggio tramite {@link ObjectOutputStream} avviene nell'ordine dei parametri
-     * </p>
-     * @param libri
-     * @param utenti
-     * @param prestiti
-     * @throws IOException
+     * Questo metodo serializza le liste fornite convertendole prima da
+     * {@code ObservableList} a {@code ArrayList}, poiché le ObservableList
+     * non sono direttamente serializzabili. I dati vengono scritti nel file
+     * indicato da {@code FILE_DATI}.
+     *
+     * @param libri    Lista osservabile contenente i libri da salvare.
+     * @param utenti   Lista osservabile degli utenti registrati.
+     * @param prestiti Lista osservabile dei prestiti correnti.
+     *
+     * @throws IOException Se si verifica un errore durante la scrittura del file.
+     *
+     * @see ObjectOutputStream
+     * @see FileOutputStream
      */
+
+
     public void salvaTutto(ObservableList<Libro> libri, ObservableList<Utente> utenti, ObservableList<Prestito> prestiti) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_DATI))) {
 
@@ -46,19 +52,24 @@ public class GestoreFile {
     }
 
     /**
-     * Costruttore del gestore caricamento file
+     * @brief Carica dal file binario tutti i dati salvati (libri, utenti e prestiti).
      *
-     * <p>
-     *     Legge nell'esatto ordine di scrittura e popola le {@link ObservableList} corrispondenti, in modo da ripristinare
-     *     l'esatto stato dell'ultimo salvataggio
-     * </p>
-     * @param catalogo
-     * @param anagrafica
-     * @param prestiti
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * Questo metodo deserializza il contenuto del file indicato da {@code FILE_DATI}
+     * e ripristina le liste osservabili passate come parametro. Se il file non esiste,
+     * l'operazione viene semplicemente ignorata. I dati vengono letti nello stesso
+     * ordine in cui erano stati precedentemente salvati.
      *
+     * @param catalogo    Lista osservabile in cui verranno caricati i libri.
+     * @param anagrafica  Lista osservabile degli utenti da ripristinare.
+     * @param prestiti    Lista osservabile dei prestiti da ripristinare.
+     *
+     * @throws IOException Se si verifica un errore durante la lettura del file.
+     * @throws ClassNotFoundException Se le classi degli oggetti serializzati non vengono trovate.
+     *
+     * @see ObjectInputStream
+     * @see FileInputStream
      */
+
     @SuppressWarnings("unchecked")
     public void caricaTutto(ObservableList<Libro> catalogo, ObservableList<Utente> anagrafica, ObservableList<Prestito> prestiti) {
         File file = new File(FILE_DATI);
