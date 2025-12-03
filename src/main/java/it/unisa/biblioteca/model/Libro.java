@@ -17,6 +17,27 @@ public class Libro implements Serializable {
 
 
     ///  --- Costruttore ---///
+    /**
+     * @brief Costruisce un nuovo oggetto Libro con titolo, autori, data di pubblicazione, ISBN e disponibilità.
+     *
+     * Questo costruttore applica diversi controlli di validazione sugli argomenti
+     * (invarianti di classe) per garantire la creazione di un oggetto coerente.
+     * Viene inoltre effettuata una *defensive copy* della lista degli autori per
+     * evitare che modifiche esterne possano alterare lo stato interno dell'oggetto.
+     *
+     * @param titolo             Titolo del libro; non può essere nullo o vuoto.
+     * @param autori             Lista degli autori; deve contenere almeno un autore.
+     * @param dataPubblicazione  Data di pubblicazione del libro (può essere null se non gestita).
+     * @param isbn               Codice ISBN del libro; non può essere nullo o vuoto.
+     * @param disponibilita      Numero di copie disponibili; deve essere almeno 1.
+     *
+     * @throws IllegalArgumentException Se uno degli argomenti non rispetta gli invarianti:
+     *                                  - titolo nullo o vuoto
+     *                                  - ISBN nullo o vuoto
+     *                                  - lista autori nulla o vuota
+     *                                  - disponibilità minore di 1
+     */
+
     public Libro(String titolo, List<String> autori, LocalDate dataPubblicazione, String isbn, int disponibilita) {
         // 1. Validazione dei dati (Invarianti di classe)
         //Da capire se mantenerlo o meno
