@@ -624,7 +624,7 @@ public class BibliotecaController {
         // Genero 30 Utenti per test
         for (int i = 1; i <= 30; i++) {
             // Matricola valida (numeri, max 10 cifre)
-            String matricolaFinta = String.format("%06d", i);
+            String matricolaFinta = String.format("%010d", i);
 
             Utente u = new Utente(
                     "Studente",
