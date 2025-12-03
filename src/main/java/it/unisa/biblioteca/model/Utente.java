@@ -26,7 +26,7 @@ public class Utente implements Serializable {
     private final List<Prestito> prestitiAttivi;
 
     // Regex standard per validare la mail (copiata per sicurezza formale)
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
 
     // Costruttore: inizializza lo stato dell'oggetto
     public Utente(String nome, String cognome, String matricola, String email) {
