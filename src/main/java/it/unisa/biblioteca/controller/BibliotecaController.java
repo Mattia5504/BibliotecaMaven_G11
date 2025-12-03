@@ -388,7 +388,7 @@ public class BibliotecaController {
         view.getTxtMatricola().textProperty().addListener((obs, old, nev) -> {
             int len = nev.length();
             view.getLblContatoreMatr().setText(len + " su 10");
-            view.getLblContatoreMatr().setTextFill((len > 0 && len <= 10 && nev.matches("\\d+")) ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+            view.getLblContatoreMatr().setTextFill((len == 10 && nev.matches("\\d+")) ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         });
 
         view.getBtnSalva().setOnAction(e -> {
