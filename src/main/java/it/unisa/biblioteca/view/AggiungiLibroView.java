@@ -1,3 +1,5 @@
+///c'è la possibilità di fare un test con TESTFX///
+
 package it.unisa.biblioteca.view;
 
 import javafx.geometry.Insets;
