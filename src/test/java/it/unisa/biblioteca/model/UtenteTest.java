@@ -90,4 +90,47 @@ public class UtenteTest {
             new Utente("Pippo",null,"06127098999","pippo@gmail.com");
         });
     }
+
+    @Test
+    public void testEmailEmpty(){
+        System.out.println("Test Email empty (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","Prova","0612709896","");
+        });
+    }
+
+    @Test
+    public void testEmailNull(){
+        System.out.println("Test Email null (deve fallire)");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            new Utente("Pippo","Prova","0612709896",null);
+        });
+    }
+
+    @Test
+    public void testPrestitoNull(){
+        System.out.println("Test prestito null (deve fallire)");
+
+        Utente u = new Utente("Nome", "Cognome","0612709899","pippo@gmail.com");
+
+        assertThrows(IllegalArgumentException.class, ()->{
+            u.aggiungiPrestito(null);
+        });
+
+    }
+
+    @Test
+    public void testPrestitoValido(){
+        System.out.println("Test prestito valido, verifica che un nuovo prestito ritorni il giusdto utente e il giusto libro");
+        Utente u = new Utente("Nome", "Cognome","0612709899","pippo@gmail.com");
+        List<String> autori = Arrays.asList("Autore 1", "Autore 2");
+        LocalDate data = LocalDate.of(2023, 1, 1);
+        Libro l = new Libro("Carica",autori,data,"1234567891011",5);
+        Prestito p = new Prestito(u,l,LocalDate.now());
+
+        assertEquals(p.getUtente(),u);
+        assertEquals(p.getLibro(),l);
+    }
 }
