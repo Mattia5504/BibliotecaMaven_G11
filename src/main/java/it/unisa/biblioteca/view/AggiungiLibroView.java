@@ -1,4 +1,4 @@
-///c'è la possibilità di fare un test con TESTFX///
+///c'è la possibilità di fare un test delle view TESTFX///
 
 package it.unisa.biblioteca.view;
 
