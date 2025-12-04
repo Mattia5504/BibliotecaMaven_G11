@@ -9,8 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
- * Schermata per registrare un nuovo utente.
- * Aggiornata con contatore caratteri per Matricola.
+ * @brief Form per la registrazione di un nuovo utente.
+ * * Questa schermata presenta un modulo di inserimento dati strutturato su un GridPane.
+ * Include logiche di feedback visivo per il campo matricola.
  */
 public class AggiungiUtenteView extends VBox {
 
@@ -25,6 +26,11 @@ public class AggiungiUtenteView extends VBox {
     private Button btnSalva = new Button("Salva Utente");
     private Button btnAnnulla = new Button("Annulla");
 
+    /**
+     * @brief Costruttore della view.
+     * * Inizializza i campi di testo e li dispone in una griglia.
+     * Posiziona accanto al campo Matricola una label per il conteggio dei caratteri.
+     */
     public AggiungiUtenteView() {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
@@ -54,11 +60,49 @@ public class AggiungiUtenteView extends VBox {
         this.getChildren().addAll(new Label("REGISTRAZIONE NUOVO UTENTE"), grid, buttons);
     }
 
+    /**
+     * @brief Restituisce il campo d'inserimento nome.
+     * @return TextField per l'inserimento.
+     */
     public TextField getTxtNome() { return txtNome; }
+
+    /**
+     * @brief Restituisce il campo d'inserimento cognome.
+     * @return TextField per l'inserimento.
+     */
     public TextField getTxtCognome() { return txtCognome; }
+
+    /**
+     * @brief Restituisce il campo d'inserimento matricola.
+     * @return TextField per l'inserimento.
+     */
     public TextField getTxtMatricola() { return txtMatricola; }
+
+    /**
+     * @brief Restituisce la label contatore per la matricola.
+     * * Il controller userà questa label per mostrare quanti caratteri sono stati digitati (es. "5 su 10")
+     * e cambiarne il colore (Verde/Rosso).
+     * @return Label di feedback.
+     */
     public Label getLblContatoreMatr() { return lblContatoreMatr; } // <--- Getter Fondamentale
+
+    /**
+     * @brief Restituisce il campo d'inserimento email.
+     * @return TextField per l'inserimento.
+     */
     public TextField getTxtEmail() { return txtEmail; }
+
+    /**
+     *
+     * @brief Restituisce il bottone per effettuare il salvataggio
+     * @return Button per il salvataggio
+     */
     public Button getBtnSalva() { return btnSalva; }
+
+    /**
+     *
+     * @brief Restituisce il bottone per annullare la scelta
+     * @return Button per annullare
+     */
     public Button getBtnAnnulla() { return btnAnnulla; }
 }
