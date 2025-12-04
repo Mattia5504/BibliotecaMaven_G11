@@ -9,6 +9,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * @brief Vista per la gestione dell'Anagrafica Utenti.
+ * * Visualizza l'elenco degli utenti registrati e fornisce gli strumenti per
+ * la ricerca, l'aggiunta e la rimozione.
+ * * @details
+ * **Layout:**
+ * - **TOP**: Barra di navigazione e filtri di ricerca (Cognome, Matricola, Email).
+ * - **CENTER**: Tabella con colonne ridimensionabili automaticamente.
+ * - **BOTTOM**: Pulsanti operativi.
+ * * **Responsive Design:**
+ * Le colonne (Matricola, Nome, Cognome, Email) sono vincolate (bound) per occupare
+ * esattamente 1/4 della larghezza disponibile ciascuna.
+ */
 public class UtentiView extends BorderPane {
 
     private TableView<Utente> tabella = new TableView<>();
@@ -21,6 +34,12 @@ public class UtentiView extends BorderPane {
     private ComboBox<String> cmbCriterio = new ComboBox<>();
     private Button btnCerca = new Button("🔍 Cerca");
 
+    /**
+     * @brief Costruttore della UtentiView.
+     * * Configura la tabella collegando le colonne alle proprietà della classe `Utente`.
+     * Imposta i binding matematici per dividere equamente lo spazio tra le colonne.
+     * * @param utenti La lista osservabile degli utenti da mostrare.
+     */
     public UtentiView(ObservableList<Utente> utenti) {
         this.setPadding(new Insets(15));
 
@@ -88,11 +107,45 @@ public class UtentiView extends BorderPane {
         this.setBottom(bottomBar);
     }
 
+    /**
+     * @brief Restituisce il pulsante Indietro.
+     * @return Button navigazione.
+     */
     public Button getBtnIndietro() { return btnIndietro; }
+
+    /**
+     * @brief Restituisce il pulsante Nuovo Utente.
+     * @return Button apertura form creazione.
+     */
     public Button getBtnNuovo() { return btnNuovo; }
+
+    /**
+     * @brief Restituisce il pulsante Elimina.
+     * @return Button cancellazione utente selezionato.
+     */
     public Button getBtnElimina() { return btnElimina; } // <--- Getter
+
+    /**
+     * @brief Restituisce la tabella utenti.
+     * @return TableView per la gestione della selezione.
+     */
     public TableView<Utente> getTabella() { return tabella; }
+
+    /**
+     * @brief Restituisce il campo di ricerca testo.
+     * @return TextField input utente.
+     */
     public TextField getTxtRicerca() { return txtRicerca; }
+
+    /**
+     * @brief Restituisce il filtro di ricerca selezionato.
+     * @return ComboBox criteri (Cognome, Matricola, Email).
+     */
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+
+    /**
+     * @brief Restituisce il pulsante di ricerca.
+     * @return Button azione filtro.
+     */
     public Button getBtnCerca() { return btnCerca; }
 }
