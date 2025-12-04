@@ -114,7 +114,11 @@ public class BibliotecaController {
         view.getBtnUtenti().setOnAction(e -> mostraUtenti());
         view.getBtnPrestiti().setOnAction(e -> mostraPrestiti());
         view.getBtnInfo().setOnAction(e -> mostraInfo());
-
+        view.getBtnEsci().setOnAction(e -> {
+            // Salva i dati e chiude (chiama la funzione che già fa il salvataggio)
+            gestoreFile.salvaTutto(catalogo, anagrafica, prestiti);
+            System.exit(0);
+        });
         // SOSTITUISCI TUTTA LA LOGICA DI SCENE/SCREEN CON QUESTA RIGA:
         cambiaVista(view, "Gestionale Biblioteca - Home");
     }
@@ -125,7 +129,6 @@ public class BibliotecaController {
      * Inizializza la view del catalogo libri
      * <p>
      *     Inizializza la view del catalogo libri ({@link LibriView}), e di conseguenza tutte le componenti in essa contenute
-     *
      * </p>
      * @see tableView
      * @see LibriView
