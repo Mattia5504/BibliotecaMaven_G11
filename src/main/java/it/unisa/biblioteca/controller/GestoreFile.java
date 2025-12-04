@@ -50,7 +50,7 @@ public class GestoreFile {
             e.printStackTrace();
         }
     }
-
+ 
     /**
      * @brief Carica dal file binario tutti i dati salvati (libri, utenti e prestiti).
      *
@@ -68,10 +68,8 @@ public class GestoreFile {
      *
      * @see ObjectInputStream
      * @see FileInputStream
-     */
-
-    @SuppressWarnings("unchecked")
-    public void caricaTutto(ObservableList<Libro> catalogo, ObservableList<Utente> anagrafica, ObservableList<Prestito> prestiti) {
+     * */
+     public void caricaTutto(ObservableList<Libro> catalogo, ObservableList<Utente> anagrafica, ObservableList<Prestito> prestiti) {
         File file = new File(FILE_DATI);
         if (!file.exists()) return;
 
