@@ -7,6 +7,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * @brief Rappresenta un utente della biblioteca.
+ * * Questa classe definisce l'entità Utente all'interno del sistema.
+ * Gestisce i dati anagrafici e mantiene la lista dei prestiti attivi.
+ * Implementa Serializable per permettere il salvataggio su file.
+ * * L'identità dell'utente è definita univocamente dalla sua matricola.
+ */
+
 public class Utente implements Serializable {
 
     
@@ -29,6 +37,17 @@ public class Utente implements Serializable {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
 
     // Costruttore: inizializza lo stato dell'oggetto
+    /**
+     * @brief Costruttore della classe Utente.
+     * * Inizializza un nuovo utente controllando la validità dei dati.
+     * La matricola viene controllata immediatamente in quanto final.
+     * * @param nome Il nome dell'utente.
+     * @param cognome Il cognome dell'utente.
+     * @param matricola La matricola univoca (deve essere di 10 cifre).
+     * @param email L'indirizzo email dell'utente.
+     * * @throws IllegalArgumentException Se la matricola è nulla, vuota o non composta da 10 cifre.
+     * @throws IllegalArgumentException Se nome, cognome o email non rispettano i criteri di validazione.
+     */
     public Utente(String nome, String cognome, String matricola, String email) {
         // Controllo subito la matricola perché è l'unico dato che non potrò cambiare dopo
         if (matricola == null || matricola.trim().isEmpty()) {
@@ -51,6 +70,11 @@ public class Utente implements Serializable {
 
     // --- SETTER (Logica di modifica) --- //
 
+    /**
+     * @brief Imposta il nome dell'utente.
+     * * @param nome Il nuovo nome da assegnare.
+     * @throws IllegalArgumentException Se il nome è nullo o vuoto.
+     */
     public void setNome(String nome) {
         // Controllo base: niente stringhe vuote
         if (nome == null || nome.trim().isEmpty()) {
@@ -59,6 +83,11 @@ public class Utente implements Serializable {
         this.nome = nome;
     }
 
+    /**
+     * @brief Imposta il cognome dell'utente.
+     * * @param cognome Il nuovo cognome da assegnare.
+     * @throws IllegalArgumentException Se il cognome è nullo o vuoto.
+     */
     public void setCognome(String cognome) {
         if (cognome == null || cognome.trim().isEmpty()) {
             throw new IllegalArgumentException("Il cognome non può essere vuoto.");
@@ -66,6 +95,12 @@ public class Utente implements Serializable {
         this.cognome = cognome;
     }
 
+    /**
+     * @brief Imposta l'email dell'utente.
+     * * Verifica che la stringa passata rispetti il pattern standard delle email.
+     * * @param email La nuova email da assegnare.
+     * @throws IllegalArgumentException Se l'email è nulla o non rispetta il formato valido.
+     */
     public void setEmail(String email) {
         // Controllo che il formato sia tipo "testo@testo"
         if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
