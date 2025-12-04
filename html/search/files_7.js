@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['utente_2ejava_0',['Utente.java',['../_utente_8java.html',1,'']]],
-  ['utentiview_2ejava_1',['UtentiView.java',['../_utenti_view_8java.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
 ];

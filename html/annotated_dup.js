@@ -10,7 +10,9 @@ var annotated_dup =
           [ "model", "namespaceit_1_1unisa_1_1biblioteca_1_1model.html", [
             [ "Libro", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro" ],
             [ "Prestito", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito" ],
-            [ "Utente", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente" ]
+            [ "Utente", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente" ],
+            [ "LibroTest", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test" ],
+            [ "UtenteTest", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test" ]
           ] ],
           [ "view", "namespaceit_1_1unisa_1_1biblioteca_1_1view.html", [
             [ "AggiungiLibroView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view" ],

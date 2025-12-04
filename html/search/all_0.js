@@ -8,5 +8,6 @@ var searchData=
   ['aggiungiutenteview_5',['AggiungiUtenteView',['../classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_utente_view.html',1,'it.unisa.biblioteca.view.AggiungiUtenteView'],['../classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_utente_view.html#afa6a8764fb4a1bb9822686f446cfa6bd',1,'it.unisa.biblioteca.view.AggiungiUtenteView.AggiungiUtenteView()']]],
   ['aggiungiutenteview_2ejava_6',['AggiungiUtenteView.java',['../_aggiungi_utente_view_8java.html',1,'']]],
   ['anagrafica_7',['anagrafica',['../classit_1_1unisa_1_1biblioteca_1_1controller_1_1_biblioteca_controller.html#ac13d880097c7b2b74ade0882a9e2d56b',1,'it::unisa::biblioteca::controller::BibliotecaController']]],
-  ['autori_8',['autori',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html#a5f78a0b5ef7c3066ba6f033be1017151',1,'it::unisa::biblioteca::model::Libro']]]
+  ['autori_8',['autori',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html#a5f78a0b5ef7c3066ba6f033be1017151',1,'it.unisa.biblioteca.model.Libro.autori'],['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#a25779fa414786e45a4f867026c1e690c',1,'it.unisa.biblioteca.model.LibroTest.autori']]],
+  ['avviare_20il_20progetto_9',['🚀 Come avviare il progetto',['../md__r_e_a_d_m_e.html#autotoc_md3',1,'']]]
 ];

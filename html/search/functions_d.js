@@ -1,4 +1,22 @@
 var searchData=
 [
-  ['tostring_0',['toString',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html#a573c0eb41d439cf10425ace8fb2f8234',1,'it.unisa.biblioteca.model.Prestito.toString()'],['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html#a4463372aa2f6103d9c2ae78ed7b5e7a9',1,'it.unisa.biblioteca.model.Utente.toString()']]]
+  ['testcognomeempty_0',['testCognomeEmpty',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a43cd354a42087cf689b2dc1027449719',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testcognomenull_1',['testCognomeNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a2c08b61c57b43173ec2a9543ee52ca93',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testcostruttorecopienegative_2',['testCostruttoreCopieNegative',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#a5c488f7caf26eba4ef708e032744efee',1,'it::unisa::biblioteca::model::LibroTest']]],
+  ['testcostruttoretitolonull_3',['testCostruttoreTitoloNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#a9e2b590ca58f2bd8257539a43e2155b0',1,'it::unisa::biblioteca::model::LibroTest']]],
+  ['testcostruttorevalido_4',['testCostruttoreValido',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#a3f2c31717b951d15786bc65351793fac',1,'it.unisa.biblioteca.model.LibroTest.testCostruttoreValido()'],['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#ab89138981e22768e1f98f3e2ec029f70',1,'it.unisa.biblioteca.model.UtenteTest.testCostruttoreValido()']]],
+  ['testdecrementadisponibilitaerrore_5',['testDecrementaDisponibilitaErrore',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#a044d6ff94a780d693ea6242e72289f16',1,'it::unisa::biblioteca::model::LibroTest']]],
+  ['testdecrementadisponibilitaok_6',['testDecrementaDisponibilitaOk',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#ae212ed80f4ad712936d26de8e61ce763',1,'it::unisa::biblioteca::model::LibroTest']]],
+  ['testemailempty_7',['testEmailEmpty',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a710730e192e44020c33d608b231c6e32',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testemailnull_8',['testEmailNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#aedfe143e9f0af9e9871b120bf21f6233',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testincrementadisponibilita_9',['testIncrementaDisponibilita',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro_test.html#af7b857f703e668d4f24354827fbf0fbc',1,'it::unisa::biblioteca::model::LibroTest']]],
+  ['testmatricolaempty_10',['testMatricolaEmpty',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a446564cc7fa8dc9d5e134ef875f8b572',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testmatricolamaggiore10_11',['testMatricolaMaggiore10',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a4e6756759e306fdacee63f7aaf7a92af',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testmatricolaminore10_12',['testMatricolaMinore10',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a90f19560f876ff124ea426a817aef00a',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testmatricolanull_13',['testMatricolaNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a5c569d7c886375cd2157b2b76e0c97d1',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testnomeempty_14',['testNomeEmpty',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#a1af1ad504470ebdaa501847986ea0ad0',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testnomenull_15',['testNomeNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#aba7a63d516a240b0426d2d0f5c39dfeb',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testprestitonull_16',['testPrestitoNull',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#ab355f0c73ceb915c0e5d8800bb8640ac',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['testprestitovalido_17',['testPrestitoValido',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html#af84bf623d5e3802dd673881a055693b5',1,'it::unisa::biblioteca::model::UtenteTest']]],
+  ['tostring_18',['toString',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html#a573c0eb41d439cf10425ace8fb2f8234',1,'it.unisa.biblioteca.model.Prestito.toString()'],['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html#a4463372aa2f6103d9c2ae78ed7b5e7a9',1,'it.unisa.biblioteca.model.Utente.toString()']]]
 ];

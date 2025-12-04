@@ -51,5 +51,6 @@ var searchData=
   ['gettxtsearchutente_48',['getTxtSearchUtente',['../classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#ab28df4120162e1a67d3e76a669466be6',1,'it::unisa::biblioteca::view::AggiungiPrestitoView']]],
   ['gettxttitolo_49',['getTxtTitolo',['../classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view.html#ac54dde600759a74bd1636fc29770e8ef',1,'it::unisa::biblioteca::view::AggiungiLibroView']]],
   ['getutente_50',['getUtente',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html#ae1663ede2a40cf2abf0c37942ae2e5c3',1,'it::unisa::biblioteca::model::Prestito']]],
-  ['giorniallascadenza_51',['giorniAllaScadenza',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html#aee7006339e82f925b53611673e28d489',1,'it::unisa::biblioteca::model::Prestito']]]
+  ['giorniallascadenza_51',['giorniAllaScadenza',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html#aee7006339e82f925b53611673e28d489',1,'it::unisa::biblioteca::model::Prestito']]],
+  ['gruppo_52',['👥 Membri del Gruppo',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]]
 ];
