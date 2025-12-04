@@ -5,13 +5,17 @@ import it.unisa.biblioteca.view.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -61,24 +65,58 @@ public class BibliotecaController {
     }
 
     /**
+     * Metodo centralizzato per il cambio schermata.
+     * Gestisce la modalità "Borderless Windowed" (Finto Fullscreen).
+     */
+    private void cambiaVista(Parent view, String titolo) {
+        // 1. Configurazione UNA TANTUM all'avvio
+        if (stage.getScene() == null) {
+            // Rimuove la barra del titolo (X, -, []) e i bordi
+            // QUESTO è il segreto del "Windowless"
+            stage.initStyle(StageStyle.UNDECORATED);
+
+            // Calcola le dimensioni dello schermo
+            Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+            // Usa .getBounds() se vuoi coprire ANCHE la barra delle applicazioni (tutto tutto)
+            // Usa .getVisualBounds() se vuoi lasciare visibile la barra sotto.
+
+            // Imposta dimensioni e posizione manuali
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+
+            // Crea la scena
+            Scene scene = new Scene(view);
+            stage.setScene(scene);
+        } else {
+            // Navigazione successiva: cambia solo il contenuto
+            stage.setTitle(titolo); // Il titolo non si vede ma serve per la taskbar
+            stage.getScene().setRoot(view);
+        }
+
+        // IMPORTANTE: NON usare setFullScreen(true) qui, altrimenti torni alla modalità gioco.
+        // L'effetto fullscreen è dato dal fatto che è UNDECORATED e grande quanto il monitor.
+        stage.show();
+    }
+
+    /**
      * Chiamata alla scene della Home.
      * <p>
-     *     Permette di visualizzare la schermata principale con i bottoni di accesso alle varie sezioni:
-     *     -Gestione Libri
-     *     -Gestione Utenti
-     *     -Gestione Prestiti
-     *     -Project Info
+     * Permette di visualizzare la schermata principale adattandosi dinamicamente
+     * alle dimensioni del monitor (Responsive Design), evitando dimensioni hardcoded.
      * </p>
      */
     public void mostraHome() {
         HomeView view = new HomeView();
+        // ... (tuoi listener rimangono uguali) ...
         view.getBtnLibri().setOnAction(e -> mostraLibri());
         view.getBtnUtenti().setOnAction(e -> mostraUtenti());
         view.getBtnPrestiti().setOnAction(e -> mostraPrestiti());
         view.getBtnInfo().setOnAction(e -> mostraInfo());
 
-        stage.setTitle("Biblioteca - Gruppo 11 Home");
-        stage.setScene(new Scene(view, 900, 600));
+        // SOSTITUISCI TUTTA LA LOGICA DI SCENE/SCREEN CON QUESTA RIGA:
+        cambiaVista(view, "Gestionale Biblioteca - Home");
     }
 
     // --- GESTIONE LIBRI ---
@@ -196,8 +234,8 @@ public class BibliotecaController {
         });
 
 
-        stage.setTitle("Gestione Libri - Gruppo 11");
-        stage.setScene(new Scene(view, 900, 600));
+        cambiaVista(view, "Gestionale Biblioteca - Gestione Libri");
+
     }
 
     /**
@@ -248,7 +286,7 @@ public class BibliotecaController {
                 mostraLibri();
             } catch (Exception ex) { showAlert("Errore", ex.getMessage()); }
         });
-        stage.setScene(new Scene(view, 600, 500));
+        cambiaVista(view, "Gestionale Biblioteca - Aggiungi Libro");
     }
 
     // --- GESTIONE UTENTI ---
@@ -354,8 +392,8 @@ public class BibliotecaController {
 
         });
 
-        stage.setTitle("Gestione Utenti - Gruppo 11");
-        stage.setScene(new Scene(view, 900, 600));
+        cambiaVista(view, "Gestionale Biblioteca - Gestione Utenti");
+
     }
 
     /**
@@ -402,7 +440,7 @@ public class BibliotecaController {
                 mostraUtenti();
             } catch (Exception ex) { showAlert("Errore", ex.getMessage()); }
         });
-        stage.setScene(new Scene(view, 600, 400));
+        cambiaVista(view, "Gestionale Biblioteca - Aggiungi Utente");
     }
 
     // --- GESTIONE PRESTITI ---
@@ -454,8 +492,8 @@ public class BibliotecaController {
             }
         });
 
-        stage.setTitle("Registro Prestiti - Gruppo 11");
-        stage.setScene(new Scene(view, 900, 600));
+        cambiaVista(view, "Gestionale Biblioteca - Gestione Prestiti");
+
     }
 
     // --- NUOVO PRESTITO CON SPLIT VIEW ---
@@ -541,7 +579,7 @@ public class BibliotecaController {
             } catch (Exception ex) { showAlert("Errore", ex.getMessage()); }
         });
 
-        stage.setScene(new Scene(view, 900, 600));
+        cambiaVista(view, "Gestionale Biblioteca - Aggiungi Prestiti");
     }
 
     // --- UTILS ---
