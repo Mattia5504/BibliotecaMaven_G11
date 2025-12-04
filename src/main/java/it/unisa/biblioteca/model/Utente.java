@@ -111,18 +111,48 @@ public class Utente implements Serializable {
 
     // --- GETTER (Accesso ai dati) ---
 
+    /**
+     * @brief Restituisce il nome dell'utente.
+     * @return Stringa contenente il nome.
+     */
     public String getNome() { return nome; }
+    /**
+     * @brief Restituisce il cognome dell'utente.
+     * @return Stringa contenente il cognome.
+     */
     public String getCognome() { return cognome; }
+    /**
+     * @brief Restituisce l'email dell'utente.
+     * @return Stringa contenente l'email.
+     */
     public String getEmail() { return email; }
+    /**
+     * @brief Restituisce la matricola dell'utente.
+     * @return Stringa contenente la matricola (ID univoco).
+     */
     public String getMatricola() { return matricola; }
 
     // --- GESTIONE PRESTITI ---
 
     // Ritorno una lista "unmodifiable" così nessuno può fare getPrestiti().clear() da fuori rompendo tutto
+    /**
+     * @brief Restituisce la lista dei prestiti attivi.
+     * * Restituisce una vista non modificabile della lista dei prestiti.
+     * Per aggiungere o rimuovere prestiti, usare i metodi dedicati `aggiungiPrestito` e `rimuoviPrestito`.
+     * * @return List&lt;Prestito&gt; Lista non modificabile dei prestiti.
+     */
     public List<Prestito> getPrestitiAttivi() {
         return Collections.unmodifiableList(prestitiAttivi);
     }
 
+    /**
+     * @brief Aggiunge un prestito alla lista dell'utente.
+     * * Effettua controlli di coerenza (prestito intestato all'utente corretto)
+     * e regole di business (massimo 3 prestiti contemporanei).
+     * * @param prestito L'oggetto Prestito da aggiungere.
+     * @throws IllegalArgumentException Se il prestito è nullo o non appartiene a questo utente.
+     * @throws IllegalStateException Se l'utente ha già raggiunto il limite massimo di prestiti (3).
+     */
     public void aggiungiPrestito(Prestito prestito) {
         if (prestito == null) throw new IllegalArgumentException("Non posso aggiungere un prestito nullo.");
 
@@ -139,6 +169,10 @@ public class Utente implements Serializable {
         this.prestitiAttivi.add(prestito);
     }
 
+    /**
+     * @brief Rimuove un prestito dalla lista dell'utente.
+     * * @param prestito Il prestito da rimuovere.
+     */
     public void rimuoviPrestito(Prestito prestito) {
         this.prestitiAttivi.remove(prestito);
     }
@@ -147,6 +181,12 @@ public class Utente implements Serializable {
     // Importante: due oggetti Utente sono lo "stesso" utente se hanno la stessa matricola.
     // Serve per far funzionare correttamente le liste e le ricerche.
 
+    /**
+     * @brief Confronta questo utente con un altro oggetto.
+     * * Due utenti sono considerati uguali se hanno la stessa matricola.
+     * * @param o L'oggetto con cui confrontare.
+     * @return true se gli oggetti sono uguali, false altrimenti.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -155,11 +195,21 @@ public class Utente implements Serializable {
         return Objects.equals(matricola, utente.matricola);
     }
 
+    /**
+     * @brief Calcola l'hash code dell'utente.
+     * * Basato esclusivamente sulla matricola.
+     * * @return Valore hash intero.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(matricola);
     }
 
+    /**
+     * @brief Restituisce una rappresentazione in stringa dell'utente.
+     * * Formato: "Nome Cognome (Matricola)"
+     * * @return Stringa descrittiva dell'utente.
+     */
     @Override
     public String toString() {
         return nome + " " + cognome + " (" + matricola + ")";
