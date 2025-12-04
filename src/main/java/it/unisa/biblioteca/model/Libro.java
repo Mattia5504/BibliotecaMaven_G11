@@ -108,12 +108,12 @@ public class Libro implements Serializable {
     }
 
     /// --- Gestione Stato ---
-    ///Aumenta la disponibilità (es. restituzione o acquisto nuove copie).
+    ///Aumenta la disponibilità (es. Restituzione o acquisto nuove copie).
     public void incrementaDisponibilita() {
         this.disponibilita++;
     }
 
-    ///Diminuisce la disponibilità (es. prestito).
+    ///Diminuisce la disponibilità (es. Prestito).
     //////@throws IllegalStateException se non ci sono copie disponibili.
 
     public void decrementaDisponibilita() {

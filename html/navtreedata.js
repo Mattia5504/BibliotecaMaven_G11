@@ -25,11 +25,6 @@
 var NAVTREE =
 [
   [ "Biblioteca Gruppo 11", "index.html", [
-    [ "Biblioteca Maven", "md__r_e_a_d_m_e.html", [
-      [ "👥 Membri del Gruppo", "md__r_e_a_d_m_e.html#autotoc_md1", null ],
-      [ "🛠️ Requisiti", "md__r_e_a_d_m_e.html#autotoc_md2", null ],
-      [ "🚀 Come avviare il progetto", "md__r_e_a_d_m_e.html#autotoc_md3", null ]
-    ] ],
     [ "Packages", "namespaces.html", [
       [ "Package List", "namespaces.html", "namespaces_dup" ]
     ] ],
@@ -38,22 +33,16 @@ var NAVTREE =
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "All", "functions.html", null ],
+        [ "Functions", "functions_func.html", null ]
       ] ]
-    ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_aggiungi_libro_view_8java.html",
-"classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view.html#af9ea62782083dd11214f1c50447180d7",
-"index.html"
+"annotated.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
