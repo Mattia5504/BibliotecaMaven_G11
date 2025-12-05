@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 /**
  * @brief Form per la registrazione di un nuovo utente.
  * * Questa schermata presenta un modulo di inserimento dati strutturato su un GridPane.
- * Include logiche di feedback visivo per il campo matricola.
+ * Include logiche di feedback visivo, come il contatore dei caratteri per la matricola.
  */
 public class AggiungiUtenteView extends VBox {
 

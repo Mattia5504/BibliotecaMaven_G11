@@ -12,8 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
- * Schermata avanzata per la creazione di un prestito.
- * Layout: Split View (Utenti a sinistra, Libri a destra) con ricerca indipendente.
+ * @brief Schermata avanzata per la creazione di un prestito.
+ * * Utilizza un layout a "Vista Divisa" (Split View):
+ * - **Sinistra**: Elenco Utenti ricercabile.
+ * - **Destra**: Catalogo Libri ricercabile.
+ * * L'operatore seleziona un elemento da entrambe le liste e conferma l'associazione.
  */
 public class AggiungiPrestitoView extends BorderPane {
 
@@ -33,6 +36,13 @@ public class AggiungiPrestitoView extends BorderPane {
     private Button btnSalva = new Button("✅ Conferma Prestito");
     private Button btnAnnulla = new Button("❌ Annulla");
 
+    /**
+     * @brief Costruttore della AggiungiPrestitoView.
+     * * Inizializza i due pannelli laterali e la barra di azione inferiore.
+     * Configura la visualizzazione condizionale per la disponibilità dei libri (rosso se 0).
+     * * @param utenti Lista osservabile utenti.
+     * @param libri Lista osservabile libri.
+     */
     public AggiungiPrestitoView(ObservableList<Utente> utenti, ObservableList<Libro> libri) {
         this.setPadding(new Insets(20));
         this.setStyle("-fx-background-color: #f4f6f7;"); // Sfondo leggero
@@ -151,17 +161,68 @@ public class AggiungiPrestitoView extends BorderPane {
         return box;
     }
 
-    // --- GETTERS ---
+    /**
+     * @brief Restituisce la tabella degli utenti.
+     * @return TableView utenti.
+     */
     public TableView<Utente> getTableUtenti() { return tableUtenti; }
+
+    /**
+     * @brief Restituisce il campo di ricerca utente.
+     * @return TextField.
+     */
     public TextField getTxtSearchUtente() { return txtSearchUtente; }
+
+    /**
+     * @brief Restituisce il filtro di ricerca utente.
+     * @return ComboBox.
+     */
     public ComboBox<String> getCmbFilterUtente() { return cmbFilterUtente; }
+
+    /**
+     * @brief Restituisce il pulsante di ricerca utente.
+     * @return Button.
+     */
     public Button getBtnCercaUtente() { return btnCercaUtente; }
 
+    // --- GETTERS (Lato Destro) ---
+
+    /**
+     * @brief Restituisce la tabella dei libri.
+     * @return TableView libri.
+     */
     public TableView<Libro> getTableLibri() { return tableLibri; }
+
+    /**
+     * @brief Restituisce il campo di ricerca libro.
+     * @return TextField.
+     */
     public TextField getTxtSearchLibro() { return txtSearchLibro; }
+
+    /**
+     * @brief Restituisce il filtro di ricerca libro.
+     * @return ComboBox.
+     */
     public ComboBox<String> getCmbFilterLibro() { return cmbFilterLibro; }
+
+    /**
+     * @brief Restituisce il pulsante di ricerca libro.
+     * @return Button.
+     */
     public Button getBtnCercaLibro() { return btnCercaLibro; }
 
+    // --- GETTERS (Azioni) ---
+
+    /**
+     * @brief Restituisce il pulsante di conferma.
+     * @return Button conferma.
+     */
     public Button getBtnSalva() { return btnSalva; }
+
+    /**
+     * @brief Restituisce il pulsante di annullamento.
+     * @return Button annulla.
+     */
     public Button getBtnAnnulla() { return btnAnnulla; }
+
 }

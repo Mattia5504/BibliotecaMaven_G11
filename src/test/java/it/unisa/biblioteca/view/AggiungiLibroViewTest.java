@@ -44,10 +44,15 @@ public class AggiungiLibroViewTest {
         // --- FASE 1: Scrittura (Uso i GETTER per dire al robot dove scrivere) ---
 
         // Clicca sul campo titolo (preso dal getter) e scrivi
-        robot.clickOn(view.getTxtTitolo()).write("Il Signore degli Anelli");
+        robot.clickOn(view.getTxtTitolo()).write("Ingegneria Del Software");
+
+        robot.clickOn(view.getTxtAutori()).write("Pippo, Paperino");
+
 
         // Verifica che il testo sia stato inserito
-        assertEquals("Il Signore degli Anelli", view.getTxtTitolo().getText());
+        assertEquals("Ingegneria Del Software", view.getTxtTitolo().getText());
+
+        assertEquals("Pippo, Paperino", view.getTxtAutori().getText());
 
 
         // --- FASE 2: Validazione ISBN (Rosso) ---
@@ -70,10 +75,17 @@ public class AggiungiLibroViewTest {
         assertEquals("13 su 13", lblContatore.getText());
         assertEquals(Color.GREEN, lblContatore.getTextFill(), "Il contatore deve essere VERDE se corretto");
 
+        robot.clickOn(view.getDatePicker());
 
+
+        robot.interact(() -> view.getDatePicker().setValue(java.time.LocalDate.now()));
         // --- FASE 4: Click bottoni ---
         // Clicco su Salva (non succederà nulla di logico perché non c'è il vero controller,
         // ma verifichiamo che il bottone sia cliccabile senza eccezioni)
+
+        robot.clickOn(view.getTxtCopie()).write("2");
+
+        assertEquals("2",view.getTxtCopie().getText());
         robot.clickOn(view.getBtnSalva());
     }
 }
