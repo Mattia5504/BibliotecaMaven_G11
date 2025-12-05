@@ -12,6 +12,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+/**
+ * @brief Vista per la gestione del Catalogo Libri.
+ * * Questa schermata visualizza l'elenco dei libri in una tabella e fornisce
+ * i controlli per la ricerca, l'inserimento, l'eliminazione e la gestione delle copie.
+ * * @details
+ * **Layout:**
+ * - **TOP**: Barra di navigazione (Indietro) e Barra di Ricerca (ComboBox + TextField).
+ * - **CENTER**: `TableView` contenente i dati dei libri.
+ * - **BOTTOM**: Pulsanti operativi (Nuovo, Elimina, +Copie, -Copie).
+ * * **Data Binding:**
+ * Le colonne della tabella sono configurate per leggere direttamente le proprietà
+ * degli oggetti `Libro`. Campi complessi come la lista autori vengono formattati in stringa.
+ * * **Responsive Design:**
+ * Le colonne della tabella sono dimensionate percentualmente rispetto alla larghezza
+ * della finestra per adattarsi a diverse risoluzioni.
+ */
+
 public class LibriView extends BorderPane {
 
     private TableView<Libro> tabella = new TableView<>();
@@ -26,6 +43,17 @@ public class LibriView extends BorderPane {
     private ComboBox<String> cmbCriterio = new ComboBox<>();
     private Button btnCerca = new Button("🔍 Cerca");
 
+    /**
+     * @brief Costruttore della LibriView.
+     * * Inizializza l'interfaccia grafica e collega la tabella ai dati.
+     * * Configura le colonne:
+     * - **Titolo, ISBN, Disponibilità**: Mappatura diretta.
+     * - **Autori**: Concatena la lista di autori in una stringa separata da virgole.
+     * - **Anno**: Estrae l'anno dall'oggetto `LocalDate`.
+     * * Imposta inoltre i binding per il ridimensionamento automatico delle colonne
+     * e lo stile dei componenti (es. bottone elimina rosso).
+     * * @param libri La lista osservabile (ObservableList) dei libri da visualizzare nella tabella.
+     */
     public LibriView(ObservableList<Libro> libri) {
         this.setPadding(new Insets(15));
 
@@ -133,14 +161,65 @@ public class LibriView extends BorderPane {
         this.setBottom(bottomBar);
     }
 
+    /**
+     * @brief Restituisce la tabella dei libri.
+     * * Utile al controller per gestire la selezione (SelectionModel).
+     * @return L'oggetto TableView contenente i libri.
+     */
     public TableView<Libro> getTabella() { return tabella; }
+
+    /**
+     * @brief Restituisce il pulsante Indietro.
+     * @return Button per tornare alla Home.
+     */
     public Button getBtnIndietro() { return btnIndietro; }
+
+    /**
+     * @brief Restituisce il pulsante Nuovo Libro.
+     * @return Button per aprire la form di inserimento.
+     */
     public Button getBtnNuovo() { return btnNuovo; }
+
+    /**
+     * @brief Restituisce il pulsante Elimina.
+     * @return Button per rimuovere il libro selezionato.
+     */
     public Button getBtnElimina() { return btnElimina; } // <--- Getter
+
+    /**
+     * @brief Restituisce il pulsante Incrementa Copie.
+     * @return Button per aggiungere disponibilità al libro selezionato.
+     */
     public Button getBtnPiu() { return btnPiu; }
+
+    /**
+     * @brief Restituisce il pulsante Decrementa Copie.
+     * @return Button per ridurre la disponibilità del libro selezionato.
+     */
     public Button getBtnMeno() { return btnMeno; }
+
+    /**
+     * @brief Restituisce il campo di testo per la ricerca.
+     * @return TextField dove l'utente digita la query.
+     */
     public TextField getTxtRicerca() { return txtRicerca; }
+
+    /**
+     * @brief Restituisce il menu a tendina per il criterio di ricerca.
+     * @return ComboBox contenente i filtri (Titolo, ISBN, Autore...).
+     */
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+
+    /**
+     * @brief Restituisce il pulsante di avvio ricerca.
+     * @return Button che scatena il filtro sulla tabella.
+     */
     public Button getBtnCerca() { return btnCerca; }
+
+    /**
+     * @brief Forza l'aggiornamento grafico della tabella.
+     * * Da chiamare quando i dati cambiano in modo che la tabella
+     * potrebbe non rilevare automaticamente.
+     */
     public void refresh() { tabella.refresh(); }
 }

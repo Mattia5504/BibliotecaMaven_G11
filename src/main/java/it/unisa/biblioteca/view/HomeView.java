@@ -14,8 +14,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Dashboard Principale - Design "Responsive & Vertical"
- * Layout basato su BorderPane per ancorare gli elementi ai lati e al centro.
+ * @brief Dashboard Principale dell'applicazione (Home Page).
+ * * Questa classe rappresenta la vista principale che accoglie l'utente.
+ * Estende `BorderPane` per organizzare il layout in tre aree distinte:
+ * - **TOP**: Il titolo dell'applicazione.
+ * - **CENTER**: I pulsanti di navigazione principali (Libri, Utenti, Prestiti) disposti verticalmente.
+ * - **BOTTOM**: I pulsanti di utilità (Info, Esci) allineati a destra.
+ * * @details
+ * **Design Responsive:**
+ * La classe implementa una logica di ridimensionamento dinamico tramite le `Property` di JavaFX.
+ * Le dimensioni dei pulsanti e la grandezza dei font sono legate (bound) alle dimensioni
+ * della finestra, garantendo una visualizzazione corretta su diverse risoluzioni.
  */
 public class HomeView extends BorderPane {
 
@@ -30,6 +39,16 @@ public class HomeView extends BorderPane {
 
     private Label title = new Label("GESTIONALE BIBLIOTECA");
 
+    /**
+     * @brief Costruttore della HomeView.
+     * * Inizializza l'interfaccia grafica:
+     * 1. Configura il layout generale e lo sfondo.
+     * 2. Crea e posiziona il titolo nella zona superiore.
+     * 3. Crea i pulsanti principali, applica loro lo stile e li posiziona al centro.
+     * 4. Crea i pulsanti di utility e li posiziona in basso a destra.
+     * * All'interno del costruttore vengono definiti i **bindings** per rendere
+     * l'interfaccia responsive al ridimensionamento della finestra.
+     */
     public HomeView() {
         // 1. Configurazione Generale
         this.setStyle("-fx-background-color: linear-gradient(to bottom right, #ecf0f1, #bdc3c7);"); // Sfondo con gradiente leggero
@@ -134,9 +153,33 @@ public class HomeView extends BorderPane {
     }
 
     // --- GETTERS ---
+    /**
+     * @brief Restituisce il pulsante per la gestione dei Libri.
+     * @return Oggetto Button su cui il controller può attaccare l'evento di click.
+     */
     public Button getBtnLibri() { return btnLibri; }
+
+    /**
+     * @brief Restituisce il pulsante per la gestione degli Utenti.
+     * @return Oggetto Button su cui il controller può attaccare l'evento di click.
+     */
     public Button getBtnUtenti() { return btnUtenti; }
+
+    /**
+     * @brief Restituisce il pulsante per la gestione dei Prestiti.
+     * @return Oggetto Button su cui il controller può attaccare l'evento di click.
+     */
     public Button getBtnPrestiti() { return btnPrestiti; }
+
+    /**
+     * @brief Restituisce il pulsante Info.
+     * @return Oggetto Button per visualizzare le informazioni.
+     */
     public Button getBtnInfo() { return btnInfo; }
+
+    /**
+     * @brief Restituisce il pulsante Esci.
+     * @return Oggetto Button per chiudere l'applicazione.
+     */
     public Button getBtnEsci() { return btnEsci; } // Nuovo Getter
 }

@@ -4,6 +4,8 @@ package it.unisa.biblioteca.model;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -155,4 +157,114 @@ public class UtenteTest {
         assertEquals(p.getUtente(),u);
         assertEquals(p.getLibro(),l);
     }
+
+    @Test
+
+    public void testLimiteMassimoPrestiti() {
+        System.out.println("Test in cui provo a registrate un numero maggiore di 3 prestiti (deve fallire)");
+        Utente u = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        List<String> autori = Arrays.asList("Autore");
+        Libro l = new Libro("Libro", autori, LocalDate.now(), "1234567890123", 10);
+
+        // Aggiungo 3 prestiti (il massimo consentito)
+        for (int i = 0; i < 3; i++) {
+            u.aggiungiPrestito(new Prestito(u, l, LocalDate.now()));
+        }
+
+        // Provo ad aggiungere il 4° prestito: deve fallire
+        assertThrows(IllegalStateException.class, () -> {
+            u.aggiungiPrestito(new Prestito(u, l, LocalDate.now()));
+        });
+    }
+
+    @Test
+    public void testAggiuntaPrestitoUtenteDiverso() {
+        System.out.println("Aggiunta di un prestito a un utente diverso, deve fallire");
+        Utente u1 = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        Utente u2 = new Utente("Luigi", "Verdi", "9876543210", "luigi@test.it");
+
+        List<String> autori = Arrays.asList("Autore");
+        Libro l = new Libro("Libro", autori, LocalDate.now(), "1234567890123", 5);
+
+        // Creo un prestito intestato a U2
+        Prestito prestitoDiU2 = new Prestito(u2, l, LocalDate.now());
+
+        // Cerco di aggiungerlo alla lista di U1: deve fallire
+        assertThrows(IllegalArgumentException.class, () -> {
+            u1.aggiungiPrestito(prestitoDiU2);
+        });
+    }
+
+    @Test
+    public void testRimozionePrestito() {
+        System.out.println("Verifichiamo che il prestito venga logicamente rimosso");
+        Utente u = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        List<String> autori = Arrays.asList("Autore");
+        Libro l = new Libro("Libro", autori, LocalDate.now(), "1234567890123", 5);
+        Prestito p = new Prestito(u, l, LocalDate.now());
+
+        u.aggiungiPrestito(p);
+        assertEquals(1, u.getPrestitiAttivi().size());
+
+        u.rimuoviPrestito(p);
+        assertEquals(0, u.getPrestitiAttivi().size());
+    }
+
+    @Test
+    public void testListaPrestitiImmutabileClear() {
+        System.out.println("Verifichiamo che la lista prestiti ottenuta tramite getter sia effettivamente immutabile");
+        Utente u = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        List<Prestito> lista = u.getPrestitiAttivi();
+
+        // Prova a modificare la lista direttamente dall'esterno
+        assertThrows(UnsupportedOperationException.class, () -> {
+            lista.clear(); // O lista.add(...)
+        });
+
+
+    }
+    @Test
+    public void testListaPrestitiImmutabileAdd() {
+        System.out.println("Verifichiamo che la lista prestiti ottenuta tramite getter sia effettivamente immutabile");
+        Utente u = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        List<Prestito> lista = u.getPrestitiAttivi();
+        List<String> autori = Arrays.asList("Autore 1", "Autore 2");
+        LocalDate data = LocalDate.of(2023, 1, 1);
+
+        Libro l = new Libro("Titolo", autori, data, "1234567890123", 5);
+        Prestito p = new Prestito(u,l,LocalDate.now());
+        // Prova a modificare la lista direttamente dall'esterno
+        assertThrows(UnsupportedOperationException.class, () -> {
+            lista.add(p); // O lista.add(...)
+        });
+
+
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        // Due oggetti distinti in memoria, ma con la stessa matricola
+        Utente u1 = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+        Utente u2 = new Utente("Mario", "Rossi", "0123456789", "mario@test.it"); // Dati uguali
+        Utente u3 = new Utente("Luigi", "Verdi", "9876543210", "luigi@test.it"); // Matricola diversa
+
+        assertEquals(u1, u2, "Due utenti con la stessa matricola devono essere equals");
+        assertNotEquals(u1, u3, "Utenti con matricola diversa non devono essere equals");
+
+        assertEquals(u1.hashCode(), u2.hashCode(), "Se sono equals, devono avere lo stesso hashCode");
+    }
+
+    @Test
+    public void testSetterNonValidi() {
+        Utente u = new Utente("Mario", "Rossi", "0123456789", "mario@test.it");
+
+        assertThrows(IllegalArgumentException.class, () -> u.setNome(""));
+        assertThrows(IllegalArgumentException.class, () -> u.setCognome(null));
+        assertThrows(IllegalArgumentException.class, () -> u.setEmail("email_sbagliata"));
+
+        // Verifica che l'oggetto sia rimasto valido
+        assertEquals("Mario", u.getNome());
+    }
+
+
 }
