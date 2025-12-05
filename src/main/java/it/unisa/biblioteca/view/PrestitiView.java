@@ -73,7 +73,7 @@ public class PrestitiView extends BorderPane {
                         setTextFill(Color.ORANGERED);
                         setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
                     } else {
-                        // IN CORSO -> VERDE
+                        // IN CORSO ->  quindi VERDE
                         setText("Mancano " + giorni + " gg");
                         setTextFill(Color.GREEN);
                         setStyle("-fx-alignment: CENTER; -fx-font-weight: normal;");
