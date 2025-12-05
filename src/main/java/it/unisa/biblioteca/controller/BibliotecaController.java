@@ -274,20 +274,55 @@ public class BibliotecaController {
             view.getLblContatoreIsbn().setText(len + " su 13");
             view.getLblContatoreIsbn().setTextFill((len == 13 && nev.matches("\\d+")) ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         });
-
         view.getBtnSalva().setOnAction(e -> {
             try {
+                // 1. Recupero e pulizia preliminare (Trim)
+                String titolo = view.getTxtTitolo().getText().trim();
+                String autoriRaw = view.getTxtAutori().getText().trim();
                 String isbn = view.getTxtIsbn().getText().trim();
                 String copie = view.getTxtCopie().getText().trim();
+                LocalDate dataPubblicazione = view.getDatePicker().getValue();
 
-                if (!isbn.matches("\\d{13}")) throw new IllegalArgumentException("ISBN deve essere 13 cifre.");
-                for(Libro l : catalogo) if(l.getIsbn().equals(isbn)) throw new IllegalArgumentException("ISBN duplicato.");
-                if (!copie.matches("\\d+")) throw new IllegalArgumentException("Copie deve essere un numero.");
+                // 2. NUOVI CONTROLLI (Campi Obbligatori)
+                if (titolo.isEmpty()) {
+                    throw new IllegalArgumentException("Il campo 'Titolo' non può essere vuoto.");
+                }
+                if (autoriRaw.isEmpty()) {
+                    throw new IllegalArgumentException("Inserire almeno un autore.");
+                }
+                if (dataPubblicazione == null) {
+                    throw new IllegalArgumentException("Selezionare una data di pubblicazione.");
+                }
 
-                List<String> autori = Arrays.asList(view.getTxtAutori().getText().split(","));
-                catalogo.add(new Libro(view.getTxtTitolo().getText(), autori, view.getDatePicker().getValue(), isbn, Integer.parseInt(copie)));
+                // 3. Controlli Formato (Già esistenti)
+                if (!isbn.matches("\\d{13}")) {
+                    throw new IllegalArgumentException("L'ISBN deve essere composto da 13 cifre esatte.");
+                }
+                // Controllo duplicati
+                for (Libro l : catalogo) {
+                    if (l.getIsbn().equals(isbn)) throw new IllegalArgumentException("Esiste già un libro con questo ISBN.");
+                }
+                if (!copie.matches("\\d+")) {
+                    throw new IllegalArgumentException("Il campo 'Copie' deve contenere un numero valido.");
+                }
+
+                // 4. Elaborazione Dati (Split Autori)
+                // Dividiamo per virgola e rimuoviamo spazi extra per ogni autore (es. "Tolkien, Lewis")
+                List<String> autori = new java.util.ArrayList<>(Arrays.asList(autoriRaw.split(",")));
+                autori.replaceAll(String::trim);
+                // Rimuoviamo eventuali stringhe vuote residue
+                autori.removeIf(String::isEmpty);
+
+                // 5. Inserimento nel Model
+                catalogo.add(new Libro(titolo, autori, dataPubblicazione, isbn, Integer.parseInt(copie)));
+
+                // Torna indietro solo se tutto va a buon fine
                 mostraLibri();
-            } catch (Exception ex) { showAlert("Errore", ex.getMessage()); }
+
+            } catch (Exception ex) {
+                // Mostra il warning a video
+                showAlert("Dati mancanti o non validi", ex.getMessage());
+            }
         });
         cambiaVista(view, "Gestionale Biblioteca - Aggiungi Libro");
     }
