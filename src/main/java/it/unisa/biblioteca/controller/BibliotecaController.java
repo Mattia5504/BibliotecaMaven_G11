@@ -669,48 +669,96 @@ public class BibliotecaController {
     }
 
     /**
-     * Inizializza il file archivio se non vi sono elementi presenti.
-     * <p>
-     *     Inizializza il file archivio se non vi sono elementi presenti.
-     *     <b>PROVA DI TEST, DA ELIMINARE</b>
-     * </p>
-      */
-
-
+     * Inizializza il database con dati realistici per test e demo.
+     * Versione ottimizzata: usa Arrays.asList per maggiore pulizia.
+     */
     private void inizializzaDatiProva() {
-        System.out.println("Generazione dati di test massivi in corso...");
+        System.out.println("--- INIZIO GENERAZIONE DATI REALISTICI ---");
 
-        // Genero 60 Libri
-        for (int i = 1; i <= 60; i++) {
-            // Creo un ISBN valido di 13 cifre (es. 9780000000001, 9780000000002...)
-            String isbnFinto = String.format("97800000%05d", i);
+        // 1. DATASET: Titoli e Autori
+        String[] titoliReali = {
+                "Clean Code", "The Pragmatic Programmer", "Design Patterns", "Introduction to Algorithms",
+                "Head First Java", "Effective Java", "Refactoring", "Code Complete",
+                "Artificial Intelligence", "Computer Networking", "Operating System Concepts",
+                "Database System Concepts", "Compilers", "C Programming Language",
+                "Java Concurrency", "Domain-Driven Design", "The Mythical Man-Month",
+                "Sistemi Operativi", "Reti di Calcolatori", "Ingegneria del Software"
+        };
 
-            List<String> autori = Arrays.asList("Autore Generico " + i, "Co-Autore " + i);
+        String[] autoriReali = {
+                "Robert C. Martin", "Andy Hunt", "Erich Gamma", "Thomas Cormen",
+                "Kathy Sierra", "Joshua Bloch", "Martin Fowler", "Steve McConnell",
+                "Stuart Russell", "Andrew Tanenbaum", "Abraham Silberschatz",
+                "Brian Kernighan", "Dennis Ritchie", "Eric Evans", "Fred Brooks"
+        };
 
-            Libro l = new Libro(
-                    "Libro di Ingegneria Vol. " + i, // Titolo diverso per ognuno
-                    autori,
-                    LocalDate.now().minusDays(i), // Date diverse
-                    isbnFinto,
-                    5 // Copie
-            );
-            catalogo.add(l);
+        String[] nomi = {"Mario", "Luigi", "Giovanna", "Anna", "Paolo", "Francesca", "Alessandro", "Elena", "Davide", "Sofia", "Marco", "Giulia"};
+        String[] cognomi = {"Rossi", "Bianchi", "Verdi", "Esposito", "Russo", "Romano", "Ferrari", "Gallo", "Costa", "Fontana", "Conti", "Greco"};
+
+        java.util.Random rand = new java.util.Random();
+
+        // 2. GENERAZIONE LIBRI
+        for (int i = 0; i < 40; i++) {
+            String titoloBase = titoliReali[rand.nextInt(titoliReali.length)];
+            // Aggiungo varietà ai titoli
+            String titolo = (i % 3 == 0) ? titoloBase + " (Ed. Speciale)" : titoloBase;
+
+            // SELEZIONE AUTORI SENZA ARRAYLIST
+            String autore1 = autoriReali[rand.nextInt(autoriReali.length)];
+            List<String> autoriLibro;
+
+            // Randomizzo se avere 1 o 2 autori
+            if (rand.nextBoolean()) {
+                String autore2 = autoriReali[rand.nextInt(autoriReali.length)];
+                // Arrays.asList crea una lista "ponte" fissa, perfetta per essere passata al costruttore
+                autoriLibro = Arrays.asList(autore1, autore2);
+            } else {
+                autoriLibro = Arrays.asList(autore1);
+            }
+
+            String isbn = String.format("97888%08d", i * 1234);
+            LocalDate dataPub = LocalDate.now().minusYears(rand.nextInt(20)).minusDays(rand.nextInt(365));
+            int copie = 3 + rand.nextInt(8);
+
+            // Aggiungo al catalogo (ObservableList gestisce l'implementazione interna)
+            catalogo.add(new Libro(titolo, autoriLibro, dataPub, isbn, copie));
         }
 
-        // Genero 30 Utenti per test
+        // 3. GENERAZIONE UTENTI
         for (int i = 1; i <= 30; i++) {
-            // Matricola valida (numeri, max 10 cifre)
-            String matricolaFinta = String.format("%010d", i);
+            String nome = nomi[rand.nextInt(nomi.length)];
+            String cognome = cognomi[rand.nextInt(cognomi.length)];
+            String matricola = String.format("05121%05d", i);
+            String email = nome.toLowerCase() + "." + cognome.toLowerCase() + i + "@studenti.unisa.it";
 
-            Utente u = new Utente(
-                    "Studente",
-                    "Numero " + i,
-                    matricolaFinta,
-                    "studente" + i + "@unisa.it"
-            );
-            anagrafica.add(u);
+            anagrafica.add(new Utente(nome, cognome, matricola, email));
         }
 
-        System.out.println("Dati generati: " + catalogo.size() + " libri e " + anagrafica.size() + " utenti.");
+        // 4. GENERAZIONE PRESTITI (ATTIVI E SCADUTI)
+        for (int i = 0; i < 25; i++) {
+            // Pescaggio casuale dalle liste popolate sopra
+            Utente u = anagrafica.get(rand.nextInt(anagrafica.size()));
+            Libro l = catalogo.get(rand.nextInt(catalogo.size()));
+
+            if (l.getDisponibilita() > 0 && u.getPrestitiAttivi().size() < 3) {
+
+                // Genero data inizio tra oggi e 4 mesi fa (120 giorni)
+                // Ricorda: la scadenza è fissata a +60gg nel costruttore di Prestito
+                int giorniFa = rand.nextInt(120);
+                LocalDate dataInizio = LocalDate.now().minusDays(giorniFa);
+
+                Prestito p = new Prestito(u, l, dataInizio);
+
+                try {
+                    u.aggiungiPrestito(p);
+                    l.decrementaDisponibilita();
+                    prestiti.add(p);
+                } catch (Exception e) {
+                    // Ignoro errori di validazione (es. utente ha già questo libro specifico)
+                }
+            }
+        }
+
+        System.out.println("Dati generati: " + catalogo.size() + " libri, " + anagrafica.size() + " utenti, " + prestiti.size() + " prestiti.");
     }
 }

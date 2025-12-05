@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 /**
  * @brief Vista per la gestione del Catalogo Libri.
@@ -74,6 +75,33 @@ public class LibriView extends BorderPane {
 
         TableColumn<Libro, Integer> colDisp = new TableColumn<>("Disp.");
         colDisp.setCellValueFactory(new PropertyValueFactory<>("disponibilita"));
+
+        // Impostiamo il CellFactory per colorare il testo in base al valore
+        colDisp.setCellFactory(column -> new TableCell<Libro, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    setStyle(""); // Reset stile
+                } else {
+                    setText(item.toString());
+
+                    // LOGICA COLORI:
+                    if (item > 0) {
+                        setTextFill(Color.GREEN);
+                        // Mantengo allineamento CENTER + font normale
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: normal;");
+                    } else {
+                        setTextFill(Color.RED);
+                        // Mantengo allineamento CENTER + font GRASSETTO per evidenziare l'esaurimento
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
 
         tabella.getColumns().addAll(colTitolo, colAutori, colAnno, colIsbn, colDisp);
         tabella.setItems(libri);
