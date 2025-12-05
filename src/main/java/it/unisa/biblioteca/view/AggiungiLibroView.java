@@ -11,8 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
- * Schermata per l'aggiunta di un nuovo libro.
- * Aggiornata con contatore caratteri per ISBN.
+ * @brief Form per l'inserimento di un nuovo libro nel catalogo.
+ * * Fornisce campi per titolo, autori, ISBN, copie e un DatePicker per la pubblicazione.
+ * Include un contatore visuale per la validazione della lunghezza dell'ISBN.
  */
 public class AggiungiLibroView extends VBox {
 
@@ -28,6 +29,11 @@ public class AggiungiLibroView extends VBox {
     private Button btnSalva = new Button("Salva Libro");
     private Button btnAnnulla = new Button("Annulla");
 
+    /**
+     * @brief Costruttore della view.
+     * * Configura il layout a griglia.
+     * Inserisce accanto al campo ISBN una label di stato che verrà controllata dal Controller.
+     */
     public AggiungiLibroView() {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
@@ -58,12 +64,51 @@ public class AggiungiLibroView extends VBox {
         this.getChildren().addAll(new Label("AGGIUNGI NUOVO LIBRO"), grid, buttons);
     }
 
+    /**
+     * @brief Restituisce il campo Titolo.
+     * @return TextField titolo.
+     */
     public TextField getTxtTitolo() { return txtTitolo; }
+
+    /**
+     * @brief Restituisce il campo Autori.
+     * @return TextField autori.
+     */
     public TextField getTxtAutori() { return txtAutori; }
+
+    /**
+     * @brief Restituisce il campo ISBN.
+     * @return TextField isbn.
+     */
     public TextField getTxtIsbn() { return txtIsbn; }
+
+    /**
+     * @brief Restituisce il campo Copie.
+     * @return TextField copie.
+     */
     public TextField getTxtCopie() { return txtCopie; }
+
+    /**
+     * @brief Restituisce il selettore di data.
+     * @return DatePicker pubblicazione.
+     */
     public DatePicker getDatePicker() { return datePicker; }
+
+    /**
+     * @brief Restituisce la label contatore per l'ISBN.
+     * @return Label per feedback utente.
+     */
     public Label getLblContatoreIsbn() { return lblContatoreIsbn; } // <--- Getter Fondamentale
+
+    /**
+     * @brief Restituisce il pulsante Salva.
+     * @return Button conferma.
+     */
     public Button getBtnSalva() { return btnSalva; }
+
+    /**
+     * @brief Restituisce il pulsante Annulla.
+     * @return Button annulla.
+     */
     public Button getBtnAnnulla() { return btnAnnulla; }
 }
