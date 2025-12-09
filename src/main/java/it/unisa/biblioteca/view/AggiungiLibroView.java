@@ -44,6 +44,15 @@ public class AggiungiLibroView extends VBox {
         grid.setVgap(15);
         grid.setAlignment(Pos.CENTER);
 
+        // --- ASSEGNAZIONE ID PER TESTFX ---
+        txtTitolo.setId("txtTitolo");       // <--- NUOVO
+        txtAutori.setId("txtAutori");       // <--- NUOVO
+        txtIsbn.setId("txtIsbn");           // <--- NUOVO
+        txtCopie.setId("txtCopie");         // <--- NUOVO
+        datePicker.setId("datePicker");     // <--- NUOVO
+        btnSalva.setId("btnSalva");         // <--- NUOVO
+        // ----------------------------------
+
         // Creiamo un contenitore orizzontale per ISBN + Contatore
         HBox boxIsbn = new HBox(10, txtIsbn, lblContatoreIsbn);
         boxIsbn.setAlignment(Pos.CENTER_LEFT);
