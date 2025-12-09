@@ -137,17 +137,36 @@ public class BibliotecaController {
     public void mostraLibri() {
         LibriView view = new LibriView(catalogo);
 
-        // 1. Creazione Lista Filtrata
         FilteredList<Libro> filteredData = new FilteredList<>(catalogo, b -> true);
 
-        // --- MODIFICA RICHIESTA: Se > 50 elementi, parti vuoto ---
+
+        // Se > 50 elementi, parti vuoto (Codice esistente)
         if (catalogo.size() > 50) {
-            filteredData.setPredicate(p -> false); // Nascondi tutto all'inizio
+            filteredData.setPredicate(p -> false);
             view.getTabella().setPlaceholder(new Label("Ci sono molti libri. Usa la ricerca per visualizzarli."));
         }
 
-        //Associo ogni modifica della filtered list alla tableview del catalogo
-        view.getTabella().setItems(filteredData);
+        // --- MODIFICA: Aggiunta Wrapper SortedList ---
+        // Avvolgiamo la lista filtrata in una SortedList
+        javafx.collections.transformation.SortedList<Libro> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
+
+        // Colleghiamo il comparatore della SortedList a quello della tabella
+        // Questo permette all'utente di cliccare sulle intestazioni delle colonne per cambiare ordinamento
+        sortedData.comparatorProperty().bind(view.getTabella().comparatorProperty());
+
+        // Assegniamo la lista ORDINATA alla tabella (non più quella solo filtrata)
+        view.getTabella().setItems(sortedData);
+
+        // --- IMPOSTAZIONE ORDINAMENTO PREDEFINITO (Titolo) ---
+        // Recuperiamo la colonna "Titolo" (indice 0 nella LibriView)
+        TableColumn<Libro, ?> colTitoloIndex = view.getTabella().getColumns().get(0);
+
+        // Impostiamo il tipo di ordinamento (Ascendente: A-Z)
+        colTitoloIndex.setSortType(TableColumn.SortType.ASCENDING);
+
+        // Aggiungiamo la colonna alla lista di ordinamento della tabella
+        view.getTabella().getSortOrder().add(colTitoloIndex);
+        view.getTabella().sort(); // Forza l'applicazione dell'ordinamento visivo
 
         view.getBtnCerca().setOnAction(e -> {
             String filter = view.getTxtRicerca().getText();
@@ -343,13 +362,33 @@ public class BibliotecaController {
         UtentiView view = new UtentiView(anagrafica);
         FilteredList<Utente> filteredData = new FilteredList<>(anagrafica, u -> true);
 
-        // --- MODIFICA RICHIESTA: Se > 50 elementi, parti vuoto ---
+// Se > 50 elementi, parti vuoto (Codice esistente)
         if (anagrafica.size() > 50) {
             filteredData.setPredicate(p -> false);
             view.getTabella().setPlaceholder(new Label("Molti utenti presenti. Usa la ricerca."));
         }
 
-        view.getTabella().setItems(filteredData);
+// --- MODIFICA: Aggiunta Wrapper SortedList ---
+        javafx.collections.transformation.SortedList<Utente> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(view.getTabella().comparatorProperty());
+        view.getTabella().setItems(sortedData); // Setta la sortedData
+
+// --- IMPOSTAZIONE ORDINAMENTO PREDEFINITO (Cognome + Nome) ---
+// Indici basati su UtentiView: 0=Matricola, 1=Nome, 2=Cognome, 3=Email
+        TableColumn<Utente, ?> colNomeIndex = view.getTabella().getColumns().get(1);
+        TableColumn<Utente, ?> colCognomeIndex = view.getTabella().getColumns().get(2);
+
+// Impostiamo entrambi Ascendenti
+        colCognomeIndex.setSortType(TableColumn.SortType.ASCENDING);
+        colNomeIndex.setSortType(TableColumn.SortType.ASCENDING);
+
+// Puliamo eventuali ordinamenti precedenti
+        view.getTabella().getSortOrder().clear();
+
+// Aggiungiamo PRIMA Cognome, POI Nome.
+// JavaFX userà il secondo criterio se il primo è uguale.
+        view.getTabella().getSortOrder().addAll(colCognomeIndex, colNomeIndex);
+        view.getTabella().sort();
 
         view.getBtnCerca().setOnAction(e -> {
             String filter = view.getTxtRicerca().getText();
@@ -498,17 +537,39 @@ public class BibliotecaController {
         PrestitiView view = new PrestitiView(prestiti);
         FilteredList<Prestito> filteredData = new FilteredList<>(prestiti, p -> true);
 
-        // --- MODIFICA RICHIESTA ---
+        // Se > 50 elementi, parti vuoto
         if (prestiti.size() > 50) {
             filteredData.setPredicate(p -> false);
             view.getTabella().setPlaceholder(new Label("Molti prestiti in archivio. Cerca per visualizzare."));
         }
 
-        view.getTabella().setItems(filteredData);
+        // --- MODIFICA: Aggiunta Wrapper SortedList per ordinamento ---
+        javafx.collections.transformation.SortedList<Prestito> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
+
+        // Collega il comparatore della SortedList a quello della TableView
+        sortedData.comparatorProperty().bind(view.getTabella().comparatorProperty());
+
+        // Imposta la lista ordinabile nella tabella
+        view.getTabella().setItems(sortedData);
+
+        // --- IMPOSTAZIONE ORDINAMENTO PREDEFINITO (Data Scadenza) ---
+        // Recuperiamo la colonna "Scadenza" (indice 2 in PrestitiView)
+        TableColumn<Prestito, ?> colScadenza = view.getTabella().getColumns().get(2);
+
+        // Impostiamo ordinamento Ascendente (dal più vecchio al più futuro)
+        colScadenza.setSortType(TableColumn.SortType.ASCENDING);
+
+        // Applichiamo l'ordinamento
+        view.getTabella().getSortOrder().add(colScadenza);
+        view.getTabella().sort();
+        // -------------------------------------------------------------
 
         view.getBtnCerca().setOnAction(e -> {
             String filter = view.getTxtRicerca().getText();
-            if (filter == null || filter.isEmpty()) { filteredData.setPredicate(p -> true); return; }
+            if (filter == null || filter.isEmpty()) {
+                filteredData.setPredicate(p -> true);
+                return;
+            }
             String lower = filter.toLowerCase();
             String crit = view.getCmbCriterio().getValue();
             filteredData.setPredicate(p -> {
@@ -531,7 +592,6 @@ public class BibliotecaController {
         });
 
         cambiaVista(view, "Gestionale Biblioteca - Gestione Prestiti");
-
     }
 
     // --- NUOVO PRESTITO CON SPLIT VIEW ---
