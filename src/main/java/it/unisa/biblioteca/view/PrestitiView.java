@@ -14,6 +14,11 @@ import javafx.scene.paint.Color; // Fondamentale per i colori
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * @brief Vista per la gestione del Registro Prestiti.
+ * * Visualizza lo storico dei prestiti attivi. Le colonne della tabella non mappano
+ * direttamente proprietà semplici, ma estraggono dati combinati dagli oggetti `Utente` e `Libro` associati.
+ */
 public class PrestitiView extends BorderPane {
 
     private TableView<Prestito> tabella = new TableView<>();
@@ -26,6 +31,14 @@ public class PrestitiView extends BorderPane {
     private ComboBox<String> cmbCriterio = new ComboBox<>();
     private Button btnCerca = new Button("🔍 Cerca");
 
+    /**
+     * @brief Costruttore della PrestitiView.
+     * * Configura le colonne della tabella:
+     * - **Utente**: Concatena Nome e Cognome dell'utente.
+     * - **Libro**: Mostra il titolo del libro.
+     * - **Scadenza**: Mostra la data di fine prevista.
+     * * @param prestiti Lista osservabile dei prestiti.
+     */
     public PrestitiView(ObservableList<Prestito> prestiti) {
         this.setPadding(new Insets(15));
 
@@ -114,12 +127,46 @@ public class PrestitiView extends BorderPane {
         this.setBottom(bottomBar);
     }
 
-    // --- GETTERS ---
+    /**
+     * @brief Restituisce il pulsante Indietro.
+     * @return Button navigazione.
+     */
     public Button getBtnIndietro() { return btnIndietro; }
+
+    /**
+     * @brief Restituisce il pulsante Nuovo Prestito.
+     * @return Button creazione.
+     */
     public Button getBtnNuovo() { return btnNuovo; }
+
+    /**
+     * @brief Restituisce il pulsante Elimina/Concludi.
+     * @return Button rimozione.
+     */
     public Button getBtnElimina() { return btnElimina; }
+
+    /**
+     * @brief Restituisce la tabella dei prestiti.
+     * @return TableView.
+     */
     public TableView<Prestito> getTabella() { return tabella; }
+
+    /**
+     * @brief Restituisce il campo di ricerca.
+     * @return TextField ricerca.
+     */
     public TextField getTxtRicerca() { return txtRicerca; }
+
+    /**
+     * @brief Restituisce il selettore del criterio di ricerca.
+     * @return ComboBox filtri.
+     */
     public ComboBox<String> getCmbCriterio() { return cmbCriterio; }
+
+    /**
+     * @brief Restituisce il pulsante Cerca.
+     * @return Button esecuzione filtro.
+     */
     public Button getBtnCerca() { return btnCerca; }
+
 }
