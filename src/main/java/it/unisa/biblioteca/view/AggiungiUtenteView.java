@@ -41,6 +41,14 @@ public class AggiungiUtenteView extends VBox {
         grid.setVgap(15);
         grid.setAlignment(Pos.CENTER);
 
+        // --- ASSEGNAZIONE ID PER TESTFX ---
+        txtNome.setId("txtNome");           // <--- NUOVO
+        txtCognome.setId("txtCognome");     // <--- NUOVO
+        txtMatricola.setId("txtMatricola"); // <--- NUOVO
+        txtEmail.setId("txtEmail");         // <--- NUOVO
+        btnSalva.setId("btnSalva");         // <--- NUOVO
+        // ----------------------------------
+
         // Box per Matricola + Contatore
         HBox boxMatr = new HBox(10, txtMatricola, lblContatoreMatr);
         boxMatr.setAlignment(Pos.CENTER_LEFT);
