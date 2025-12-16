@@ -368,25 +368,25 @@ public class BibliotecaController {
             view.getTabella().setPlaceholder(new Label("Molti utenti presenti. Usa la ricerca."));
         }
 
-// --- MODIFICA: Aggiunta Wrapper SortedList ---
+        // --- MODIFICA: Aggiunta Wrapper SortedList ---
         javafx.collections.transformation.SortedList<Utente> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(view.getTabella().comparatorProperty());
         view.getTabella().setItems(sortedData); // Setta la sortedData
 
-// --- IMPOSTAZIONE ORDINAMENTO PREDEFINITO (Cognome + Nome) ---
-// Indici basati su UtentiView: 0=Matricola, 1=Nome, 2=Cognome, 3=Email
+        // --- IMPOSTAZIONE ORDINAMENTO PREDEFINITO (Cognome + Nome) ---
+        // Indici basati su UtentiView: 0=Matricola, 1=Nome, 2=Cognome, 3=Email
         TableColumn<Utente, ?> colNomeIndex = view.getTabella().getColumns().get(1);
         TableColumn<Utente, ?> colCognomeIndex = view.getTabella().getColumns().get(2);
 
-// Impostiamo entrambi Ascendenti
+        // Impostiamo entrambi Ascendenti
         colCognomeIndex.setSortType(TableColumn.SortType.ASCENDING);
         colNomeIndex.setSortType(TableColumn.SortType.ASCENDING);
 
-// Puliamo eventuali ordinamenti precedenti
+        // Puliamo eventuali ordinamenti precedenti
         view.getTabella().getSortOrder().clear();
 
-// Aggiungiamo PRIMA Cognome, POI Nome.
-// JavaFX userà il secondo criterio se il primo è uguale.
+        // Aggiungiamo PRIMA Cognome, POI Nome.
+        // JavaFX userà il secondo criterio se il primo è uguale.
         view.getTabella().getSortOrder().addAll(colCognomeIndex, colNomeIndex);
         view.getTabella().sort();
 
@@ -686,7 +686,7 @@ public class BibliotecaController {
      * Inizializza la schermata per la visione dei creators del progetto
      */
     private void mostraInfo() {
-        String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuck";
+        String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuk";
         showAlert("Credits", credits);
     }
 
