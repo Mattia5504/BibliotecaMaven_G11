@@ -729,7 +729,8 @@ public class BibliotecaController {
     }
 
     /**
-     * Inizializza il database con dati realistici per test e demo.
+     * Inizializza il database con dati realistici per test e demo di presentazione.
+     * In un eventuale prodotto da distribuire non sarebbe presente-
      * Versione ottimizzata: usa Arrays.asList per maggiore pulizia.
      */
     private void inizializzaDatiProva() {
