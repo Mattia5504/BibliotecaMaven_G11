@@ -1,8 +1,6 @@
 var classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view =
 [
     [ "AggiungiPrestitoView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a5f2184bf1d20d1e3176a753ae313ebef", null ],
-    [ "creaPannelloLibri", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a18547f51a05c792ee317bb4ef077618f", null ],
-    [ "creaPannelloUtenti", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a0cf3c874490d69e7e6e0b0868bf89a3d", null ],
     [ "getBtnAnnulla", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a0a5980b1f1c46cc9323ba2b6ddd95659", null ],
     [ "getBtnCercaLibro", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#aeceba6f405c2e8caf5eb755787397a24", null ],
     [ "getBtnCercaUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a787f4d4a1055c13789bc201ed2ef1317", null ],
@@ -12,15 +10,5 @@ var classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view =
     [ "getTableLibri", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a8f1f298daf351bddb5f47e04866c491e", null ],
     [ "getTableUtenti", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#ac833b6f6e2b050625105ef4e85bfb26a", null ],
     [ "getTxtSearchLibro", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a70955ff7d1aa466ea611cab7081bef1b", null ],
-    [ "getTxtSearchUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#ab28df4120162e1a67d3e76a669466be6", null ],
-    [ "btnAnnulla", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#af7dab8cd7c7b77c2ac194cdb7d6fd5bf", null ],
-    [ "btnCercaLibro", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#ad74f439197ad53d6c29a60cc50c3483a", null ],
-    [ "btnCercaUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#aadbf7e6e3e371a06134ab110dae05a58", null ],
-    [ "btnSalva", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#aa3a0dfbeb86105d9747784bbd31d203e", null ],
-    [ "cmbFilterLibro", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a2942353d0c7d297e191e348ff3d871f0", null ],
-    [ "cmbFilterUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a9d8c24089858386711c2c0c1dee09272", null ],
-    [ "tableLibri", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a54f36194683b5bb6d2cdce521fd7cf5a", null ],
-    [ "tableUtenti", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a869b6954855b94d53485ae47a07986e5", null ],
-    [ "txtSearchLibro", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a2b240d2e4de679f50f81e6b0c875b2f6", null ],
-    [ "txtSearchUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#a6bf2e8cf9570c3f1d9611b0b6fb91a37", null ]
+    [ "getTxtSearchUtente", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view.html#ab28df4120162e1a67d3e76a669466be6", null ]
 ];

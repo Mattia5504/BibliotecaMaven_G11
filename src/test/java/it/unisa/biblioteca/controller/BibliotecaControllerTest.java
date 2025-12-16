@@ -24,10 +24,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Classe di test pura JUnit 5 per BibliotecaController.
- * Compatibile con Java 8.
- */
+
 class BibliotecaControllerTest {
 
     private BibliotecaController controller;
@@ -139,7 +136,7 @@ class BibliotecaControllerTest {
     void testAggiuntaLibro() throws Exception {
         // Test di integrazione logica: aggiungiamo un libro e verifichiamo che sia nel catalogo
         runOnJavaFXThread(() -> {
-            // Simuliamo l'apertura della vista (che inizializza i listener)
+            // Simuliamo l'apertura della vista
             controller.mostraAggiungiLibro();
 
         });
@@ -147,7 +144,7 @@ class BibliotecaControllerTest {
         ObservableList<Libro> catalogo = getPrivateField(controller, "catalogo");
         int sizeIniziale = catalogo.size();
 
-        // Aggiunta manuale simulata (come se fosse fatta dalla view)
+        // Aggiunta manuale simulata
         runOnJavaFXThread(() -> {
             catalogo.add(new Libro("Nuovo Libro Test", java.util.Arrays.asList("Autore Test"), java.time.LocalDate.now(), "9788812345678", 5));
         });
@@ -185,7 +182,7 @@ class BibliotecaControllerTest {
     }
 
     /**
-     * Reflection per leggere campi privati (catalogo, anagrafica, ecc.)
+     * Reflection per leggere campi privati (catalogo, anagrafica, ecc.) che altrimenti non sarebbero accessibili
      */
     @SuppressWarnings("unchecked")
     private <T> T getPrivateField(Object target, String fieldName) throws Exception {
@@ -195,7 +192,7 @@ class BibliotecaControllerTest {
     }
 
     /**
-     * Reflection per scrivere campi privati (mock injection)
+     * Reflection per scrivere campi privati (mock injection) che altrimenti non sarebbero visibili
      */
     private void setPrivateField(Object target, String fieldName, Object value) throws Exception {
         Field field = target.getClass().getDeclaredField(fieldName);
