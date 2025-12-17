@@ -687,62 +687,83 @@ public class BibliotecaController {
      * Costruita programmaticamente qui per non aggiungere classi al package View.
      */
     private void mostraInfo() {
-        // 1. Creo il pannello di sfondo (lo stesso stile della Home)
+        // 1. Container Sfondo
         javafx.scene.layout.StackPane root = new javafx.scene.layout.StackPane();
         root.setStyle("-fx-background-color: linear-gradient(to bottom right, #ecf0f1, #bdc3c7);");
 
-        // 2. Creo la "Card" centrale bianca
-        javafx.scene.layout.VBox card = new javafx.scene.layout.VBox(20);
+        // 2. Card Centrale
+        javafx.scene.layout.VBox card = new javafx.scene.layout.VBox(25);
         card.setAlignment(javafx.geometry.Pos.CENTER);
-        card.setMaxWidth(500);
-        card.setMaxHeight(450);
-        card.setPadding(new javafx.geometry.Insets(40));
-        // Stile CSS inline per la card
+
+        card.setMaxWidth(700);
+        card.setMaxHeight(600);
+        card.setPadding(new javafx.geometry.Insets(50));
+
         card.setStyle(
                 "-fx-background-color: white;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 10);"
+                        "-fx-background-radius: 30;" + // Raggio più ampio
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 30, 0, 0, 15);"
         );
 
-        // 3. Aggiungo i testi
+        // 3. Testi (Font Ingranditi)
         Label lblTitolo = new Label("Gestionale Biblioteca");
-        lblTitolo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 40));
+        lblTitolo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 60));
         lblTitolo.setTextFill(javafx.scene.paint.Color.web("#2c3e50"));
 
         Label lblCorso = new Label("Progetto di Ingegneria del Software\nAnno Accademico 2024/2025");
         lblCorso.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        lblCorso.setFont(javafx.scene.text.Font.font("Segoe UI", 16));
+        lblCorso.setFont(javafx.scene.text.Font.font("Segoe UI", 20));
         lblCorso.setTextFill(javafx.scene.paint.Color.web("#7f8c8d"));
 
         Label lblGruppo = new Label("✨ GRUPPO 11 ✨");
-        lblGruppo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 18));
+        lblGruppo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 26));
         lblGruppo.setTextFill(javafx.scene.paint.Color.web("#e67e22"));
 
         // 4. Lista Nomi
-        javafx.scene.layout.VBox boxNomi = new javafx.scene.layout.VBox(10);
+        javafx.scene.layout.VBox boxNomi = new javafx.scene.layout.VBox(12); // Spazio tra i nomi aumentato
         boxNomi.setAlignment(javafx.geometry.Pos.CENTER);
-        String[] nomi = {"Mattia Lettariello", "Jonathan Punzo", "Antonia Lamberti", "Valentino Potapchuk"};
+        String[] nomi = {
+                "Mattia Lettariello",
+                "Jonathan Punzo",
+                "Antonia Lamberti",
+                "Valentino Potapchuk"
+        };
 
         for (String nome : nomi) {
             Label l = new Label(nome);
-            l.setFont(javafx.scene.text.Font.font("Segoe UI", 18));
+            l.setFont(javafx.scene.text.Font.font("Segoe UI", 24));
             l.setTextFill(javafx.scene.paint.Color.web("#34495e"));
             boxNomi.getChildren().add(l);
         }
 
-        // 5. Bottone Indietro
+        // 5. Bottone Indietro (Più grosso)
         javafx.scene.control.Button btnIndietro = new javafx.scene.control.Button("⬅ Torna alla Home");
         btnIndietro.setStyle(
                 "-fx-background-color: #34495e; -fx-text-fill: white; " +
-                        "-fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand;"
+                        "-fx-font-size: 18px; " + // Font bottone aumentato
+                        "-fx-font-weight: bold; -fx-background-radius: 30; -fx-cursor: hand; " +
+                        "-fx-padding: 10 25 10 25;" // Bottone più "cicciotto"
         );
-        btnIndietro.setOnAction(e -> mostraHome()); // Torna alla Home
 
-        // Assemblaggio
-        card.getChildren().addAll(lblTitolo, lblCorso, new javafx.scene.control.Separator(), lblGruppo, boxNomi, new Label(""), btnIndietro);
+        // Hover
+        btnIndietro.setOnMouseEntered(e -> btnIndietro.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 30; -fx-cursor: hand; -fx-padding: 10 25 10 25;"));
+        btnIndietro.setOnMouseExited(e -> btnIndietro.setStyle("-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 30; -fx-cursor: hand; -fx-padding: 10 25 10 25;"));
+
+        btnIndietro.setOnAction(e -> mostraHome());
+
+        // Assemblaggio con separatore
+        card.getChildren().addAll(
+                lblTitolo,
+                lblCorso,
+                new javafx.scene.control.Separator(),
+                lblGruppo,
+                boxNomi,
+                new Label(""), // Spazio vuoto
+                btnIndietro
+        );
+
         root.getChildren().add(card);
 
-        // Cambio vista usando il metodo che hai già nel controller
         cambiaVista(root, "Credits - Gruppo 11");
     }
 
