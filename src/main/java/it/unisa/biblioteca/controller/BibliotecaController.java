@@ -683,11 +683,67 @@ public class BibliotecaController {
     // --- UTILS ---
 
     /**
-     * Inizializza la schermata per la visione dei creators del progetto
+     * Mostra la schermata dei Credits.
+     * Costruita programmaticamente qui per non aggiungere classi al package View.
      */
     private void mostraInfo() {
-        String credits = "Progetto Ingegneria del Software\nGRUPPO 11:\n- Mattia Lettariello\n- Jonathan Punzo\n- Antonia Lamberti\n- Valentino Potapchuk";
-        showAlert("Credits", credits);
+        // 1. Creo il pannello di sfondo (lo stesso stile della Home)
+        javafx.scene.layout.StackPane root = new javafx.scene.layout.StackPane();
+        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #ecf0f1, #bdc3c7);");
+
+        // 2. Creo la "Card" centrale bianca
+        javafx.scene.layout.VBox card = new javafx.scene.layout.VBox(20);
+        card.setAlignment(javafx.geometry.Pos.CENTER);
+        card.setMaxWidth(500);
+        card.setMaxHeight(450);
+        card.setPadding(new javafx.geometry.Insets(40));
+        // Stile CSS inline per la card
+        card.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 10);"
+        );
+
+        // 3. Aggiungo i testi
+        Label lblTitolo = new Label("Gestionale Biblioteca");
+        lblTitolo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 40));
+        lblTitolo.setTextFill(javafx.scene.paint.Color.web("#2c3e50"));
+
+        Label lblCorso = new Label("Progetto di Ingegneria del Software\nAnno Accademico 2024/2025");
+        lblCorso.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        lblCorso.setFont(javafx.scene.text.Font.font("Segoe UI", 16));
+        lblCorso.setTextFill(javafx.scene.paint.Color.web("#7f8c8d"));
+
+        Label lblGruppo = new Label("✨ GRUPPO 11 ✨");
+        lblGruppo.setFont(javafx.scene.text.Font.font("Segoe UI", javafx.scene.text.FontWeight.BOLD, 18));
+        lblGruppo.setTextFill(javafx.scene.paint.Color.web("#e67e22"));
+
+        // 4. Lista Nomi
+        javafx.scene.layout.VBox boxNomi = new javafx.scene.layout.VBox(10);
+        boxNomi.setAlignment(javafx.geometry.Pos.CENTER);
+        String[] nomi = {"Mattia Lettariello", "Jonathan Punzo", "Antonia Lamberti", "Valentino Potapchuk"};
+
+        for (String nome : nomi) {
+            Label l = new Label(nome);
+            l.setFont(javafx.scene.text.Font.font("Segoe UI", 18));
+            l.setTextFill(javafx.scene.paint.Color.web("#34495e"));
+            boxNomi.getChildren().add(l);
+        }
+
+        // 5. Bottone Indietro
+        javafx.scene.control.Button btnIndietro = new javafx.scene.control.Button("⬅ Torna alla Home");
+        btnIndietro.setStyle(
+                "-fx-background-color: #34495e; -fx-text-fill: white; " +
+                        "-fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand;"
+        );
+        btnIndietro.setOnAction(e -> mostraHome()); // Torna alla Home
+
+        // Assemblaggio
+        card.getChildren().addAll(lblTitolo, lblCorso, new javafx.scene.control.Separator(), lblGruppo, boxNomi, new Label(""), btnIndietro);
+        root.getChildren().add(card);
+
+        // Cambio vista usando il metodo che hai già nel controller
+        cambiaVista(root, "Credits - Gruppo 11");
     }
 
     /**
