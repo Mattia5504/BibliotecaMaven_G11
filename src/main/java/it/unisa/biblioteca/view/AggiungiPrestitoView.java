@@ -10,6 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TableCell;
+import javafx.scene.paint.Color;
 
 /**
  * @brief Schermata avanzata per la creazione di un prestito.
@@ -105,7 +108,33 @@ public class AggiungiPrestitoView extends BorderPane {
         TableColumn<Utente, String> colNome = new TableColumn<>("Nome");
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
-        tableUtenti.getColumns().addAll(colMatr, colCognome, colNome);
+        TableColumn<Utente, Integer> colDisp = new TableColumn<>("Disp.");
+        colDisp.setCellValueFactory(cell -> new SimpleObjectProperty<>(3 - cell.getValue().getPrestitiAttivi().size()));
+
+        //Qui aggiungiamo lo stile alla tabella degli utenti come in ViewUtenti
+        colDisp.setCellFactory(column -> new TableCell<Utente, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString());
+                    if (item > 0) {
+                        setTextFill(Color.GREEN);
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: normal;");
+                    } else {
+                        setTextFill(Color.RED);
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
+
+
+        tableUtenti.getColumns().addAll(colMatr, colNome, colCognome, colDisp);
+
         tableUtenti.setItems(data);
         tableUtenti.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Adatta colonne
         VBox.setVgrow(tableUtenti, Priority.ALWAYS); // Occupa tutto lo spazio verticale
