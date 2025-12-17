@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TableCell;
 
 /**
  * @brief Vista per la gestione dell'Anagrafica Utenti.
@@ -55,27 +58,54 @@ public class UtentiView extends BorderPane {
         TableColumn<Utente, String> colEmail = new TableColumn<>("Email");
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+        TableColumn<Utente, Integer> colDisp = new TableColumn<>("Prestiti Disp.");
+        colDisp.setCellValueFactory(cell -> new SimpleObjectProperty<>(3 - cell.getValue().getPrestitiAttivi().size()));
 
+        // Styling identico a LibriView (Copia/Incolla logica colori)
+        colDisp.setCellFactory(column -> new TableCell<Utente, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
 
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString());
 
+                    // LOGICA COLORI:
+                    if (item > 0) {
+                        setTextFill(Color.GREEN);
+                        // Allineamento al centro + font normale
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: normal;");
+                    } else {
+                        setTextFill(Color.RED);
+                        // Allineamento al centro + font GRASSETTO per evidenziare il blocco
+                        setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
 
-
-        tabella.getColumns().addAll(colMatr, colNome, colCognome, colEmail);
+        // Aggiungo tutte e 5 le colonne
+        tabella.getColumns().addAll(colMatr, colNome, colCognome, colEmail, colDisp);
         tabella.setItems(utenti);
 
-        //--- BINDING MATEMATICO ---
-        //forza ogni colonna a essere esattamente 1/4 della larghezza totale
-        // subtract(2) serve a evitare la comparsa della scrollbar orizzontale per pochi pixel
-        colMatr.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
-        colNome.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
-        colCognome.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
-        colEmail.prefWidthProperty().bind(tabella.widthProperty().divide(4).subtract(1));
+        // --- BINDING MATEMATICO AGGIORNATO ---
+        // Ora dividiamo per 5 colonne
+        colMatr.prefWidthProperty().bind(tabella.widthProperty().divide(5).subtract(1));
+        colNome.prefWidthProperty().bind(tabella.widthProperty().divide(5).subtract(1));
+        colCognome.prefWidthProperty().bind(tabella.widthProperty().divide(5).subtract(1));
+        colEmail.prefWidthProperty().bind(tabella.widthProperty().divide(5).subtract(1));
+        colDisp.prefWidthProperty().bind(tabella.widthProperty().divide(5).subtract(1)); // Binding nuova colonna
 
-
-        // Blocca il ridimensionamento manuale
+        // Blocca il ridimensionamento manuale e allinea a sinistra le colonne di testo
         for (TableColumn<?, ?> col : tabella.getColumns()) {
             col.setResizable(false);
-            col.setStyle("-fx-alignment: CENTER-LEFT;");
+            if (col != colDisp) { // La colonna disp ha già il suo stile centrato
+                col.setStyle("-fx-alignment: CENTER-LEFT;");
+            }
         }
 
 
@@ -148,4 +178,11 @@ public class UtentiView extends BorderPane {
      * @return Button azione filtro.
      */
     public Button getBtnCerca() { return btnCerca; }
+
+    /**
+     * @brief Forza l'aggiornamento grafico della tabella.
+     */
+    public void refresh() {
+        tabella.refresh();
+    }
 }
