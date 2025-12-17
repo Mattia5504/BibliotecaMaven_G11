@@ -76,7 +76,7 @@ public class BibliotecaController {
             stage.initStyle(StageStyle.UNDECORATED);
 
             // Calcola le dimensioni dello schermo
-            Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+            Rectangle2D bounds = Screen.getPrimary().getBounds();
             // Usa .getBounds() se vuoi coprire ANCHE la barra delle applicazioni (tutto tutto)
             // Usa .getVisualBounds() se vuoi lasciare visibile la barra sotto.
 
