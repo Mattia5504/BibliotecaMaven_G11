@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TableCell;
-import javafx.scene.paint.Color;
 
 /**
  * @brief Schermata avanzata per la creazione di un prestito.
