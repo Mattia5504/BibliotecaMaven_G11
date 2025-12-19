@@ -836,7 +836,7 @@ public class BibliotecaController {
         java.util.Random rand = new java.util.Random();
 
         // 2. GENERAZIONE LIBRI
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 50; i++) {
             String titoloBase = titoliReali[rand.nextInt(titoliReali.length)];
             // Aggiungo varietà ai titoli
             String titolo = (i % 3 == 0) ? titoloBase + " (Ed. Speciale)" : titoloBase;
