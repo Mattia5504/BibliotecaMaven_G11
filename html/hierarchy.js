@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "it.unisa.biblioteca.view.AggiungiLibroViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view_test.html", null ],
+    [ "it.unisa.biblioteca.view.AggiungiPrestitoViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view_test.html", null ],
+    [ "it.unisa.biblioteca.view.AggiungiUtenteViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_utente_view_test.html", null ],
     [ "Application", null, [
       [ "it.unisa.biblioteca.Main", "classit_1_1unisa_1_1biblioteca_1_1_main.html", null ]
     ] ],
@@ -17,6 +20,7 @@ var hierarchy =
       [ "it.unisa.biblioteca.model.Prestito", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html", null ],
       [ "it.unisa.biblioteca.model.Utente", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html", null ]
     ] ],
+    [ "it.unisa.biblioteca.model.UtenteTest", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html", null ],
     [ "VBox", null, [
       [ "it.unisa.biblioteca.view.AggiungiLibroView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view.html", null ],
       [ "it.unisa.biblioteca.view.AggiungiUtenteView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_utente_view.html", null ]

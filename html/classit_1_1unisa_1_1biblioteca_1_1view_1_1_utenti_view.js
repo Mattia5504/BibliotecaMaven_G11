@@ -7,5 +7,6 @@ var classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view =
     [ "getBtnNuovo", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#ad70521e3fee52c70029699510a9c58f4", null ],
     [ "getCmbCriterio", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#a71871380663cd9d7fc88cff501b31fad", null ],
     [ "getTabella", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#a25a31bbbadc600988abcc9bfade85c05", null ],
-    [ "getTxtRicerca", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#a89795847ee2f9df8ec166d584876ea4b", null ]
+    [ "getTxtRicerca", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#a89795847ee2f9df8ec166d584876ea4b", null ],
+    [ "refresh", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html#a92cb4d3402d2c8f75ac684656813e6c4", null ]
 ];
