@@ -23,12 +23,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller principale.
- * <p>
- *     La "mente" del progetto, attraverso il controller vengono effettuate tutte le operazioni logiche, sui dati messi
- *     a disposizione dalle altre classi.
- *     Include gestione "Lazy Loading": se ci sono troppi dati, le tabelle di visualizzazione partono vuote.
- * </p>
+ * @brief Controller principale dell'applicazione di gestione biblioteca.
+ * Coordina la navigazione tra le viste e le operazioni principali
+ * su catalogo, anagrafica utenti e prestiti.
  *
  */
 public class BibliotecaController {
@@ -41,17 +38,21 @@ public class BibliotecaController {
     private ObservableList<Prestito> prestiti = FXCollections.observableArrayList();
 
     /**
-     * Costruttore del controller
-     * <p>
-     *     Inizializza lo stage che viene passato come parametro.
-     *     Si occupa di effettuare il caricamento del file dati all'avvio del programma ({@link caricaTutto})
-     *     e si occupa di effettuare il salvataggio automatico in caso di tentativo di chiusura del programma ({@link salvaTutto})
+     * Costruisce il controller principale dell'applicazione.
      *
+     * <p>
+     * Il costruttore inizializza lo {@link Stage} principale, carica i dati
+     * persistenti tramite {@link GestoreFile} e, se il database risulta vuoto,
+     * genera un insieme iniziale di dati di prova.
+     *
+     * Inoltre registra il salvataggio automatico dei dati alla chiusura
+     * dell'applicazione.
      * </p>
-     * @param stage stage da caricare passato come parametro
-     * @see caricaTutto
-     * @see salvaTutto
+     *
+     * @param stage = Lo stage principale dell'applicazione
+     * @see GestoreFile
      */
+
     public BibliotecaController(Stage stage) {
         this.stage = stage;
 
@@ -65,8 +66,16 @@ public class BibliotecaController {
     }
 
     /**
-     * Metodo centralizzato per il cambio schermata.
-     * Gestisce la modalità "Borderless Windowed" (Finto Fullscreen).
+     * Sostituisce la vista corrente mostrata nello stage principale.
+     *
+     * <p>
+     * Il metodo gestisce il cambio di schermata dell'applicazione.
+     * Alla prima apertura configura lo stage e crea la scena;
+     * nelle chiamate successive aggiorna il nodo radice della scena.
+     * </p>
+     *
+     * @param view nodo radice della nuova vista
+     * @param titolo titolo associato alla finestra
      */
     private void cambiaVista(Parent view, String titolo) {
         // 1. Configurazione UNA TANTUM all'avvio
@@ -77,7 +86,7 @@ public class BibliotecaController {
 
             // Calcola le dimensioni dello schermo
             Rectangle2D bounds = Screen.getPrimary().getBounds();
-            // Usa .getBounds() se vuoi coprire ANCHE la barra delle applicazioni (tutto tutto)
+            // Usa .getBounds() se vuoi coprire ANCHE la barra delle applicazioni
             // Usa .getVisualBounds() se vuoi lasciare visibile la barra sotto.
 
             // Imposta dimensioni e posizione manuali
@@ -101,11 +110,18 @@ public class BibliotecaController {
     }
 
     /**
-     * Chiamata alla scene della Home.
+     * Mostra la schermata di gestione del catalogo libri.
+     *
      * <p>
-     * Permette di visualizzare la schermata principale adattandosi dinamicamente
-     * alle dimensioni del monitor (Responsive Design), evitando dimensioni hardcoded.
+     * Il metodo inizializza la LibriView, collega il catalogo alla
+     * tabella tramite una lista filtrabile e ordinabile e imposta
+     * l'ordinamento iniziale per titolo.
+     * Configura inoltre le operazioni di ricerca, aggiunta,
+     * eliminazione e modifica dei dati dei libri.
      * </p>
+     *
+     * @see LibriView
+     * @see Libro
      */
     public void mostraHome() {
         HomeView view = new HomeView();
@@ -126,13 +142,16 @@ public class BibliotecaController {
     // --- GESTIONE LIBRI ---
 
     /**
-     * Inizializza la view del catalogo libri
-     * <p>
-     *     Inizializza la view del catalogo libri ({@link LibriView}), e di conseguenza tutte le componenti in essa contenute
-     * </p>
-     * @see tableView
-     * @see LibriView
+     * Mostra la schermata di gestione del catalogo libri.
      *
+     * <p>
+     * Il metodo inizializza LibriView, associa il catalogo alla tabella
+     * tramite una lista filtrabile e ordinabile e imposta l'ordinamento iniziale
+     * per titolo.
+     * </p>
+     *
+     * @see LibriView
+     * @see Libro
      */
     public void mostraLibri() {
         LibriView view = new LibriView(catalogo);
@@ -261,27 +280,17 @@ public class BibliotecaController {
     }
 
     /**
-     * Inizializza la schermata per l'aggiunta di un libro
+     * Mostra la schermata per l'inserimento di un nuovo libro.
      *
      * <p>
-     *     Inizializza la schermata per l'aggiunta di un libro {@link AggiungiLibroView}
-     *     <br>
-     *     I parametri da specificare sono:
-     *     <ul>
-     *          <li>Titolo({@link String})</li>
-     *          <li>Autore({@link String})</li>
-     *          <li>Data di Pubblicazione({@link LocalDate})</li>
-     *          <li>Isbn({@link String})</li>
-     *          <li>Disponibilità(int)</li>
-     *     </ul>
-     *
+     * Il metodo inizializza la AggiungiLibroView, acquisisce i dati
+     * inseriti dall'utente e ne verifica la validità prima di
+     * aggiungere il nuovo libro al catalogo.
      * </p>
      *
-     *
-     *
-     *
+     * @see AggiungiLibroView
      * @see Libro
-     * @throws IllegalArgumentException
+     *
      */
 
     public void mostraAggiungiLibro() {
@@ -349,14 +358,18 @@ public class BibliotecaController {
     // --- GESTIONE UTENTI ---
 
     /**
-     * Inizializza la view dell'anagrafica utenti
+     * Mostra la schermata di gestione dell'anagrafica utenti.
+     *
      * <p>
-     *     Inizializza la view dell'anagrafica utenti ({@link UtentiView}), e di conseguenza tutte le componenti in essa contenute
-     *
+     * Il metodo inizializza la UtentiView, collega l'anagrafica
+     * alla tabella tramite una lista filtrabile e ordinabile e
+     * imposta l'ordinamento iniziale per nome e cognome.
+     * Configura inoltre le operazioni di ricerca, aggiunta,
+     * eliminazione e modifica dei dati degli utenti.
      * </p>
-     * @see tableView
-     * @see LibriView
      *
+     * @see UtentiView
+     * @see Utente
      */
     public void mostraUtenti() {
         UtentiView view = new UtentiView(anagrafica);
@@ -474,26 +487,16 @@ public class BibliotecaController {
     }
 
     /**
-     * Inizializza la schermata per l'aggiunta di un Utente
+     * Mostra la schermata per l'inserimento di un nuovo utente.
      *
      * <p>
-     *     Inizializza la schermata per l'aggiunta di un Utente {@link AggiungiUtenteView}
-     *     <br>
-     *     I parametri da specificare sono:
-     *     <ul>
-     *          <li>Nome({@link String})</li>
-     *          <li>Cognome({@link String})</li>
-     *          <li>Email({@link String})</li>
-     *          <li>Matricola({@link String})</li>
-     *     </ul>
-     *
+     * Il metodo inizializza la AggiungiUtenteView, acquisisce i dati
+     * inseriti e ne verifica la validità prima di aggiungere il nuovo
+     * utente all'anagrafica.
      * </p>
      *
-     *
-     *
-     *
+     * @see AggiungiUtenteView
      * @see Utente
-     * @throws IllegalArgumentException
      */
 
     public void mostraAggiungiUtente() {
@@ -523,15 +526,18 @@ public class BibliotecaController {
     // --- GESTIONE PRESTITI ---
 
     /**
-     * Inizializza la view dell'anagrafica utenti
+     * Mostra la schermata di gestione dei prestiti.
+     *
      * <p>
-     *
-     *     Inizializza la view del catalogo prestiti ({@link PrestitiView}), e di conseguenza tutte le componenti in esso contenute
-     *
+     * Il metodo inizializza la PrestitiView, collega l'elenco dei
+     * prestiti alla tabella tramite una lista filtrabile e ordinabile
+     * e imposta l'ordinamento iniziale in base alla data di scadenza.
+     * Configura inoltre le operazioni di ricerca, inserimento ed
+     * eliminazione dei prestiti.
      * </p>
-     * @see tableView
-     * @see PrestitiView
      *
+     * @see PrestitiView
+     * @see Prestito
      */
     public void mostraPrestiti() {
         PrestitiView view = new PrestitiView(prestiti);
@@ -597,17 +603,19 @@ public class BibliotecaController {
     // --- NUOVO PRESTITO CON SPLIT VIEW ---
 
     /**
-     * Inizalizza la schermata per la registrazione di un nuovo prestito
+     * Mostra la schermata per la registrazione di un nuovo prestito.
      *
      * <p>
-     *     Inizializza la schermata per la registrazione di un nuovo prestito ({@link AggiungiPrestitoView}), mostrando all'interno della {@link tableView}
-     *     di sinistra l'anagrafica degli utenti, e nella {@link tableView} di destra il catalogo libri. Selezionando un elemento
-     *     dalla prima tabella e un elemento dalla seconda, sarà possibile registrare un prestito
+     * Il metodo inizializza la AggiungiPrestitoView, visualizza
+     * l'anagrafica degli utenti e il catalogo dei libri in due
+     * tabelle separate e consente di selezionare un utente e un
+     * libro per registrare un nuovo prestito.
      * </p>
      *
-     * @see AggiungiLibroView
-     * @throws IllegalArgumentException
+     * @see AggiungiPrestitoView
+     * @see Prestito
      */
+
     public void mostraAggiungiPrestito() {
         AggiungiPrestitoView view = new AggiungiPrestitoView(anagrafica, catalogo);
 
@@ -683,8 +691,13 @@ public class BibliotecaController {
     // --- UTILS ---
 
     /**
-     * Mostra la schermata dei Credits.
-     * Costruita programmaticamente qui per non aggiungere classi al package View.
+     * Mostra la schermata informativa dell'applicazione.
+     *
+     * <p>
+     * Il metodo costruisce programmaticamente una vista contenente
+     * le informazioni principali sul progetto e sul gruppo di lavoro
+     * e consente il ritorno alla schermata principale.
+     * </p>
      */
     private void mostraInfo() {
         // 1. Container Sfondo
@@ -768,13 +781,15 @@ public class BibliotecaController {
     }
 
     /**
-     * Generatore di una schermata di alert
+     * Mostra una finestra di avviso informativo.
+     *
      * <p>
-     *     Genera una schermata di alert per segnalare eventuali errori durante l'esecuzione del programma.
-     *     Il titolo e il contenuto del warning devono essere passati come parametri ({@link String}).
+     * Il metodo crea e visualizza un alert informativo contenente
+     * il titolo e il messaggio specificati.
      * </p>
-     * @param titolo
-     * @param contenuto
+     *
+     * @param titolo = titolo della finestra di avviso
+     * @param contenuto = messaggio mostrato all'utente
      * @see Alert
      */
     private void showAlert(String titolo, String contenuto) {
@@ -786,15 +801,16 @@ public class BibliotecaController {
     }
 
     /**
-     * Generatore di una schermata di conferma operazione
+     * Mostra una finestra di conferma per un'operazione.
      *
      * <p>
-     *     Genera una schermata di alert per chiedere conferma di eventuali operazioni critiche.
-     *     Il titolo e il contenuto della schermata devono essere passati come parametri ({@link String})
+     * Il metodo crea e visualizza un alert di conferma chiedendo
+     * all'utente se intende procedere con l'operazione richiesta.
      * </p>
-     * @param titolo
-     * @param domanda
-     * @return boolean
+     *
+     * @param titolo = titolo della finestra di conferma
+     * @param domanda = messaggio mostrato all'utente
+     * @return true se l'utente conferma l'operazione, false altrimenti
      */
     private boolean confermaAzione(String titolo, String domanda) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -806,9 +822,17 @@ public class BibliotecaController {
     }
 
     /**
-     * Inizializza il database con dati realistici per test e demo di presentazione.
-     * In un eventuale prodotto da distribuire non sarebbe presente-
-     * Versione ottimizzata: usa Arrays.asList per maggiore pulizia.
+     * Inizializza il sistema con dati di prova.
+     *
+     * <p>
+     * Il metodo genera un insieme iniziale di libri, utenti e
+     * prestiti da utilizzare per test, dimostrazioni e
+     * popolamento automatico dell'applicazione.
+     * </p>
+     *
+     * @see Libro
+     * @see Utente
+     * @see Prestito
      */
     private void inizializzaDatiProva() {
         System.out.println("--- INIZIO GENERAZIONE DATI REALISTICI ---");

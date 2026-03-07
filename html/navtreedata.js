@@ -24,17 +24,17 @@
 */
 var NAVTREE =
 [
-  [ "Biblioteca Gruppo 11", "index.html", [
-    [ "Packages", "namespaces.html", [
+  [ "Gestionale Bibliotaca G11", "index.html", [
+    [ "Package", "namespaces.html", [
       [ "Package List", "namespaces.html", "namespaces_dup" ]
     ] ],
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ]
+    [ "Classi", "annotated.html", [
+      [ "Elenco dei tipi composti", "annotated.html", "annotated_dup" ],
+      [ "Indice dei tipi composti", "classes.html", null ],
+      [ "Gerarchia delle classi", "hierarchy.html", "hierarchy" ],
+      [ "Membri dei composti", "functions.html", [
+        [ "Tutto", "functions.html", null ],
+        [ "Funzioni", "functions_func.html", null ]
       ] ]
     ] ]
   ] ]
@@ -45,6 +45,6 @@ var NAVTREEINDEX =
 "annotated.html"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronization';
-var SYNCOFFMSG = 'click to enable panel synchronization';
-var LISTOFALLMEMBERS = 'List of all members';
+var SYNCONMSG = 'cliccare per disabilitare la sincronizzazione del pannello';
+var SYNCOFFMSG = 'cliccare per abilitare la sincronizzazione del pannello';
+var LISTOFALLMEMBERS = 'Elenco di tutti i membri';

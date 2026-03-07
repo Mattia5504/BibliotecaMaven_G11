@@ -10,7 +10,8 @@ var annotated_dup =
           [ "model", null, [
             [ "Libro", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro" ],
             [ "Prestito", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_prestito" ],
-            [ "Utente", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente" ]
+            [ "Utente", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente" ],
+            [ "UtenteTest", "classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente_test.html", null ]
           ] ],
           [ "view", "namespaceit_1_1unisa_1_1biblioteca_1_1view.html", [
             [ "AggiungiLibroView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view" ],
@@ -19,7 +20,10 @@ var annotated_dup =
             [ "HomeView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_home_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_home_view" ],
             [ "LibriView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_libri_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_libri_view" ],
             [ "PrestitiView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_prestiti_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_prestiti_view" ],
-            [ "UtentiView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view" ]
+            [ "UtentiView", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_utenti_view" ],
+            [ "AggiungiLibroViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_libro_view_test.html", null ],
+            [ "AggiungiPrestitoViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view_test.html", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view_test" ],
+            [ "AggiungiUtenteViewTest", "classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_utente_view_test.html", null ]
           ] ],
           [ "Main", "classit_1_1unisa_1_1biblioteca_1_1_main.html", null ]
         ] ]

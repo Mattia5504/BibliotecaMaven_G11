@@ -6,5 +6,6 @@ var searchData=
   ['setdatapubblicazione_3',['setDataPubblicazione',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html#addaafd9ba46eb17bb43a48e19cd12032',1,'it::unisa::biblioteca::model::Libro']]],
   ['setemail_4',['setEmail',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html#aa82794372b3ac7a45a9aa53760398d45',1,'it::unisa::biblioteca::model::Utente']]],
   ['setnome_5',['setNome',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_utente.html#aa355b5f86a7c3e2dc1262c42100936fb',1,'it::unisa::biblioteca::model::Utente']]],
-  ['settitolo_6',['setTitolo',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html#a7e44b9134301393dc13de64cd958a582',1,'it::unisa::biblioteca::model::Libro']]]
+  ['settitolo_6',['setTitolo',['../classit_1_1unisa_1_1biblioteca_1_1model_1_1_libro.html#a7e44b9134301393dc13de64cd958a582',1,'it::unisa::biblioteca::model::Libro']]],
+  ['start_7',['start',['../classit_1_1unisa_1_1biblioteca_1_1view_1_1_aggiungi_prestito_view_test.html#abbf2dab251edcb70fc223a984e0c5d6d',1,'it::unisa::biblioteca::view::AggiungiPrestitoViewTest']]]
 ];
