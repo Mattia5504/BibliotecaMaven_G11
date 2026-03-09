@@ -87,7 +87,7 @@ class LibroTest {
     }
 
     // --- 4. TEST VALIDAZIONE AUTORI ---
-
+    //Gli autori non devono essere meno di 1
     @Test
     @DisplayName("Costruttore: Lista autori null deve fallire")
     void testAutoriNull() {
