@@ -101,7 +101,7 @@ public class Libro implements Serializable {
 
     /**
      * @brief Restituisce la lista degli autori.
-     * * **Nota:** Restituisce una vista *non modificabile* (unmodifiableList).
+     * Restituisce una vista non modificabile (unmodifiableList).
      * Questo impedisce modifiche accidentali alla lista interna degli autori.
      * Per modificare gli autori, usare il metodo `setAutori`.
      * * @return List&lt;String&gt; read-only degli autori.
@@ -142,8 +142,8 @@ public class Libro implements Serializable {
 
     /**
      * @brief Aggiorna la lista degli autori.
-     * * Effettua una **defensive copy** della nuova lista per proteggere l'incapsulamento.
-     * * @param nuoviAutori La nuova lista di autori.
+     * Effettua una defensive copy della nuova lista per proteggere l'incapsulamento.
+     * @param nuoviAutori La nuova lista di autori.
      * @throws IllegalArgumentException Se la lista è nulla o vuota.
      */
     public void setAutori(List<String> nuoviAutori) {
@@ -158,7 +158,7 @@ public class Libro implements Serializable {
 
     /**
      * @brief Incrementa la disponibilità del libro di una unità.
-     * * Da utilizzare quando un libro viene restituito o vengono acquistate nuove copie.
+     * Da utilizzare quando un libro viene restituito o vengono acquistate nuove copie.
      */
     public void incrementaDisponibilita() {
         this.disponibilita++;
@@ -168,8 +168,8 @@ public class Libro implements Serializable {
 
     /**
      * @brief Decrementa la disponibilità del libro di una unità.
-     * * Da utilizzare quando viene effettuato un prestito.
-     * * @throws IllegalStateException Se la disponibilità è 0 (copie esaurite).
+     * Da utilizzare quando viene effettuato un prestito.
+     * @throws IllegalStateException Se la disponibilità è 0 (copie esaurite).
      */
     public void decrementaDisponibilita() {
         if (this.disponibilita > 0) {
